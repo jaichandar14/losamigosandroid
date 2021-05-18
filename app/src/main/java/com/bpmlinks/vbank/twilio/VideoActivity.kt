@@ -87,7 +87,6 @@ public class VideoActivity : AppCompatActivity() {
     lateinit var layoucontainer: LinearLayout
     var screencaptureStarted = false
     var isGpsEnabled=true
-var i=0
     /*
      * You must provide a Twilio Access Token to connect to the Video service
      */
