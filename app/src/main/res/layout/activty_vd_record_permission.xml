@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.videorecordpermission.VdRecordPermissionActivity">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:src="@drawable/record"
+        android:id="@+id/record_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="wrap_content">
+
+    </androidx.appcompat.widget.AppCompatImageView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/record_icon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center"
+        android:paddingLeft="@dimen/size_30dp"
+        android:paddingRight="@dimen/size_30dp"
+        android:layout_marginTop="@dimen/size_20dp"
+        android:textColor="@color/black"
+        android:text="@string/record_permission_string"
+        android:fontFamily="@font/poppins_semibold"
+        android:layout_height="wrap_content">
+
+    </androidx.appcompat.widget.AppCompatTextView>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:layout_marginBottom="@dimen/size_20dp"
+        android:text="@string/record_regect_btn"
+        android:id="@+id/regect_btn"
+        app:layout_constraintBottom_toTopOf="@+id/accept_btn"
+        android:textColor="@color/red"
+        android:layout_marginLeft="@dimen/size_40dp"
+        android:layout_marginRight="@dimen/size_40dp"
+        android:fontFamily="@font/poppins_medium"
+        android:background="@drawable/rectangle_red_cureved"
+        android:layout_height="wrap_content">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:layout_marginBottom="@dimen/size_40dp"
+        android:text="@string/record_accept_btn"
+        android:id="@+id/accept_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins_medium"
+        android:background="@drawable/rectangle_green_filled_curved"
+        android:layout_marginLeft="@dimen/size_40dp"
+        android:layout_marginRight="@dimen/size_40dp"
+        android:layout_height="wrap_content">
+
+    </androidx.appcompat.widget.AppCompatButton>
+    <androidx.appcompat.widget.LinearLayoutCompat
+
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_35dp"
+        android:background="@color/color_splash"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Powered By "
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Los AmigosS"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

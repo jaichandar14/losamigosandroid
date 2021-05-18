@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:id="@+id/layout_no_internet"
+    android:visibility="gone"
+    android:layout_height="match_parent">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/internet_connection"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_24"
+            android:paddingStart="@dimen/dp_30"
+            android:paddingEnd="@dimen/dp_30"
+            android:textColor="@color/color_black01"
+            android:gravity="center"
+            android:fontFamily="@font/sfpro_text_medium"
+            android:text="@string/lbl_no_internet_connection_title">
+
+        </androidx.appcompat.widget.AppCompatTextView>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_40"
+            android:paddingEnd="@dimen/dp_40"
+            android:gravity="center"
+            android:textSize="@dimen/normal_text"
+            android:fontFamily="@font/sfpro_text_regular"
+            android:text="@string/lbl_no_internet_connection_msg"
+            android:textColor="@color/color_grey4">
+
+        </androidx.appcompat.widget.AppCompatTextView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/dp_30"
+        android:fontFamily="@font/sfpro_text_regular"
+        android:background="@drawable/rectangle_curve_grey"
+        android:backgroundTint="@color/color_splash"
+        android:padding="@dimen/dp_16"
+        android:text="@string/btn_exit"
+        android:textAllCaps="false"
+        android:layout_gravity="bottom"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/normal_text" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

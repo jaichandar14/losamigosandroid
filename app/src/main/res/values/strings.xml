@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ZAM Loans</string>
+    <string name="search_banker">Search banker</string>
+    <string name="search_hint_text">Bank locations near 85055</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="miles">Miles</string>
+    <string name="welcome">Welcome</string>
+    <string name="phasellus_ut_metus">Phasellus ut metus</string>
+    <string name="splash_description">Interact with your Agent face to face</string>
+    <string name="splash_text">Manage your vehicle inspection anywhere, anytime</string>
+    <string name="contact">Contact</string>
+    <string name="faq">FAQ</string>
+    <string name="settings">Setting</string>
+    <string name="personal_banking">Personal Banking</string>
+    <string name="business_banking">Business Banking</string>
+    <string name="home_screen_text">What would you like to discuss?</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="mobile_no">Mobile no.</string>
+    <string name="existing_customer">Existing Customer</string>
+    <string name="new_customer">New Customer</string>
+    <string name="customer_login">Customer Login</string>
+    <string name="login_string">Login</string>
+    <string name="next">Next</string>
+    <string name="connect_now">Connect now</string>
+    <string name="call_back">Call Back</string>
+    <string name="banker_available">Banker Available</string>
+    <string name="internet_connection">Internet Connection is not available. Please check your network connection.</string>
+    <string name="mandatory_error">All the fields are Mandatory!</string>
+    <string name="email_error">Enter a valid Email</string>
+    <string name="mobile_error">Enter a valid Mobile number</string>
+    <string name="try_again">Try Again</string>
+
+    <string name="start_video_call">Start Video Call</string>
+    <string name="network_connectivity">Checking Network Connectivity</string>
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
+    <string name="no_internet_connection">No Internet Connection Available</string>
+    <string name="no_internet_description">Your device is not connect to internet, please make sure your connection is working.</string>
+    <string name="connection_weak">Connection is weak. Please try again later.</string>
+    <string name="connection_weak_medium"><![CDATA[ Connection may interrupt, do you want to try <b><font color=#008fff>later?</b>]]></string>
+    <string name="thank_message">Thank you for using Video banking</string>
+    <string name="toolbar_choose_banker">Search Banker</string>
+    <string name="toolbar_search_branches">Search Branch</string>
+
+    <string name="alert_location_permission_title">Location Permission</string>
+    <string name="alert_location_permission_msg">Please grant this permission to get branches near your location.</string>
+
+    <string name="all_alert_dialog_yes">Yes</string>
+    <string name="all_alert_dialog_ok">OK</string>
+    <string name="all_alert_dialog_cancel_cap">CANCEL</string>
+    <string name="all_alert_dialog_cancel">Cancel</string>
+    <string name="all_alert_dialog_close">Close</string>
+    <string name="all_alert_dialog_okay">Okay</string>
+    <string name="all_alert_dialog_no">No</string>
+    <string name="all_alert_dialog_submit">Submit</string>
+
+    <string name="lbl_choose_specific_banker">Would you like to talk with a specific banker?</string>
+    <string name="lbl_like_to_meet">who would you like to meet?</string>
+    <string name="lbl_choose_preferred_time">Choose your preferred time slot today</string>
+
+    <string name="reject_string"><![CDATA[ <html>
+    <font color=#000000>you will not be able to join the inspection call by clicking reject. click</font>
+    <font color=#FF0000>OK</font>
+    <font color=#000000>to confirm or click</font>
+     <font color=#000000>CANCEL</font>
+     <font color=#000000>to continue</font> </html>
+    ]]></string>
+
+
+
+    <string name="lbl_call_scheduled_today">Call scheduled today</string>
+    <string name="btn_exit">Exit</string>
+    <string name="btn_join">JOIN</string>
+    <string name="lbl_time_slot">4:00 – 5:00 PM</string>
+    <string name="lbl_receive_call_from_banker">You will receive call from banker</string>
+    <string name="lbl_receive_call_from_agen">You will receive call from Agent</string>
+
+    <string name="lbl_banker_available">Banker Available</string>
+    <string name="lbl_banker_not_available">Not Available</string>
+    <string name="lbl_no_branches_available">No branches available</string>
+
+    <string name="lbl_spinner_title_time_slot">0.00 AM - 0.00 AM</string>
+
+    <string name="lbl_calling">Calling</string>
+
+    <string name="btn_accept_incoming_call">Answer</string>
+    <string name="btn_reject_incoming_call">Reject</string>
+    <string name="btn_accept_action">Action</string>
+
+    <string name="btn_retry_internet">Try Again</string>
+    <string name="lbl_no_internet_connection_title">No Internet Connection Available</string>
+    <string name="lbl_no_internet_connection_msg">Your device is not connected to internet, Please make sure your connection is working.</string>
+
+    <string name="lbl_thank_you_msg">Thank you for using Zam Loans powered by Los AmigosS</string>
+    <string name="toolbar_faq_title">FAQ</string>
+    <string name="search_faq_hint_text">Search FAQ</string>
+    <string name="lbl_no_faq_available">No FAQ available</string>
+
+    <string name="lbl_under_development">Under development</string>
+    <string name="toolbar_title_contact">Contact</string>
+    <string name="lbl_contact_vbank">Contact LosAmigoss</string>
+    <string name="toolbar_title_settings">Settings</string>
+
+
+    <string name="vbank_contact">Contact LosAmigoss</string>
+    <string name="vbank_contact_customer">LosAmigoss Customer Care</string>
+    <string name="vbank_available_day">Monday - Friday</string>
+    <string name="vbank_available_time">8am - 8pm ET</string>
+
+    <string name="vbank_call_us">Call us</string>
+    <string name="vbank_mobile">315–724–4022</string>
+    <string name="vbank_email_us">Email us</string>
+    <string name="vbank_email">support@losamigoss.com</string>
+    <string name="lbl_choose_email">Choose Email…</string>
+
+    <string name="splash_title_string">Virtual Vehicle Inspection</string>
+    <string name="sign_out">Logout</string>
+    <string name="vehicle_inspection">Vehicle Inspection</string>
+    <string name="record_permission_string">This video call will be recorded for record-keeping, quality assurance, and training purposes. By clicking ACCEPT, you consent to being recorded.</string>
+    <string name="record_accept_btn">ACCEPT</string>
+    <string name="record_regect_btn">REJECT</string>
+
+    <string name="room_status">status</string>
+    <string name="permissions_needed">Camera and Microphone permissions needed. Please allow in App Settings for additional functionality.</string>
+
+    <string name="error_retrieving_access_token">Error retrieving token</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="codec_title">Set your preferred audio and video codec. Not all codecs are supported with Group rooms. The media server will fallback to OPUS or VP8 if a preferred codec is not supported.</string>
+    <string name="pref_title_audio_codec">Audio Codec</string>
+    <string name="pref_title_video_codec">Video Codec</string>
+    <string name="sender_bandwidth_constraints">Set sender bandwidth constraints. Zero represents the WebRTC default value which varies by codec.</string>
+    <string name="max_audio_bitrate">Max Audio Bitrate (bits per second)</string>
+    <string name="max_video_bitrate">Max Video Bitrate (bits per second)</string>
+    <string name="vp8_simulcast">VP8 Simulcast</string>
+    <string name="audio_device">Audio Device</string>
+    <string name="room_screen_select_device">Select Device</string>
+    <string name="title_activity_web_view">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="brodcost_recever">MEETING_PARAMETERS_ACTION</string>
+    <string name="docusign_brodcost_recever">DOCUSIGN_ACTION</string>
+    <string name="callend_brodcost_recever">CALLEND_ACTION</string>
+
+    <string name="share_screen">Share screen</string>
+    <string name="stop_screen_share">Stop screen share</string>
+    <string name="screen_capture_permission_not_granted">Screen capture permission not granted</string>
+    <string name="screen_capture_error">Screen capturer error occurred.</string>
+
+
+     <string name="logerror">Share screen</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+</resources>

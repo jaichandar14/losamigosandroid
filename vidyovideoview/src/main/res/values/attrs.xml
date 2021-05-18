@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PinEntryEditText">
+        <attr name="pinAnimationType" format="enum">
+            <enum name="popIn" value="0" />
+            <enum name="fromBottom" value="1" />
+            <enum name="none" value="-1" />
+        </attr>
+        <attr name="pinCharacterMask" format="string" />
+        <attr name="pinRepeatedHint" format="string" />
+        <attr name="pinLineStroke" format="dimension" />
+        <attr name="pinLineStrokeSelected" format="dimension" />
+        <attr name="pinCharacterSpacing" format="dimension" />
+        <attr name="pinTextBottomPadding" format="dimension" />
+        <attr name="pinLineColors" format="color" />
+        <attr name="pinBackgroundDrawable" format="reference" />
+        <attr name="pinBackgroundIsSquare" format="boolean" />
+    </declare-styleable>
+
+
+        <declare-styleable name="PinField">
+            <attr name="noOfFields" format="integer" />
+            <attr name="distanceInBetween" format="dimension" />
+            <attr name="lineThickness" format="dimension" />
+            <attr name="fieldColor" format="color" />
+            <attr name="highlightColor" format="color" />
+            <attr name="highlightEnabled" format="boolean" />
+            <attr name="isCustomBackground" format="boolean" />
+            <attr name="isCursorEnabled" format="boolean" />
+            <!--Single Field Mode is deprecated use highlight type to define how to highlight the fields-->
+            <attr name="highlightSingleFieldMode" format="boolean" />
+            <attr name="highlightType" format="enum" >
+                <enum name="allFields" value="0"/>
+                <enum name="currentField" value="1"/>
+                <enum name="completedFields" value="2"/>
+                <enum name="noFields" value="3"/>
+            </attr>
+            <attr name="fieldBgColor" format="color" />
+        </declare-styleable>
+
+        <declare-styleable name="LinePinField">
+            <attr name="bottomTextPaddingDp" format="dimension" />
+        </declare-styleable>
+
+        <declare-styleable name="SquarePinField">
+            <attr name="cornerRadius" format="dimension" />
+        </declare-styleable>
+
+        <declare-styleable name="CirclePinField">
+            <attr name="circleRadius" format="dimension" />
+            <attr name="fillerColor" format="color" />
+            <attr name="fillerRadius" format="dimension"/>
+        </declare-styleable>
+</resources>

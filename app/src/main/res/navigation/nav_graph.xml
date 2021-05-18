@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.bpmlinks.vbank.ui.splash.SplashFragment"
+        android:label="SplashFragment">
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.bpmlinks.vbank.ui.login.LoginFragment"
+        android:label="LoginFragment">
+        <action
+            android:id="@+id/action_loginFragment_to_purposeFragment"
+            app:destination="@id/purposeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_FAQFragment"
+            app:destination="@id/FAQFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_contactFragment"
+            app:destination="@id/contactFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_inspectionFragment"
+            app:destination="@id/vehicleInspectionFragment" />
+        <action
+            android:id="@+id/ac"
+            app:destination="@id/vehicleInspectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/purposeFragment"
+        android:name="com.bpmlinks.vbank.ui.purpose.PurposeFragment"
+        android:label="PurposeFragment">
+        <action
+            android:id="@+id/action_purposeFragment_to_searchBankerFragment"
+            app:destination="@id/searchBankerFragment" />
+        <argument
+            android:name="serviceItem"
+            app:argType="com.bpmlinks.vbank.model.MasterServiceTypeDtosItem" />
+        <argument
+            android:name="userInput"
+            app:argType="com.bpmlinks.vbank.model.UserInput"
+            app:nullable="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/searchBankerFragment"
+        android:name="com.bpmlinks.vbank.ui.searchbranches.SearchBranchesFragment"
+        android:label="SearchBankerFragment">
+        <action
+            android:id="@+id/action_searchBankerFragment_to_chooseBankerFragment"
+            app:destination="@id/chooseBankerFragment" />
+        <action
+            android:id="@+id/action_searchBankerFragment_to_networkSpeedFragment"
+            app:destination="@id/networkSpeedFragment" />
+        <action
+            android:id="@+id/action_searchBankerFragment_to_callbackDialogFragment"
+            app:destination="@id/callbackDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseBankerFragment"
+        android:name="com.bpmlinks.vbank.ui.choosebanker.ChooseBankerFragment"
+        android:label="ChooseBankerFragment">
+        <argument
+            android:name="branchesInfo"
+            app:argType="com.bpmlinks.vbank.model.BranchDtosItem"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_chooseBankerFragment_to_networkSpeedFragment"
+            app:destination="@id/networkSpeedFragment" />
+        <action
+            android:id="@+id/action_chooseBankerFragment_to_callbackDialogFragment"
+            app:destination="@id/callbackDialogFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/networkSpeedFragment"
+        android:name="com.bpmlinks.vbank.ui.networkspeed.NetworkSpeedFragment"
+        android:label="NetworkSpeedFragment">
+        <argument
+            android:name="BankerInfoItem"
+            app:argType="com.bpmlinks.vbank.model.BankerDtosItem"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/callScheduledFragment"
+        android:name="com.bpmlinks.vbank.ui.callscheduled.CallScheduledFragment"
+        android:label="CallScheduledFragment">
+        <argument
+            android:name="ScheduledTime"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="BranchDetails"
+            app:argType="com.bpmlinks.vbank.model.BranchDtosItem"
+            app:nullable="true" />
+    </fragment>
+    <dialog
+        android:id="@+id/callbackDialogFragment"
+        android:name="com.bpmlinks.vbank.ui.callback.CallbackDialogFragment"
+        android:label="CallbackDialogFragment" >
+        <argument
+            android:name="CallbackRequest"
+            app:argType="com.bpmlinks.vbank.model.CallbackRequest" />
+        <action
+            android:id="@+id/action_callbackDialogFragment_to_callScheduledFragment"
+            app:destination="@id/callScheduledFragment"
+            app:popUpTo="@id/callbackDialogFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="BranchDetails"
+            app:argType="com.bpmlinks.vbank.model.BranchDtosItem"
+            app:nullable="true" />
+    </dialog>
+    <fragment
+        android:id="@+id/FAQFragment"
+        android:name="com.bpmlinks.vbank.ui.faq.FAQFragment"
+        android:label="FAQFragment" />
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.bpmlinks.vbank.ui.contact.ContactFragment"
+        android:label="ContactFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.bpmlinks.vbank.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/vehicleInspectionFragment"
+        android:name="com.bpmlinks.vbank.ui.vehicleinspection.VehicleInspectionFragment"
+        android:label="VehicleInspectionFragment" >
+        <argument
+            android:name="sheduled_time"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

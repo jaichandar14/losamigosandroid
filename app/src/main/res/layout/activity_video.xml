@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:keepScreenOn="true"
+    tools:context=".twilio.VideoActivity">
+
+    <include layout="@layout/content_video" />
+
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:src="@drawable/screen_sharing"
+        android:layout_gravity="start|bottom"
+        android:id="@+id/share_screen_iv"
+        android:elevation="@dimen/dp_10"
+        android:padding="@dimen/size_10dp"
+        android:visibility="visible"
+        android:layout_marginLeft="@dimen/size_30dp"
+        android:layout_marginBottom="180dp"
+        android:layout_height="wrap_content">
+
+    </ImageView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:src="@drawable/share_off_drawable"
+        android:layout_gravity="start|bottom"
+        android:id="@+id/share_screen_off_iv"
+        android:elevation="@dimen/dp_10"
+        android:padding="@dimen/size_10dp"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/size_30dp"
+        android:layout_marginBottom="180dp"
+        android:layout_height="wrap_content">
+
+    </ImageView>
+
+    <ImageView
+        android:layout_width="@dimen/size_40dp"
+        android:src="@drawable/loudspeaker"
+        android:layout_gravity="start|bottom"
+        android:id="@+id/speaker"
+        android:elevation="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/size_30dp"
+        android:layout_marginBottom="@dimen/size_140dp"
+        android:padding="@dimen/size_10dp"
+        android:layout_height="@dimen/size_40dp">
+
+    </ImageView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/size_80dp"
+        android:orientation="horizontal" >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/switchCameraActionFab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:fabSize="mini"
+            android:layout_weight="1"
+            app:backgroundTint="@null"
+            android:src="@drawable/pip_mode" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/localVideoActionFab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@null"
+            android:layout_gravity="center"
+            app:fabSize="mini"
+            android:layout_weight="1"
+            android:src="@drawable/video_on" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/muteActionFab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:layout_weight="1"
+            app:backgroundTint="@null"
+            android:layout_gravity="center"
+            android:src="@drawable/mic_on" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/connectActionFab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@null"
+            app:fabSize="mini"
+            android:layout_weight="1"
+            android:src="@drawable/call_disconnect_enable" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

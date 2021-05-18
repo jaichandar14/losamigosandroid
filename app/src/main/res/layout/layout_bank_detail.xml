@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sfpro_text_semibold"
+                android:text="@string/app_name"
+                android:textColor="@color/color_grey5"
+                android:textSize="@dimen/size_18sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/location"
+                android:fontFamily="@font/sfpro_text_regular"
+                android:textColor="@color/color_grey4"
+                android:textSize="@dimen/size_12sp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:fontFamily="@font/sfpro_text_regular"
+            android:textColor="@color/color_grey9"
+            android:textSize="@dimen/size_10sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_2dp"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@color/color_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/size_30dp"
+            android:fontFamily="@font/sfpro_text_regular"
+            android:text="@string/banker_available"
+            android:textColor="@color/color_splash" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/size_15dp"
+            android:background="@drawable/rectangle_curve_grey"
+            android:drawablePadding="@dimen/size_10dp"
+            android:fontFamily="@font/sfpro_text_regular"
+            android:padding="@dimen/size_5dp"
+            android:text="@string/call_back"
+            android:textAllCaps="false"
+            android:textColor="@color/color_grey4"
+            android:textSize="@dimen/size_12sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_curve_grey"
+            android:backgroundTint="@color/color_splash"
+            android:drawableStart="@drawable/camera"
+            android:drawablePadding="@dimen/size_10dp"
+            android:fontFamily="@font/sfpro_text_regular"
+            android:padding="@dimen/size_10dp"
+            android:text="@string/connect_now"
+            android:textAllCaps="false"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/size_12sp" />
+    </LinearLayout>
+
+</LinearLayout>

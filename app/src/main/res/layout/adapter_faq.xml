@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="FAQList"
+            type="com.bpmlinks.vbank.model.FaqListItem" />
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_faq_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/sfpro_text_bold"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingTop="@dimen/dp_12"
+                android:paddingBottom="@dimen/dp_12"
+                android:text="@{FAQList.question}"
+                android:textColor="@color/color_grey5"
+                android:textSize="@dimen/size_15sp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgExpand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_12"
+                android:paddingEnd="@dimen/dp_12"
+                android:src="@{FAQList.expended ? @drawable/ic_keyboard_arrow_up_black_24dp : @drawable/ic_keyboard_arrow_down_black_24dp}" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_30"
+            android:paddingBottom="@dimen/dp_12"
+            android:text="@{FAQList.answer}"
+            android:textColor="@color/color_grey4"
+            android:textSize="@dimen/small_text"
+            android:visibility="@{FAQList.expended ? View.VISIBLE : View.GONE}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_1dp"
+            android:background="@color/color_grey" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

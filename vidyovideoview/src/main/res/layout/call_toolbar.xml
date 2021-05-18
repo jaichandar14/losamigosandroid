@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+  >
+    <LinearLayout
+        android:id="@+id/lnr_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_24">
+
+        <ImageView
+            android:id="@+id/pip_control"
+            style="@style/ControlButton"
+            android:src="@drawable/pip_mode"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/camera_control"
+            style="@style/ControlButton"
+            android:src="@drawable/video_on"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/mic_control"
+            style="@style/ControlButton"
+            android:src="@drawable/mic_on"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/call_control"
+            style="@style/ControlButton"
+            android:src="@drawable/call_disconnect_enable"
+            tools:ignore="ContentDescription" />
+
+
+        <ImageView
+            android:id="@+id/speaker_control"
+            style="@style/ControlButton"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/switch_control"
+            style="@style/ControlButton"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+</LinearLayout>

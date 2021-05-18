@@ -1,0 +1,176 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\Jayachandran V\\AndroidStudioProjects\\vbank-android\\losamigos\\losamigos\\losamigos.jks')
+            storePassword 'bpmlinks12'
+            keyAlias 'bpmlinks'
+            keyPassword 'bpmlinks12'
+        }
+    }
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.bpmlinks.vbank"
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 11
+        versionName "1.011"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "TWILIO_ACCESS_TOKEN", "\"AC45bf2272a1dd5a5bc9f529815d96f485\"")
+        buildConfigField("String", "TWILIO_ACCESS_TOKEN_SERVER", "\"http://3f5292be92b5.ngrok.io/vbank/api/\"")
+        buildConfigField("boolean", "USE_TOKEN_SERVER", "false")
+    }
+
+    bundle {
+        language {
+            enableSplit = true
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            debuggable true
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            buildConfigField "String", "base_url", "\"https://8vhcp36gvc.execute-api.us-east-1.amazonaws.com/dev/vbank/api/\""
+            dimension "default"
+            buildConfigField "String", "preference_name", "\"BPMVbankPreferences\""
+        }
+        //https://8vhcp36gvc.execute-api.us-east-1.amazonaws.com/dev/vbank/api/     http://1b450a1e54ca.ngrok.io/vbank/api/
+        //https://www.uat.losamigoss.com/vvi/api/
+        qa {
+            applicationIdSuffix ".qa"
+            versionNameSuffix "-qa"
+            buildConfigField "String", "base_url", "\"http://www.vvi.demo-bpmlinks.com/\""
+            dimension "default"
+            buildConfigField "String", "preference_name", "\"BPMVbankPreferences\""
+        }
+        live {
+            applicationIdSuffix ""
+            versionNameSuffix ""
+            buildConfigField "String", "base_url", "\"\""
+            dimension "default"
+            buildConfigField "String", "preference_name", "\"BPMVbankPreferences\""
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.wear:wear:1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation "com.google.android.material:material:$project.materialVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$project.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata:$project.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$project.lifecycleVersion"
+    compileOnly 'com.google.android.wearable:wearable:2.6.0'
+    kapt "com.android.databinding:compiler:$project.databindingVersion"
+    kapt "androidx.lifecycle:lifecycle-compiler:$project.lifecycleVersion"
+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //ViewModelScope for Co-routines
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha03"
+
+    implementation "androidx.preference:preference-ktx:1.1.1"
+
+    def nav_version = "2.2.2"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //Dependency injection
+    implementation 'com.google.dagger:dagger-android:2.20'
+    implementation 'com.google.dagger:dagger-android-support:2.20'
+    // if you use the support libraries
+    kapt 'com.google.dagger:dagger-android-processor:2.20'
+    kapt 'com.google.dagger:dagger-compiler:2.20'
+
+    // Location Provider
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    implementation project(path: ':vidyovideoview')
+    implementation 'com.google.firebase:firebase-messaging:20.2.0'
+
+    def work_version = "2.3.4"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
+    implementation "com.twilio:audioswitch:${versions.audioSwitch}"
+    implementation "com.twilio:video-android-ktx:${versions.videoAndroid}"
+    implementation "com.android.support.constraint:constraint-layout:${versions.constraintLayout}"
+    implementation "com.koushikdutta.ion:ion:${versions.ion}"
+    implementation "com.android.support:appcompat-v7:${versions.supportLibrary}"
+    implementation "com.android.support:preference-v14:${versions.supportLibrary}"
+    implementation "com.android.support:design:${versions.supportLibrary}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+}

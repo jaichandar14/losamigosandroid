@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:id="@+id/layout_user_action"
+    android:visibility="gone"
+    >
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/lnr_action_items"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_text"
+            android:textStyle="bold"
+            android:text="@string/lbl_user_action_item"
+            android:drawableStart="@drawable/ic_arrow_back_black_24dp"
+            android:padding="@dimen/dp_16"
+            android:drawablePadding="@dimen/dp_10"
+            android:id="@+id/txt_action_item_title"
+            android:textColor="@android:color/black"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
+                android:id="@+id/no_action_items_available"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal_text"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:fontFamily="@font/sfpro_text_regular"
+                android:text="@string/lbl_no_actions_available"
+                android:padding="@dimen/dp_16"
+                android:textColor="@android:color/black"/>
+        </FrameLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/dp_30"
+            android:background="@drawable/rectangle_curve_grey"
+            android:backgroundTint="@color/color_grey2"
+            android:fontFamily="@font/sfpro_text_regular"
+            android:padding="@dimen/dp_16"
+            android:text="@string/btn_next"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/normal_text" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <include layout="@layout/layout_pin_entry" />
+
+    <include layout="@layout/layout_web_view" />
+
+    <ProgressBar
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/progress_user_actions"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <com.vbank.vidyovideoview.view.DragFrameLayout
+        android:id="@+id/frame_video"
+        android:layout_width="match_parent"
+        android:background="@android:color/black"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/master_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black" />
+
+        <include layout="@layout/control_view_layout" />
+
+    </com.vbank.vidyovideoview.view.DragFrameLayout>
+
+
+    <include layout="@layout/connecting_layout" />
+
+    <include layout="@layout/progress_layout" />
+
+    <include layout="@layout/layout_user_action" />
+
+    <include layout="@layout/layout_no_internet" />
+</FrameLayout>

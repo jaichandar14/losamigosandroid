@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Vidyo Connector</string>
+
+    <string name="lib_version">Library version: %s</string>
+
+    <string name="disconnected">Disconnected</string>
+    <string name="connected">Connected</string>
+
+    <string name="custom_layouts">Video Conference</string>
+
+    <string name="debug_option">Debug option enabled:</string>
+    <string name="settings">Settings</string>
+    <string name="enable_guest_join_beta">Enable Guest Join (Beta)</string>
+    <string name="note">Please check ConnectParams.java file in order to change these values</string>
+
+    <string name="btn_connect_meeting">Connect</string>
+
+    <string name="txt_meeting_connecting">Connecting....</string>
+    <string name="txt_waiting_for_host">Waiting....</string>
+
+    <string name="txt_connecting_banker_title">Connecting Banker…</string>
+    <string name="txt_connecting_banker_sub_title">Thank you for your patience</string>
+
+    <string name="txt_waiting_banker_title">will connect you in few minutes…</string>
+    <string name="txt_lbl_banker">Banker</string>
+
+    <string name="txt_internet_disconnected_title">Trying to rejoin…</string>
+
+    <string name="pin_entry_btn_clear">Clear</string>
+    <string name="pin_entry_btn_done">Done</string>
+    <string name="pin_entry_lbl_debit_pin_change">Debit PIN Change</string>
+    <string name="pin_entry_lbl_enter_pin">Enter new PIN</string>
+    <string name="pin_entry_lbl_re_enter_pin">Confirm PIN</string>
+    <string name="error_pin_not_match">PIN numbers did not match</string>
+    <string name="error_enter_pin">Please enter debit pin</string>
+
+    <string name="pin_entry_lbl_debit_pin_changed">Debit PIN changed successfully</string>
+    <string name="pin_entry_lbl_expiry_date">Expiry Date :</string>
+
+    <string name="lbl_user_actions">No actions are taken by banker</string>
+
+    <string name="txt_banker_calling">Agent Calling..</string>
+    <string name="lbl_calling">Calling…</string>
+
+    <string name="btn_accept_incoming_call">Answer</string>
+    <string name="btn_reject_incoming_call">Reject</string>
+    <string name="lbl_user_action_item">User Action Items</string>
+    <string name="lbl_no_actions_available">No Action Items are available</string>
+    <string name="lbl_no_slots_available">No slots available</string>
+
+    <string name="btn_next">Next</string>
+
+    <string name="lbl_card_type">VISA</string>
+    <string name="path_to_home_screen">com.bpmlinks.vbank.ui.HomeActivity</string>
+    <string name="path_to_thanks_screen">com.bpmlinks.vbank.ui.thankyou.ThankYouActivity</string>
+
+    <string name="message_banker_not_joining">Banker was not able to pick up the call</string>
+    <string name="message_disconnection_call_network_lost">Disconnected due to network lost</string>
+
+    <string name="btn_exit">Exit</string>
+    <string name="lbl_no_internet_connection_title">No Internet Connection Available</string>
+    <string name="lbl_no_internet_connection_msg">Your device is not connected to internet, Please make sure your connection is working.</string>
+
+
+</resources>

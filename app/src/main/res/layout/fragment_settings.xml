@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="settingVM"
+            type="com.bpmlinks.vbank.ui.settings.SettingsViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_three"
+            app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/back">
+            <!--  app:layout_scrollFlags="scroll|enterAlways"-->
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtToolBarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sfpro_text_bold"
+                android:text="@string/toolbar_title_settings"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/textHeader"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="@dimen/size_16sp"
+            app:fontFamily="@font/sfpro_text_medium"
+            android:text="@string/lbl_under_development"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

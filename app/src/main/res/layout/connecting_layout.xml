@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lnrConnecting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingTop="@dimen/dp_16"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_connecting_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sfpro_text_bold"
+            android:gravity="center"
+            android:paddingStart="@dimen/dp_8"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_8"
+            android:text="@string/txt_connecting_banker_title"
+            android:textColor="@color/color_black01"
+            android:textSize="@dimen/xlarge_text" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sfpro_text_regular"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp_16"
+            android:textColor="@color/color_grey4"
+            android:text="@string/txt_connecting_banker_sub_title"
+            android:textSize="@dimen/normal_text" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/profile_place_holder" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_connecting_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/connecting_circle" />
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/img_end_connecting"
+        style="@style/ControlButton"
+        android:layout_gravity="bottom|center"
+        android:src="@drawable/call_disconnect_enable"
+        tools:ignore="ContentDescription" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

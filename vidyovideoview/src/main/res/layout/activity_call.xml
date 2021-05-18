@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/lnrConnecting"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="top">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_banker_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_16"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:text="@string/txt_banker_calling"
+            android:textSize="@dimen/xlarge_text"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="@android:color/black"
+            android:text="@string/txt_banker_calling"
+            android:textSize="@dimen/medium_text"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_16"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="@android:color/black"
+            android:text="@string/lbl_calling"
+            android:textSize="@dimen/medium_text"/>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:textSize="@dimen/normal_text"
+            android:visibility="gone"
+            android:paddingBottom="@dimen/dp_16"
+            android:gravity="center"
+            android:text="@string/txt_connecting_banker_sub_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/profile_place_holder"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_connecting_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/connecting_circle"/>
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnReject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:layout_weight="1"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@color/pale_gray"
+            android:text="@string/btn_reject_incoming_call"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAccept"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:layout_weight="1"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@color/color_splash"
+            android:text="@string/btn_accept_incoming_call"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

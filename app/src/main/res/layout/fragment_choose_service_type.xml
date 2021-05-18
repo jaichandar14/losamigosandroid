@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="purposeVM"
+            type="com.bpmlinks.vbank.ui.purpose.PurposeViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_three"
+            app:elevation="0dp">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                app:contentInsetStartWithNavigation="0dp"
+                app:navigationIcon="@drawable/back">
+                <!--  app:layout_scrollFlags="scroll|enterAlways"-->
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtToolBarTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{purposeVM.serviceItem.masterServiceTypeName}"
+                    android:textColor="@color/color_black"
+                    android:fontFamily="@font/sfpro_text_bold"
+                    android:textSize="@dimen/textHeader"
+                    android:textStyle="bold" />
+            </androidx.appcompat.widget.Toolbar>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_1dp"
+                android:background="@color/color_grey" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <!--<androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolBarMain"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/color_grey7"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:titleTextColor="@color/color_black" />-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/layout_choose"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/size_30dp"
+                android:background="@drawable/rectangle_curve_grey"
+                android:backgroundTint="@color/color_splash"
+                android:fontFamily="@font/sfpro_text_regular"
+                android:padding="@dimen/size_15dp"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/size_15sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="time_slot">
+        <item>@string/lbl_spinner_title_time_slot</item>
+    </string-array>
+</resources>

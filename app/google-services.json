@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "159434066455",
+    "firebase_url": "https://vbank-cdb48.firebaseio.com",
+    "project_id": "vbank-cdb48",
+    "storage_bucket": "vbank-cdb48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159434066455:android:131947c16771fcf307aa52",
+        "android_client_info": {
+          "package_name": "com.bpmlinks.vbank.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159434066455-9kj3gveod6a0f72ga9tntiodc8vrtjje.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bpmlinks.vbank.dev",
+            "certificate_hash": "c47280a025dd97cfa581c65c8aa215daa42f63be"
+          }
+        },
+        {
+          "client_id": "159434066455-ar0bejsjb7ptl5l3q84bhmh1ikdmae2c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bpmlinks.vbank.dev",
+            "certificate_hash": "4f69b73f453fa404e693792e366cd176cedf7324"
+          }
+        },
+        {
+          "client_id": "159434066455-2ps69gnahr12o3topfcomg2bn7inshgr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLZAjbcfs4WpAoU5DbMuKxeC62eGuzK-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159434066455-2ps69gnahr12o3topfcomg2bn7inshgr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

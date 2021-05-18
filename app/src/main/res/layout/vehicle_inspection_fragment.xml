@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vehicleInspectionVM"
+            type="com.bpmlinks.vbank.ui.vehicleinspection.VehicleInspectionViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_40dp"
+            android:background="@color/color_splash"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/home"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="Home"
+                android:textColor="@color/color_white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/logout"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="270dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="Log Out "
+                android:textColor="@color/color_white"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/logout_icon"
+                android:layout_width="@dimen/size_22dp"
+                android:layout_height="@dimen/size_22dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="45dp"
+                android:src="@drawable/ic_baseline_power_settings_new_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/logout"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:id="@+id/inspection_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="50dp"
+            android:text="@string/vehicle_inspection"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/size_24dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/inspect"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inspection_title" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCompat2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/scheduled_tick_mark" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:paddingStart="@dimen/size_16dp"
+                android:paddingTop="@dimen/size_8dp"
+                android:paddingEnd="@dimen/size_16dp"
+                android:paddingBottom="@dimen/size_8dp"
+                android:text="@string/lbl_call_scheduled_today"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/medium_text" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/sfpro_text_bold"
+                android:gravity="center"
+                android:paddingStart="@dimen/size_16dp"
+                android:paddingEnd="@dimen/size_16dp"
+                android:paddingBottom="@dimen/size_8dp"
+                android:singleLine="true"
+                android:text="@{vehicleInspectionVM.scheduledTime}"
+                android:textColor="@color/color_grey5"
+                android:textSize="@dimen/size_26sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:paddingStart="@dimen/size_16dp"
+                android:paddingEnd="@dimen/size_16dp"
+                android:text="@string/lbl_receive_call_from_agen"
+                android:textColor="@color/color_grey4"
+                android:textSize="@dimen/normal_text" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/notification_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="notification"
+                android:visibility="gone">
+
+            </androidx.appcompat.widget.AppCompatButton>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_join"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/size_30dp"
+            android:layout_marginBottom="64dp"
+            android:background="@drawable/rectangle_curve_grey"
+            android:backgroundTint="@color/color_splash"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:padding="@dimen/size_15dp"
+            android:text="@string/btn_join"
+            android:textAllCaps="false"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/size_15sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
+            app:layout_constraintEnd_toEndOf="parent"
+             />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_join_disable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/size_30dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/rectangle_curve_grey"
+            android:backgroundTint="@color/color_grey"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:padding="@dimen/size_15dp"
+            android:text="@string/btn_join"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/size_15sp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_join_disable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/size_100dp"
+            android:layout_marginBottom="@dimen/size_5dp"
+            android:elevation="@dimen/size_5dp"
+            android:src="@drawable/video"
+            app:layout_constraintBottom_toTopOf="@+id/btn_join_disable"
+            app:layout_constraintEnd_toStartOf="@+id/btn_join_disable"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toEndOf="@+id/btn_join_disable"
+            app:layout_constraintTop_toBottomOf="@+id/btn_join_disable"
+            >
+
+        </androidx.appcompat.widget.AppCompatImageView>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/iv_join"
+            android:src="@drawable/video"
+            android:elevation="@dimen/size_5dp"
+            android:layout_marginRight="@dimen/size_100dp"
+            android:layout_marginBottom="@dimen/size_5dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/btn_join"
+            app:layout_constraintStart_toEndOf="@+id/btn_join"
+            app:layout_constraintEnd_toStartOf="@+id/btn_join"
+            app:layout_constraintBottom_toTopOf="@+id/btn_join"
+            android:layout_height="wrap_content">
+
+        </androidx.appcompat.widget.AppCompatImageView>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_exit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            android:layout_margin="@dimen/size_30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/rectangle_curve_grey"
+            android:backgroundTint="@color/color_splash"
+            android:fontFamily="@font/poppins_semibold"
+            android:padding="@dimen/size_15dp"
+            android:gravity="center"
+            android:text="@string/btn_exit"
+            android:textAllCaps="false"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/size_15sp" />
+
+
+        <ProgressBar
+            android:id="@+id/progress_bar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+
+            android:id="@+id/linearLayoutCompat"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_35dp"
+            android:background="@color/color_splash"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="MissingConstraints"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Powered By "
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Los AmigosS"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/webView_inspection"
+            android:background="@color/white"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            ></WebView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="bankerInfo"
+            type="com.bpmlinks.vbank.model.BankerDtosItem" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:paddingStart="@dimen/size_16dp"
+                        android:paddingTop="@dimen/size_16dp"
+                        android:paddingEnd="@dimen/size_16dp"
+                        android:text="@{bankerInfo.bankerName}"
+                        android:textColor="@color/color_grey5"
+                        android:textSize="@dimen/size_18sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/size_8dp"
+                        android:fontFamily="@font/sfpro_text_regular"
+                        android:paddingStart="@dimen/size_16dp"
+                        android:paddingEnd="@dimen/size_16dp"
+                        android:text="@{bankerInfo.designation}"
+                        android:textColor="@color/color_grey4"
+                        android:textSize="@dimen/size_12sp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sfpro_text_regular"
+                    android:paddingStart="@dimen/size_16dp"
+                    android:paddingTop="@dimen/size_16dp"
+                    android:paddingEnd="@dimen/size_16dp"
+                    android:textColor="@color/color_grey9"
+                    android:textSize="@dimen/size_10sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/sfpro_text_regular"
+                    android:gravity="start|center"
+                    android:paddingStart="@dimen/size_16dp"
+                    android:paddingEnd="@dimen/size_2dp"
+                    android:text="@{bankerInfo.available ? @string/lbl_banker_available : @string/lbl_banker_not_available  }"
+                    android:textColor="@{bankerInfo.available ? @color/topaz : @color/orange_yellow}"
+                    android:textSize="@dimen/textNormal" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_call_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size_10dp"
+                    android:layout_marginTop="@dimen/size_5dp"
+                    android:layout_marginEnd="@dimen/size_5dp"
+                    android:layout_marginBottom="@dimen/size_10dp"
+                    android:stateListAnimator="@null"
+                    android:background="@drawable/rectangle_curve_callback"
+                    android:drawablePadding="@dimen/size_10dp"
+                    android:fontFamily="@font/sfpro_text_regular"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingStart="@dimen/size_10dp"
+                    android:paddingTop="@dimen/size_8dp"
+                    android:paddingEnd="@dimen/size_10dp"
+                    android:paddingBottom="@dimen/size_8dp"
+                    android:text="@string/call_back"
+                    android:textAllCaps="false"
+                    android:textColor="@color/color_grey4"
+                    android:textSize="@dimen/size_12sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_connecting_now"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size_5dp"
+                    android:layout_marginTop="@dimen/size_5dp"
+                    android:layout_marginEnd="@dimen/size_10dp"
+                    android:layout_marginBottom="@dimen/size_10dp"
+                    android:background="@drawable/button_border"
+                    android:backgroundTint="@{bankerInfo.available ? @color/color_splash : @color/disable_call}"
+                    android:clickable="@{bankerInfo.available ? true : false}"
+                    android:drawableStart="@drawable/camera"
+                    android:drawablePadding="@dimen/size_5dp"
+                    android:fontFamily="@font/sfpro_text_regular"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingStart="@dimen/size_8dp"
+                    android:paddingTop="@dimen/size_8dp"
+                    android:paddingEnd="@dimen/size_8dp"
+                    android:paddingBottom="@dimen/size_8dp"
+                    android:text="@string/connect_now"
+                    android:textAllCaps="false"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/size_12sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+</layout>

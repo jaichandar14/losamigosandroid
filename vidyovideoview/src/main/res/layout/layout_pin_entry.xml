@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_pin_entry"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:background="@android:color/white"
+   >
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp_70"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lnr_pin_entry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/large_text"
+                android:textStyle="bold"
+                android:text="@string/pin_entry_lbl_debit_pin_change"
+                android:drawableStart="@drawable/ic_arrow_back_black_24dp"
+                android:padding="@dimen/dp_16"
+                android:drawablePadding="@dimen/dp_10"
+                android:id="@+id/txt_header_debit_pin"
+                android:textColor="@android:color/black"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/dp_20"
+                    android:paddingEnd="@dimen/dp_20"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_10"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:visibility="visible"
+                        android:textStyle="bold"
+                        android:src="@drawable/visa"
+                        android:layout_width="wrap_content"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:paddingTop="@dimen/dp_5"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/card_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:textColor="@color/text_debit_pin"
+                        android:fontFamily="@font/sfpro_text_regular"
+                        android:paddingTop="@dimen/dp_16"
+                        android:textSize="@dimen/normal_text" />
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingTop="@dimen/dp_16"
+                            android:textColor="@color/text_debit_pin"
+                            android:fontFamily="@font/sfpro_text_regular"
+                            android:text="@string/pin_entry_lbl_expiry_date"
+                            android:textSize="@dimen/micro_text" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/expiry_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/text_debit_pin"
+                            android:fontFamily="@font/sfpro_text_regular"
+                            android:paddingStart="@dimen/dp_4"
+                            android:paddingEnd="@dimen/dp_4"
+                            android:paddingTop="@dimen/dp_16"
+                            android:textSize="@dimen/micro_text" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_16"
+                android:fontFamily="@font/sfpro_text_regular"
+                android:text="@string/pin_entry_lbl_enter_pin"
+                android:textColor="@color/text_enter_pin"
+                android:textSize="@dimen/medium_text" />
+
+            <com.vbank.vidyovideoview.widget.SquarePinField
+                android:id="@+id/edtPin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:inputType="numberPassword"
+                android:textSelectHandle="@drawable/text_handle"
+                android:textSize="@dimen/normal_text"
+                app:bottomTextPaddingDp="15dp"
+                app:distanceInBetween="20dp"
+                app:fieldColor="@color/box_color"
+                app:highlightType="allFields"
+                app:isCursorEnabled="true"
+                app:isCustomBackground="true"
+                app:lineThickness=".5dp"
+                app:cornerRadius="@dimen/dp_8"
+                app:noOfFields="4" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_4"
+                android:fontFamily="@font/sfpro_text_regular"
+                android:text="@string/pin_entry_lbl_re_enter_pin"
+                android:textColor="@color/text_enter_pin"
+                android:textSize="@dimen/medium_text" />
+
+            <com.vbank.vidyovideoview.widget.SquarePinField
+                android:id="@+id/edtPinReEnter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:inputType="numberPassword"
+                android:textSelectHandle="@drawable/text_handle"
+                android:textSize="@dimen/normal_text"
+                app:bottomTextPaddingDp="15dp"
+                app:distanceInBetween="20dp"
+                app:fieldColor="@color/box_color"
+                app:highlightType="allFields"
+                app:isCursorEnabled="true"
+                app:isCustomBackground="true"
+                app:lineThickness=".5dp"
+                app:cornerRadius="@dimen/dp_8"
+                app:noOfFields="4" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lnr_pin_entry_success"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/scheduled_tick_mark"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="@dimen/sp_24"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingTop="@dimen/dp_4"
+                android:gravity="center"
+                android:fontFamily="@font/sfpro_text_medium"
+                android:textColor="@color/pin_success"
+                android:text="@string/pin_entry_lbl_debit_pin_changed">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnClear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:layout_weight="1"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@color/pale_gray"
+            android:text="@string/pin_entry_btn_clear"
+            android:textAllCaps="false"
+            android:textSize="@dimen/normal_text"
+            android:fontFamily="@font/sfpro_text_regular"
+            android:textColor="@android:color/black" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:layout_weight="1"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@color/color_splash"
+            android:text="@string/pin_entry_btn_done"
+            android:textAllCaps="false"
+            android:textSize="@dimen/normal_text"
+            android:fontFamily="@font/sfpro_text_regular"
+            android:textColor="@android:color/white" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/progress_pin_entry"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

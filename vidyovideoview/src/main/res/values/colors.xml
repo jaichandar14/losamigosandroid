@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="colorPrimary">#416E71</color>
+    <color name="colorPrimaryDark">#5964AE</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="semi_trans">#8a000000</color>
+    <color name="black">#000000</color>
+    <color name="color_black01">#1A2E35</color>
+    <color name="color_grey4">#7b7a7c</color>
+
+    <color name="white_three">#f8f8f8</color>
+    <color name="ice_blue">#f6f9ff</color>
+
+    <color name="pale_gray">#eeedef</color>
+    <color name="orange_yellow">#ffaa00</color>
+    <color name="topaz">#1dc5d4</color>
+    <color name="color_splash">#1dc5d4</color>
+
+    <color name="accept_call">#258E2F</color>
+    <color name="reject_call">#EA0527</color>
+
+    <color name="transparent">#40000000</color>
+
+    <color name="box_color">#80707070</color>
+    <color name="highlighted_box_color">#CC707070</color>
+
+    <color name="pin_success">#3B3B4D</color>
+    <color name="login_input_box">#D1D1D1</color>
+    <color name="color_grey2">#c3c3c3</color>
+    <color name="recycler_border">#939393</color>
+    <color name="text_debit_pin">#c8cfd6</color>
+    <color name="text_enter_pin">#7b7a7c</color>
+</resources>
