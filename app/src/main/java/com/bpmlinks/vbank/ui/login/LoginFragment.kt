@@ -35,7 +35,7 @@ import javax.inject.Inject
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), View.OnClickListener
 
     {
-
+// changes
 
 var meetingParams = MeetingParams()
     @Inject
