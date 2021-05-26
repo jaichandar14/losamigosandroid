@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -28,6 +29,10 @@ import com.vbank.vidyovideoview.connector.MeetingParams
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.bottom_menu.*
 import kotlinx.android.synthetic.main.login_bottom.*
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
 
@@ -86,6 +91,7 @@ var meetingParams = MeetingParams()
         }
     }
 
+    @RequiresApi(VERSION_CODES.O)
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -104,6 +110,8 @@ var meetingParams = MeetingParams()
 
             }}}
 
+
+    @RequiresApi(VERSION_CODES.O)
     private fun apicall() {
 
         val reqString = ("Device name :"+Build.DEVICE
@@ -175,8 +183,24 @@ var meetingParams = MeetingParams()
 
                                 commit()
                             }
-                            meetingParams.meetingTime =apiResponse.response.data.schdeuleTime
 
+                            Log.d("TAG", "date is:${apiResponse.response.data.scheduleDate} ")
+
+                            var unixSeconds = apiResponse.response.data.scheduleDate?.toLong()
+                                ?.div(1000)
+                            Log.d("TAG", "date is unixSeconds:${unixSeconds} ")
+                            var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
+                            var dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                            dateFormat.timeZone = TimeZone.getDefault()
+                            var dateFinal = dateFormat.format(convertDate)
+                            Log.d("TAG", "date is dateFetched:${dateFinal} ")
+
+
+                            var sdf = SimpleDateFormat("dd-MMM-yyyy")
+                            var date = sdf.format(Date())
+                            Log.d("TAG", "date is local:${date} ")
+
+                            meetingParams.meetingTime =apiResponse.response.data.schdeuleTime
                             apiResponse.response.data.schdeuleTime?.let { moveToNextScreen(it) }
                         }
                         is ApisResponse.CustomError -> {

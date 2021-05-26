@@ -72,7 +72,7 @@
 
 
 
-    <string name="lbl_call_scheduled_today">Call scheduled today</string>
+    <string name="lbl_call_scheduled_today">Call scheduled on</string>
     <string name="btn_exit">Back to Home</string>
     <string name="btn_join">JOIN</string>
     <string name="lbl_time_slot">4:00 – 5:00 PM</string>

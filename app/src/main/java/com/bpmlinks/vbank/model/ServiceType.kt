@@ -137,7 +137,9 @@ data class Service(
     @SerializedName("subServiceTypeDtos")
     val subServiceTypeDtos: String? = "",
     @SerializedName("schdeuleTime")
-    val schdeuleTime:String?=""
+    val schdeuleTime:String?="",
+    @SerializedName("scheduleDate")
+    val scheduleDate:String?=""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),

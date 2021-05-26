@@ -7,6 +7,7 @@ import javax.inject.Inject
 
 class VehicleInspectionViewModel  @Inject constructor( application: Application) : BaseViewModel(application) {
     var scheduledTime = MutableLiveData<String>()
+//    val scheduleDate = MutableLiveData<String>()
 
 
 }
