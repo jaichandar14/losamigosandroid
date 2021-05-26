@@ -32,15 +32,21 @@ import com.vbank.vidyovideoview.helper.BundleKeys
 
 class FirebaseNotification : FirebaseMessagingService() {
 
+    companion object{
+        var callKeyNbForDocOffline: Int = 0
+    }
+
+    private val TAG ="FirebaseNotification"
     override fun onNewToken(token: String) {
         super.onNewToken(token)
+        Log.d(TAG, "onNewToken: generated")
         AppPreferences.getInstance()
             .setStringValue(applicationContext, AppPreferences.FCM_TOKEN, token)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Log.d("call receive"," call receive first")
+        Log.d(TAG, "onNewToken: onMessageReceived method called")
         if (remoteMessage.data.isNotEmpty()) {
             notifications(remoteMessage)
         }
@@ -80,17 +86,14 @@ class FirebaseNotification : FirebaseMessagingService() {
         if (!remoteMessage.data["callKeyNb"].isNullOrEmpty()){
             try {
                 meetingParams.callKeyNb = remoteMessage.data["callKeyNb"]?.toInt()
+                Log.d(TAG, "offline notifications: ${meetingParams.callKeyNb }")
+                callKeyNbForDocOffline = remoteMessage.data["callKeyNb"]?.toInt()!!
+
+
             }catch (e : NumberFormatException){
                 e.printStackTrace()
             }
         }
-//        if (!remoteMessage.data["envolpeId"].isNullOrEmpty()){
-//            try {
-//                meetingParams.envolpeId = remoteMessage.data["envolpeId"]?.toInt()
-//            }catch (e : NumberFormatException){
-//                e.printStackTrace()
-//            }
-//        }
         if (!remoteMessage.data["vidyoToken"].isNullOrEmpty()){
             meetingParams.token = remoteMessage.data["vidyoToken"].toString()
         }
@@ -250,10 +253,12 @@ class FirebaseNotification : FirebaseMessagingService() {
         }
         else
         {
+            Log.d(TAG, "webview visible starting nodification")
             var brodcostintent=Intent(getString(R.string.docusign_brodcost_recever))
             brodcostintent.putExtra(BundleKeys.docusignurl,remoteMessage.data["docuSignUrl"])
             brodcostintent.putExtra(AppConstants.NOTIFICATION_ID, notificationId)
             LocalBroadcastManager.getInstance(this).sendBroadcast(brodcostintent)
+            Log.d(TAG, "webview visible after broadcast sent nodification")
         }
     }
 

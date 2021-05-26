@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_40dp"
@@ -22,6 +21,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/home"
                 android:fontFamily="@font/poppins_regular"
@@ -36,6 +36,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/logout"
                 android:fontFamily="@font/poppins_regular"
@@ -51,8 +52,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/logout_icon"
+                android:id="@+id/lougout_icon"
                 android:layout_width="@dimen/size_22dp"
                 android:layout_height="@dimen/size_22dp"
                 android:layout_marginTop="8dp"
@@ -61,14 +63,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/logout"
                 app:layout_constraintTop_toTopOf="parent"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -97,13 +93,12 @@
             app:layout_constraintTop_toBottomOf="@+id/inspection_title" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/linearLayoutCompat2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
@@ -128,16 +123,16 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:fontFamily="@font/sfpro_text_bold"
                 android:gravity="center"
                 android:paddingStart="@dimen/size_16dp"
                 android:paddingEnd="@dimen/size_16dp"
                 android:paddingBottom="@dimen/size_8dp"
-                android:singleLine="true"
                 android:text="@{vehicleInspectionVM.scheduledTime}"
                 android:textColor="@color/color_grey5"
                 android:textSize="@dimen/size_26sp"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -152,14 +147,14 @@
                 android:textSize="@dimen/normal_text" />
 
 
+
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/notification_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="notification"
-                android:visibility="gone">
-
-            </androidx.appcompat.widget.AppCompatButton>
+                android:visibility="gone"
+                android:id="@+id/notification_btn"
+                ></androidx.appcompat.widget.AppCompatButton>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -170,21 +165,18 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
+            android:visibility="gone"
             android:layout_margin="@dimen/size_30dp"
-            android:layout_marginBottom="64dp"
+            app:layout_constraintBottom_toTopOf="@id/linearLayoutCompat"
             android:background="@drawable/rectangle_curve_grey"
             android:backgroundTint="@color/color_splash"
             android:fontFamily="@font/poppins_semibold"
-            android:gravity="center"
             android:padding="@dimen/size_15dp"
+            android:gravity="center"
             android:text="@string/btn_join"
             android:textAllCaps="false"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/size_15sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
-            app:layout_constraintEnd_toEndOf="parent"
-             />
+            android:textSize="@dimen/size_15sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_join_disable"
@@ -193,34 +185,29 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
             android:layout_margin="@dimen/size_30dp"
-            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toTopOf="@id/linearLayoutCompat"
             android:background="@drawable/rectangle_curve_grey"
             android:backgroundTint="@color/color_grey"
             android:fontFamily="@font/poppins_semibold"
-            android:gravity="center"
             android:padding="@dimen/size_15dp"
+            android:gravity="center"
             android:text="@string/btn_join"
-            android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/size_15sp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:textSize="@dimen/size_15sp" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_join_disable"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:src="@drawable/video"
+            android:id="@+id/iv_join_disable"
+            android:elevation="@dimen/size_5dp"
             android:layout_marginRight="@dimen/size_100dp"
             android:layout_marginBottom="@dimen/size_5dp"
-            android:elevation="@dimen/size_5dp"
-            android:src="@drawable/video"
-            app:layout_constraintBottom_toTopOf="@+id/btn_join_disable"
-            app:layout_constraintEnd_toStartOf="@+id/btn_join_disable"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toEndOf="@+id/btn_join_disable"
             app:layout_constraintTop_toBottomOf="@+id/btn_join_disable"
-            >
+            app:layout_constraintStart_toEndOf="@+id/btn_join_disable"
+            app:layout_constraintEnd_toStartOf="@+id/btn_join_disable"
+            app:layout_constraintBottom_toTopOf="@+id/btn_join_disable"
+            android:layout_height="wrap_content">
 
         </androidx.appcompat.widget.AppCompatImageView>
 
@@ -272,24 +259,19 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
-
         <androidx.appcompat.widget.LinearLayoutCompat
-
             android:id="@+id/linearLayoutCompat"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_35dp"
             android:background="@color/color_splash"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="MissingConstraints"
             android:gravity="center">
-
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Powered By "
                 android:textColor="@color/white" />
-
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"

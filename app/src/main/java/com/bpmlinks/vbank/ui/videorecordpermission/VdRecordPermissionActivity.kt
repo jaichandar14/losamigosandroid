@@ -1,4 +1,5 @@
 package com.bpmlinks.vbank.ui.videorecordpermission
+
 import android.Manifest
 import android.app.NotificationManager
 import android.content.Context
@@ -47,6 +48,9 @@ class VdRecordPermissionActivity : AppCompatActivity() {
     lateinit var locationManager:LocationManager
     var PERMISSION_ID = 44
     var  LOCATION_PERMISSION_REQUEST_CODE=1
+    lateinit var alert:AlertDialog
+    lateinit var dialogBuilder :AlertDialog.Builder
+    private val CAMERA_MIC_PERMISSION_REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,22 +82,22 @@ class VdRecordPermissionActivity : AppCompatActivity() {
 //            else
 //            {
 //                startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                                == PackageManager.PERMISSION_GRANTED &&ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                                == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                                == PackageManager.PERMISSION_GRANTED)) {
+            if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED &&ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                            == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                            == PackageManager.PERMISSION_GRANTED)) {
 
-                                    apicall(true)
-                                     openVideoPage()
+                apicall(true)
+                openVideoPage()
 
-Log.d("msg","1")
-                }else{
-                    val permissionRequest = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                    , Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
-                    requestPermissions(permissionRequest, LOCATION_PERMISSION_REQUEST_CODE)
-                    Log.d("msg","1")
-                }
+                Log.d("msg","1")
+            }else{
+                val permissionRequest = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                        , Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+                requestPermissions(permissionRequest, LOCATION_PERMISSION_REQUEST_CODE)
+                Log.d("msg","1")
+            }
 
             //}
         }
@@ -152,18 +156,18 @@ Log.d("msg","1")
     private fun apicall(reson:Boolean)
     {
         val caRecord = CallRecordAPI(
-            meetingParams?.callKeyNb,
-            meetingParams?.customerKeyNb,
-            0,
-            reson
+                meetingParams?.callKeyNb,
+                meetingParams?.customerKeyNb,
+                0,
+                reson
         )
         ApiCall.retrofitClient.callRecordApi(caRecord).enqueue(object :
-            retrofit2.Callback<ResponseBody> {
+                retrofit2.Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
             }
             override fun onResponse(
-                call: Call<ResponseBody>,
-                response: Response<ResponseBody>
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
             ) {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
@@ -181,14 +185,13 @@ Log.d("msg","1")
         data.putString(BundleKeys.CallEndReason, BundleKeys.callDecline)
         uploadWorkRequest.setInputData(data.build())
         WorkManager
-            .getInstance(this@VdRecordPermissionActivity)
-            .enqueue(uploadWorkRequest.build())
+                .getInstance(this@VdRecordPermissionActivity)
+                .enqueue(uploadWorkRequest.build())
     }
 
     override fun onResume() {
         super.onResume()
         isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-
     }
 
     override fun onRequestPermissionsResult(
@@ -202,7 +205,7 @@ Log.d("msg","1")
 
             LOCATION_PERMISSION_REQUEST_CODE -> {
                 if (requestCode ==  LOCATION_PERMISSION_REQUEST_CODE && grantResults.size > 0 && grantResults[0] + grantResults[1] == PackageManager.PERMISSION_GRANTED ) {
-                     cameraAndMicPermissionGranted = true
+                    cameraAndMicPermissionGranted = true
                     isGpsEnabled=true
 
                     Log.d("msg","2")
@@ -212,8 +215,8 @@ Log.d("msg","1")
                                             == PackageManager.PERMISSION_GRANTED &&ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                                             == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                                             == PackageManager.PERMISSION_GRANTED)){
-                                   apicall(true)
-                                   openVideoPage()
+                                apicall(true)
+                                openVideoPage()
                             }else{
 
 
@@ -235,8 +238,9 @@ Log.d("msg","1")
                                 }
                             }
 
-                    }
-                    else {
+                        }
+                        else {
+
 
 //                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
 //                                != PackageManager.PERMISSION_GRANTED ){
@@ -244,65 +248,65 @@ Log.d("msg","1")
 //
 //                            denyAlertMessage(locationMessage)
 //                        }
-                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED ){
-                            var mCameraMessage="Camera"
-                            denyAlertMessage(mCameraMessage)
+                            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                                    != PackageManager.PERMISSION_GRANTED ){
+                                var mCameraMessage="Camera"
+                                denyAlertMessage(mCameraMessage)
+                            }
+                            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                                    != PackageManager.PERMISSION_GRANTED ){
+                                var mRecordAudioMessage="Audio"
+                                denyAlertMessage(mRecordAudioMessage)
+                            }
+
+                            Toast.makeText(
+                                    this,
+                                    R.string.permissions_needed,
+                                    Toast.LENGTH_LONG
+                            ).show()
+
                         }
-                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                                != PackageManager.PERMISSION_GRANTED ){
-                            var mRecordAudioMessage="Audio"
-                            denyAlertMessage(mRecordAudioMessage)
-                        }
-
-                        Toast.makeText(
-                                this,
-                                R.string.permissions_needed,
-                                Toast.LENGTH_LONG
-                        ).show()
-
-                    }
 
 
-                } }
+                    } }
             }
         }}
 
-fun denyAlertMessage(mMessage:String){
-    val builder = android.app.AlertDialog.Builder(this)
-    val alertLayout = layoutInflater.inflate(R.layout.reject_dialog_layout, null)
-    val btnYes = alertLayout.findViewById<AppCompatButton>(R.id.btnYes)
-    val btnNo = alertLayout.findViewById<AppCompatButton>(R.id.btnNo)
-    val title = alertLayout.findViewById<AppCompatTextView>(R.id.reject_title)
-    title.setText(Html.fromHtml("In order to proceed,This app requires access to your ${mMessage}. click\n" +
-            "    <b>OK</b>\n" +
-            "    to exit or click\n" +
-            "    <b>CANCEL</b>\n" +
-            "     to continue"))
-    builder.setView(alertLayout)
-    val alertDialog: android.app.AlertDialog? = builder.create()
-    alertDialog?.setCancelable(true)
-    val displayMetrics = DisplayMetrics()
-    windowManager.defaultDisplay.getMetrics(displayMetrics)
-    val width = displayMetrics.widthPixels
-    alertDialog?.show()
-    alertDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-    alertDialog?.window?.setLayout((width * 0.75).toInt(), FrameLayout.LayoutParams.WRAP_CONTENT)
-    btnYes.setOnClickListener {
-        alertDialog?.dismiss()
-        apicall(false)
-        declineCall()
-        startActivity(Intent(this, ThankYouActivity::class.java))
-        finish()
-        var brodcostintent=Intent(getString(R.string.callend_brodcost_recever))
-        brodcostintent.putExtra(BundleKeys.callDecline,"yes")
-        LocalBroadcastManager.getInstance(this).sendBroadcast(brodcostintent)
+    fun denyAlertMessage(mMessage:String){
+        val builder = android.app.AlertDialog.Builder(this)
+        val alertLayout = layoutInflater.inflate(R.layout.reject_dialog_layout, null)
+        val btnYes = alertLayout.findViewById<AppCompatButton>(R.id.btnYes)
+        val btnNo = alertLayout.findViewById<AppCompatButton>(R.id.btnNo)
+        val title = alertLayout.findViewById<AppCompatTextView>(R.id.reject_title)
+        title.setText(Html.fromHtml("In order to proceed,This app requires access to your ${mMessage}. click\n" +
+                "    <b>OK</b>\n" +
+                "    to exit or click\n" +
+                "    <b>CANCEL</b>\n" +
+                "     to continue"))
+        builder.setView(alertLayout)
+        val alertDialog: android.app.AlertDialog? = builder.create()
+        alertDialog?.setCancelable(true)
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val width = displayMetrics.widthPixels
+        alertDialog?.show()
+        alertDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        alertDialog?.window?.setLayout((width * 0.75).toInt(), FrameLayout.LayoutParams.WRAP_CONTENT)
+        btnYes.setOnClickListener {
+            alertDialog?.dismiss()
+            apicall(false)
+            declineCall()
+            startActivity(Intent(this, ThankYouActivity::class.java))
+            finish()
+            var brodcostintent=Intent(getString(R.string.callend_brodcost_recever))
+            brodcostintent.putExtra(BundleKeys.callDecline,"yes")
+            LocalBroadcastManager.getInstance(this).sendBroadcast(brodcostintent)
+        }
+        btnNo.setOnClickListener {
+            alertDialog?.dismiss()
+        }
+
+
+
     }
-    btnNo.setOnClickListener {
-        alertDialog?.dismiss()
-    }
-
-
-
-}
 }

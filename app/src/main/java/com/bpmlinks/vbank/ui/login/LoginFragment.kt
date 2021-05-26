@@ -1,7 +1,6 @@
 package com.bpmlinks.vbank.ui.login
 
 import android.annotation.SuppressLint
-import android.app.*
 import android.content.Context
 import android.os.Build
 import android.os.Build.VERSION_CODES
@@ -22,35 +21,29 @@ import com.bpmlinks.vbank.extension.isEmailValid
 import com.bpmlinks.vbank.extension.isValidMobileNumber
 import com.bpmlinks.vbank.helper.AppConstants
 import com.bpmlinks.vbank.helper.AppPreferences
-import com.bpmlinks.vbank.helper.viewmodel.LocalStorage
 import com.bpmlinks.vbank.model.ApisResponse
 import com.bpmlinks.vbank.model.ServiceType
 import com.bpmlinks.vbank.ui.login.adapter.MasterServiceAdapter
 import com.vbank.vidyovideoview.connector.MeetingParams
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.bottom_menu.*
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.login_bottom.*
-import kotlinx.android.synthetic.main.login_bottom.et_email
-import kotlinx.android.synthetic.main.login_bottom.et_mobile_number
-import kotlinx.android.synthetic.main.login_bottom.et_name
-import kotlinx.android.synthetic.main.login_bottom.lnrTop
-import kotlinx.android.synthetic.main.login_bottom.progress_bar
 import java.util.*
 import javax.inject.Inject
 
 
-class LoginFragment : BaseFragment< FragmentLoginBinding, LoginViewModel>(), View.OnClickListener
+class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), View.OnClickListener
           //MasterServiceAdapter.OnServiceClickListener
+    {
 
-{
 
+var meetingParams = MeetingParams()
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private val adapter = MasterServiceAdapter()
 
     override fun getViewModel(): LoginViewModel? =
-            ViewModelProvider(this, factory).get(LoginViewModel::class.java)
+        ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.loginVMLayout
 
@@ -61,37 +54,30 @@ class LoginFragment : BaseFragment< FragmentLoginBinding, LoginViewModel>(), Vie
         super.onAttach(context)
     }
 
-
-    private var meetingParams: MeetingParams? = MeetingParams()
-
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.status_bar_colore)
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels
         lnrTop.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, (height / 3).toInt())
 
-    init()
-
+        init()
     }
-
 
     private fun init() {
         var loginAlready = requireActivity().applicationContext.getSharedPreferences("MyUser", Context.MODE_PRIVATE)
-
         var mailId = loginAlready.getString("MailId","")
         Log.d("TAG", "isLogged: ${mailId}")
         if (!mailId.isNullOrEmpty()){
             moveToNextScreen(meetingParams?.meetingTime!!)
         }else {
+
 //        tv_faq.setOnClickListener(this)
             tv_contact.setOnClickListener(this)
 //        tv_settings.setOnClickListener(this)
             login_btn.setOnClickListener(this)
+
 
             if (checkInternetAvailable()) {
                 getViewModel()?.getServiceType()?.observe(viewLifecycleOwner, serviceTypeObserver)
@@ -114,28 +100,24 @@ class LoginFragment : BaseFragment< FragmentLoginBinding, LoginViewModel>(), Vie
             }
             R.id.login_btn -> {
 
+                apicall()
 
-
-           apicall()
-
-            }
-        }
-    }
-
+            }}}
 
     private fun apicall() {
-        val reqString = ("Device name :" + Build.DEVICE
+
+        val reqString = ("Device name :"+Build.DEVICE
                 + " Device version1:" + Build.ID
                 + " Device version1:" + Build.MANUFACTURER
-                + " Device model:" + Build.MODEL +
-                "device buildnumber" + Build.VERSION.BASE_OS
+                + " Device model:" + Build.MODEL+
+                "device buildnumber"+Build.VERSION.BASE_OS
                 + " Device version2:" + Build.VERSION.RELEASE
                 + " Device version3:" + Build.VERSION.INCREMENTAL
                 + " Device version:4" + Build.FINGERPRINT
                 + " Device version:5" + Build.VERSION.PREVIEW_SDK_INT
                 + " Device version:6" + Build.VERSION.SDK_INT
                 + "Device version code: " + VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT].name)
-        Log.d("reqString", "${reqString}")
+        Log.d("reqString","${reqString}")
 
 
         if ((et_name.text.isNullOrEmpty() && et_email.text.isNullOrEmpty() && et_mobile_number.text.isNullOrEmpty()) || (!et_name.text.isNullOrEmpty() && et_email.text.isNullOrEmpty() && et_mobile_number.text.isNullOrEmpty())) {
@@ -145,11 +127,11 @@ class LoginFragment : BaseFragment< FragmentLoginBinding, LoginViewModel>(), Vie
         } else if (!et_name.text.isNullOrEmpty() && !et_email.text.isNullOrEmpty() && et_mobile_number.text.isNullOrEmpty()) {
             showToast(getString(R.string.mobile_error))
         } else if (!et_email.text.isNullOrEmpty() && !et_email.text.toString()
-                        .isEmailValid(et_email.text.toString())
+                .isEmailValid(et_email.text.toString())
         ) {
             showToast(getString(R.string.email_error))
         } else if (!et_mobile_number.text.isNullOrEmpty() && !et_mobile_number.text.toString()
-                        .isValidMobileNumber(et_mobile_number.text.toString())
+                .isValidMobileNumber(et_mobile_number.text.toString())
         ) {
             showToast(getString(R.string.mobile_error))
         } else {
@@ -157,56 +139,58 @@ class LoginFragment : BaseFragment< FragmentLoginBinding, LoginViewModel>(), Vie
             getViewModel()?.userInput?.emailId = et_email.text.toString()
             getViewModel()?.userInput?.mobileNumber = et_mobile_number.text.toString()
             getViewModel()?.userInput?.customerPurposeDto?.masterServiceTypeKeyNb =
-                    adapter.serviceList.get(0).masterServiceTypeKeyNb
+                adapter.serviceList.get(0).masterServiceTypeKeyNb
             //val action = LoginFragmentDirections.actionLoginFragmentToPurposeFragment( adapter.serviceList.get(0), getViewModel()?.userInput)
 
             val androidID = UUID.randomUUID().toString()
             getViewModel()?.userInput?.deviceOS = AppConstants.DEVICE_OS
             getViewModel()?.userInput?.hardwareId = androidID
             getViewModel()?.userInput?.pushToken = AppPreferences.getInstance()
-                    .getStringValue(requireActivity(), AppPreferences.FCM_TOKEN)
-
-
-            isLogged(et_email.text.toString())
+                .getStringValue(requireActivity(), AppPreferences.FCM_TOKEN)
 
             getViewModel()?.userInput?.osVersion = Build.VERSION.RELEASE
             getViewModel()?.userInput?.buildNumber = Build.VERSION.INCREMENTAL
             getViewModel()?.userInput?.modelName = Build.MODEL
-            getViewModel()?.userInput?.deviceName = Build.MANUFACTURER + "_" + Build.DEVICE
-            getViewModel()?.newCustomer()
-                    ?.observe(viewLifecycleOwner, Observer { apiResponse ->
-                        when (apiResponse) {
-                            is ApisResponse.Success -> {
-                                val sharedPref =
-                                        activity?.getPreferences(Context.MODE_PRIVATE)
-                                                ?: return@Observer
-                                with(sharedPref.edit()) {
-                                    apiResponse.response.data.id?.toInt()?.let { id ->
-                                        putInt(AppConstants.CUSTOMER_KEY_NB, id)
-                                    }
-                                    commit()
-                                }
-                                with(sharedPref.edit()) {
-                                    getViewModel()?.userInput?.customerFirstName?.let { name ->
-                                        putString(AppConstants.CUSTOMER_NAME, name)
-                                    }
-                                    commit()
-                                }
-meetingParams?.meetingTime=apiResponse.response.data.schdeuleTime
-                                apiResponse.response.data.schdeuleTime?.let { moveToNextScreen(it) }
-                            }
-                            is ApisResponse.CustomError -> {
-                                showToast(apiResponse.message)
+            getViewModel()?.userInput?.deviceName = Build.MANUFACTURER+"_"+Build.DEVICE
 
+            isLogged(et_email.text.toString())
+
+            getViewModel()?.newCustomer()
+                ?.observe(viewLifecycleOwner, Observer { apiResponse ->
+                    when (apiResponse) {
+                        is ApisResponse.Success -> {
+                            var sharedPref =
+                                    activity?.getPreferences(Context.MODE_PRIVATE)
+                                            ?: return@Observer
+                            with(sharedPref.edit()) {
+                                apiResponse.response.data.id?.toInt()?.let { id ->
+                                    putInt(AppConstants.CUSTOMER_KEY_NB, id)
+                                }
+                                commit()
                             }
-                            ApisResponse.LOADING -> {
-                                showProgress()
+                            with(sharedPref.edit()) {
+                                getViewModel()?.userInput?.customerFirstName?.let { name ->
+                                    putString(AppConstants.CUSTOMER_NAME, name)
+                                }
+
+                                commit()
                             }
-                            ApisResponse.COMPLETED -> {
-                                hideProgress()
-                            }
+                            meetingParams.meetingTime =apiResponse.response.data.schdeuleTime
+
+                            apiResponse.response.data.schdeuleTime?.let { moveToNextScreen(it) }
                         }
-                    })
+                        is ApisResponse.CustomError -> {
+                            showToast(apiResponse.message)
+
+                        }
+                        ApisResponse.LOADING -> {
+                            showProgress()
+                        }
+                        ApisResponse.COMPLETED -> {
+                            hideProgress()
+                        }
+                    }
+                })
 
 
         }
@@ -214,13 +198,13 @@ meetingParams?.meetingTime=apiResponse.response.data.schdeuleTime
 
     }
 
-    private fun moveToNextScreen(timesheduled: String) {
+        private fun moveToNextScreen(timesheduled: String) {
 
-        val action = LoginFragmentDirections.actionLoginFragmentToInspectionFragment(timesheduled)
-        findNavController().navigate(action)
-    }
+            val action = LoginFragmentDirections.actionLoginFragmentToInspectionFragment(timesheduled)
+            findNavController().navigate(action)
+        }
 
-    private fun showFaqScreen() {
+        private fun showFaqScreen() {
         val action = LoginFragmentDirections.actionLoginFragmentToFAQFragment()
         findNavController().navigate(action)
     }
@@ -267,21 +251,16 @@ meetingParams?.meetingTime=apiResponse.response.data.schdeuleTime
         init()
     }
 
+        fun isLogged(email :String){
+            var sharedPreferences = activity?.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
+            var editor = sharedPreferences?.edit()
+            editor?.putString("MailId", email)
+            editor?.commit()
 
+            var getSharedPreferences = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
+           var mailId = getSharedPreferences?.getString("MailId","")
+            Log.d("TAG", "isLogged: ${mailId}")
 
-    fun isLogged(email :String){
-        var sharedPreferences = activity?.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
-        var editor = sharedPreferences?.edit()
-        editor?.putString("MailId", email)
-        editor?.commit()
-
-        var getSharedPreferences = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
-        var mailId = getSharedPreferences?.getString("MailId","")
-        Log.d("TAG", "isLogged: ${mailId}")
-
-        LocalStorage.email = mailId
-        Log.d("TAG", "isLogged: ${LocalStorage.email }")
-    }
-
+        }
 
 }

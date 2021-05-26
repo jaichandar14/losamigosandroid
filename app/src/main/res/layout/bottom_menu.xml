@@ -7,6 +7,8 @@
     android:padding="@dimen/size_10dp"
     android:weightSum="3">
 
+
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_contact"
         android:layout_width="match_parent"

@@ -34,9 +34,6 @@
         <action
             android:id="@+id/action_loginFragment_to_inspectionFragment"
             app:destination="@id/vehicleInspectionFragment" />
-        <action
-            android:id="@+id/ac"
-            app:destination="@id/vehicleInspectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/purposeFragment"

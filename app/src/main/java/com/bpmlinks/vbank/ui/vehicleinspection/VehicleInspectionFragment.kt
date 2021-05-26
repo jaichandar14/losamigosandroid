@@ -33,6 +33,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.navArgs
@@ -40,9 +41,11 @@ import com.bpmlinks.vbank.BR
 import com.bpmlinks.vbank.R
 import com.bpmlinks.vbank.base.BaseFragment
 import com.bpmlinks.vbank.databinding.VehicleInspectionFragmentBinding
+import com.bpmlinks.vbank.fcm.FirebaseNotification
 import com.bpmlinks.vbank.fcm.receiver.NotificationReceiver
 import com.bpmlinks.vbank.helper.AppConstants
 import com.bpmlinks.vbank.helper.viewmodel.LocalStorage
+import com.bpmlinks.vbank.locationRecivier.GeoLocationReceiver
 import com.bpmlinks.vbank.twilio.CallActivity
 import com.bpmlinks.vbank.twilio.LocationViewModel
 import com.bpmlinks.vbank.twilio.VideoActivity
@@ -59,7 +62,6 @@ import com.vbank.vidyovideoview.model.Output
 import com.vbank.vidyovideoview.webservices.ApiCall
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.content_video.*
-import kotlinx.android.synthetic.main.login_bottom.*
 import kotlinx.android.synthetic.main.preference_dialog_number_edittext.*
 import kotlinx.android.synthetic.main.vehicle_inspection_fragment.*
 import okhttp3.ResponseBody
@@ -76,6 +78,7 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
     private val navArgs by navArgs<VehicleInspectionFragmentArgs>()
     private var meetingParams : MeetingParams? = MeetingParams()
     lateinit var recever :BroadcastReceiver
+    lateinit var receverForWebView :BroadcastReceiver
     var notificationid=0
 
     var isGpsEnabled = false
@@ -84,23 +87,22 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
     lateinit var dialogBuilder : AlertDialog.Builder
     lateinit var alert: AlertDialog
     var LOCATION_PERMISSION_REQUEST_CODE = 1
-    var i = 0
-    var msgalert=true
+    private var webView: WebView? = null
+
     private lateinit var locationViewModel: LocationViewModel
+
     override fun getViewModel()= ViewModelProvider(this,factory).get(VehicleInspectionViewModel::class.java)
-    var webView:WebView?=null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
         getViewModel()?.scheduledTime.value = navArgs.sheduledTime
 
-
-
         locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-      locationPermission()
-
+        locationPermission()
         init()
+
         recever  = object :BroadcastReceiver(){
             override fun onReceive(context: Context?, intent: Intent?) {
 
@@ -110,10 +112,9 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
                     }else{
                         MeetingParams()
                     }
-                    Log.d("token12345",",${meetingParams?.token}")
+
                     if(!meetingParams?.token.isNullOrEmpty())
                     {
-                        Log.d("token12345",",${meetingParams?.token}")
                         iv_join_disable.visibility=View.GONE
                         btn_join_disable.visibility=View.GONE
 
@@ -149,6 +150,21 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
                     }
 
 
+                    if (intent?.action.toString().equals("DOCUSIGN_ACTION")){
+                        Log.d(TAG, "webview onReceive: if loop ")
+                        var url=   intent?.getStringExtra(BundleKeys.docusignurl)
+                        if (!url.isNullOrEmpty()) {
+                            webView?.visibility = View.VISIBLE
+                            btn_join_disable.visibility = View.GONE
+                            iv_join_disable.visibility = View.GONE
+
+                            loadWebview(url)
+                        } else {
+                            //      thumbnailVideoView.visibility=View.GONE
+                            webView?.visibility = View.GONE
+                        }
+
+                    }
                 }
 
             }
@@ -163,67 +179,46 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
 
     override fun onResume() {
         super.onResume()
-
+        Log.d("onresume","call in resume")
 
         var  intentfilter =IntentFilter(getString(R.string.brodcost_recever))
-
         context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,intentfilter) }
 
         var  callintentfilter =IntentFilter(getString(R.string.callend_brodcost_recever))
-
         context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,callintentfilter) }
 
-
+        var intentfilter1 = IntentFilter(getString(R.string.docusign_brodcost_recever))
+        context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever, intentfilter1) }
 
         if (checkGpsEnabled){
             isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
         }
-if (isGpsEnabled) {
-    if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED)) {
-    }
+        if (isGpsEnabled) {
+            if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED)) {
 
-}else{
-
-    if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED)) {
-
-    if (alertMessageLocation()) {
-        requestLocationUpdates()
-    }
-    }
-}
-        //Broadcaste reciver for to recieve the docusign
-
-
-
-        recever = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                Log.d(TAG, "webview visible starting onreceive method")
-                if (intent != null) {
-                    var url=   intent.getStringExtra(BundleKeys.docusignurl)
-                    if (!url.isNullOrEmpty()) {
-                        webView?.visibility = View.VISIBLE
-                        btn_join_disable.visibility = View.GONE
-                        iv_join_disable.visibility = View.GONE
-                        loadWebview(url)
-                    }else {
-                        //      thumbnailVideoView.visibility=View.GONE
-                        webView?.visibility = View.GONE
-                    }
-
-                }
+//                requestLocationUpdates1()
+                Log.d("msg", "onresume if loop")
             }
+
+        }else{
+
+            if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED)) {
+
+                if (alertMessageLocation()) {
+                    Log.d(TAG, "http location inside alart block requestLocationUpdates one ")
+                    requestLocationUpdates()
+                }
+                Log.d("msg", "onresume if loop")
+            }
+
+
+
         }
 
-        var intentfilter1 = IntentFilter(getString(R.string.docusign_brodcost_recever))
-        context?.let {LocalBroadcastManager.getInstance(it).registerReceiver(recever, intentfilter1) }
-
-
-
-///------------------------------------------------------
-
-  }
+    }
 
     override fun onPause() {
         super.onPause()
@@ -243,9 +238,7 @@ if (isGpsEnabled) {
     @SuppressLint("UseRequireInsteadOfGet")
     private fun init()
     {
-
-
-
+        Log.d("onCreate","calll in create call")
         webView = view?.findViewById(R.id.webView_inspection)
         webView?.settings?.javaScriptEnabled = true
         webView?.settings?.loadWithOverviewMode = true
@@ -259,12 +252,15 @@ if (isGpsEnabled) {
             intent.putExtra(BundleKeys.MeetingParams,meetingParams)
             intent.putExtra(AppConstants.NOTIFICATION_ID, notificationid)
             startActivity(intent)
+            activity?.finish()
 
             iv_join_disable.visibility=View.GONE
             btn_join_disable.visibility=View.GONE
             iv_join.visibility=View.GONE
             btn_join.visibility=View.GONE
             btn_exit.visibility=View.VISIBLE
+
+
 
         }
 
@@ -277,31 +273,33 @@ if (isGpsEnabled) {
         }
 
         logout.setOnClickListener{
-            var sharedPreferences = activity?.getSharedPreferences("MyUser", Context.MODE_PRIVATE)
-            var editor = sharedPreferences?.edit()
-            // editor?.remove(et_email.text.toString())
-            editor?.remove("MailId")
-
+            startActivity(Intent(context,HomeActivity::class.java))
+            val sharedPreferences = activity?.getSharedPreferences("MyUser", Context.MODE_PRIVATE)
+            val editor = sharedPreferences?.edit()
             editor?.clear()
             editor?.apply()
-            meetingParams?.emailId=""
-            LocalStorage.email=""
-            Log.d("final","call value: ${meetingParams?.callKeyNb} customer value:${meetingParams?.customerKeyNb}")
-            editor?.commit()
-            startActivity(Intent(context,HomeActivity::class.java))
+//            LocalStorage.email = ""
+//            meetingParams?.emailId=""
             activity?.finish()
 
         }
-        logout_icon.setOnClickListener{
-
-
+        lougout_icon.setOnClickListener{
+            startActivity(Intent(context,HomeActivity::class.java))
+            val sharedPreferences = activity?.getSharedPreferences("MyUser", Context.MODE_PRIVATE)
+            val editor = sharedPreferences?.edit()
+            editor?.clear()
+            editor?.apply()
+            activity?.finish()
 
         }
         notification_btn.setOnClickListener {
             notification()
         }
 
+
+
     }
+
 
     override fun getBindingVariable()=BR.vehicleInspectionVM
 
@@ -439,7 +437,12 @@ if (isGpsEnabled) {
             brodcostintent.putExtra(AppConstants.NOTIFICATION_ID, notificationId)
             activity?.let { LocalBroadcastManager.getInstance(it).sendBroadcast(brodcostintent) }
         }
+
+
     }
+
+
+
     private fun showProgress() {
         progress_bar1.visibility = View.VISIBLE
     }
@@ -452,6 +455,8 @@ if (isGpsEnabled) {
     fun locationPermission(){
         if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED )) {
+
+            Log.d(TAG, "http location granted block requestLocationUpdates ")
             requestLocationUpdates()
             Log.d("msg","if loop")
         }else{
@@ -465,8 +470,11 @@ if (isGpsEnabled) {
                 requestPermissions(permissionRequest, LOCATION_PERMISSION_REQUEST_CODE)
                 Log.d("msg","else black")
             }
+
         }
+
     }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE){
             var locationPermissionGranted = true
@@ -478,10 +486,14 @@ if (isGpsEnabled) {
 
             if (locationPermissionGranted) {
                 Log.d("msg","if black")
+                //alertMessageLocation()
 
             } else {
                 Log.d("msg","else black.............................")
+
+
                 denymessage()
+
             }
         }
     }
@@ -511,7 +523,7 @@ if (isGpsEnabled) {
             alert= dialogBuilder.create()
             alert.show()
         }
-return true
+        return true
     }
 
     fun gpsPermisson(){
@@ -548,6 +560,8 @@ return true
 
     fun requestLocationUpdates() {
 
+        isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
         Log.d(TAG, "http location requestLocationUpdates ")
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
         Log.d(TAG, "http location requestLocationUpdates one ")
@@ -567,7 +581,7 @@ return true
 
                     var getSharedPreferences = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
                     var mailId = getSharedPreferences?.getString("MailId","")
-                     LocalStorage.email=mailId
+                    LocalStorage.email =mailId
                     locationStatus.gpsOn = true
                     locationStatus.customerInCall = false
                     locationStatus.emailId = LocalStorage.email
@@ -597,7 +611,7 @@ return true
                                     "http location longitude:${locationStatus.longitude} " + "latitude:${locationStatus.latitude}Success method" + " customerker:${meetingParams?.customerKeyNb}"
                             )
                             if (response.isSuccessful) {
-                                Log.d(TAG, "http location success")
+                                Log.d(TAG, "http location success ${locationStatus.customerInCall}")
                             }
                         }
 
@@ -607,69 +621,120 @@ return true
         Log.d(TAG, "location requestLocationUpdates end ")
     }
 
-fun denymessage(){
-    dialogBuilder = AlertDialog.Builder(requireActivity())
-    dialogBuilder
-            //.setTitle("" )
-            .setMessage(Html.fromHtml("Its look like you have turned off the permissions required for this feature.It can be enable under Phone Settings>>Apps>>Los AmigosS>>Permission."))
-            // .setView(myview)
-            .setCancelable(false)
-            .setPositiveButton("Go to \n Settings", DialogInterface.OnClickListener { dialog, id
-                ->
-             var intent =Intent()
-                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                var uri=Uri.fromParts("package",activity?.packageName,null)
-                intent.setData(uri)
-                context?.startActivity(intent)
+    fun denymessage(){
+        dialogBuilder = AlertDialog.Builder(requireActivity())
+        dialogBuilder
+                //.setTitle("" )
+                .setMessage(Html.fromHtml("Its look like you have turned off the permissions required for this feature.It can be enable under Phone Settings>>Apps>>Los AmigosS>>Permission."))
+                // .setView(myview)
+                .setCancelable(false)
+                .setPositiveButton("Go to \n Settings", DialogInterface.OnClickListener { dialog, id
+                    ->
+                    var intent =Intent()
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    var uri=Uri.fromParts("package",activity?.packageName,null)
+                    intent.setData(uri)
+                    context?.startActivity(intent)
 
 
-            })
+                })
 
-    alert= dialogBuilder.create()
+        alert= dialogBuilder.create()
 
-    if( ::alert.isInitialized&&!alert.isShowing) {
-        alert.show()
+        if( ::alert.isInitialized&&!alert.isShowing) {
+            alert.show()
+        }
+
     }
-
-}
-
-
 
     private fun loadWebview(url: String) {
         var url1=""
         webView?.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 Log.d("URL", url)
+
                 if (url.toString().contains(AppConstant.DOCUSIGN_BASE_URL)) {
                     updateDocumentSignStatus()
+
                     webView?.visibility=View.GONE
                     btn_join_disable.visibility = View.VISIBLE
                     iv_join_disable.visibility = View.VISIBLE
+
                     if(url.toString().contains("ttl_expired"))
                     {
 
+
                         url1 = generateDocusignUrl().toString()
-                        Log.d(TAG,"generate if  cal  URl ${url1}​​​​​​​​")
+                        Log.d(TAG,"generate if  cal  URl ${url1}")
                         webView?.loadUrl(url1)
+
                     }
-                }else {
+
+                } else {
+
                     view?.loadUrl(url)
                 }
+
                 //view?.loadUrl(url)
                 return true
             }
+
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
             }
+
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 removeNotification()
             }
         }
+
         webView?.loadUrl(url)
+
         Log.d("URL", url)
     }
 
+    private fun updateDocumentSignStatus() {
+        val docuSignStatusRequest = DocuSignStatusRequest()
+        docuSignStatusRequest.callKeyNb = FirebaseNotification.callKeyNbForDocOffline
+        Log.d(TAG, "offline updateDocumentSignStatus: ${docuSignStatusRequest.callKeyNb}")
+        docuSignStatusRequest.action="COMPLETED"
+        ApiCall.retrofitClient.updateDocuSignStatus(docuSignStatusRequest).enqueue(object :
+                retrofit2.Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+
+            }
+
+            override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+            ) {
+            }
+        })
+    }
+
+    private fun generateDocusignUrl():String?{
+        var url1=""
+        var callkeyNB=meetingParams?.callKeyNb
+        ApiCall.retrofitClient.getDocuSignUrl(callkeyNB).enqueue(object :
+                retrofit2.Callback<Output> {
+            override fun onResponse(call: Call<Output>, response: Response<Output>) {
+                Log.d(TAG,"generate on response cal  URl  ")
+                if (response.isSuccessful){
+                    var status: Output? = response.body()
+                    url1= status?.data?.statusMsg.toString()
+                    Log.d("TAG", "expired url success method called ${response.code()}​​${url1}​​​​​​​​ ")
+                }
+
+            }
+            override fun onFailure(call: Call<Output>, t: Throwable) {
+
+            }
+
+
+        })
+        return url1
+    }
 
     private fun removeNotification() {
         if (requireActivity().intent.hasExtra(AppConstant.NOTIFICATION_ID)) {
@@ -678,47 +743,4 @@ fun denymessage(){
             manager.cancel(notificationId)
         }
     }
-
-    private fun updateDocumentSignStatus() {
-        val docuSignStatusRequest = DocuSignStatusRequest()
-        docuSignStatusRequest.callKeyNb = meetingParams?.callKeyNb
-        docuSignStatusRequest.action="COMPLETED"
-        ApiCall.retrofitClient.updateDocuSignStatus(docuSignStatusRequest).enqueue(object :
-            retrofit2.Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-            override fun onResponse(
-                call: Call<ResponseBody>,
-                response: Response<ResponseBody>
-            ) {
-            }
-        })
-    }
-    private fun generateDocusignUrl():String?{
-        var url1=""
-        var callkeyNB=meetingParams?.callKeyNb
-        ApiCall.retrofitClient.getDocuSignUrl(callkeyNB).enqueue(object :
-            retrofit2.Callback<Output> {
-            override fun onResponse(call: Call<Output>, response: Response<Output>) {
-                Log.d(TAG,"generate on response cal  URl  ")
-                if (response.isSuccessful){
-                    var status: Output? = response.body()
-                    url1= status?.data?.statusMsg.toString()
-                    Log.d("TAG", "expired url success method called ${response.code()}​​${url1} ")
-                }
-
-            }
-            override fun onFailure(call: Call<Output>, t: Throwable) {
-                Toast.makeText(requireActivity(), t.localizedMessage, Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-
-        })
-        return url1
-    }
-
 }

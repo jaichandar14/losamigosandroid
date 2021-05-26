@@ -4,19 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical">
-
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/thanks_image" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,19 +24,14 @@
             android:text="Thank you for using \n Zam Loans "
             android:textColor="@color/color_black01"
             android:textSize="@dimen/sp_24">
-
         </androidx.appcompat.widget.AppCompatTextView>
 
-
-
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="153dp"
-       android:layout_gravity="bottom"
+        android:layout_gravity="bottom"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
@@ -47,7 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-
             android:layout_margin="@dimen/size_30dp"
             android:background="@drawable/rectangle_curve_grey"
             android:backgroundTint="@color/blue"
@@ -57,7 +48,6 @@
             android:textAllCaps="false"
             android:textColor="@color/color_white"
             android:textSize="@dimen/size_15sp" />
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="35dp"
@@ -70,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:text="Powered By "
                 android:textColor="@color/white" />
-
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
@@ -78,11 +67,7 @@
                 android:text="Los AmigosS"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
-
         </androidx.appcompat.widget.LinearLayoutCompat>
-
     </LinearLayout>
 
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-

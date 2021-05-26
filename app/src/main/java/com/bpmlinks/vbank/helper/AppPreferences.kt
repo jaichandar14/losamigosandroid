@@ -1,6 +1,7 @@
 package com.bpmlinks.vbank.helper
 
 import android.content.Context
+import androidx.preference.PreferenceManager
 import com.bpmlinks.vbank.BuildConfig
 
 class AppPreferences {
@@ -16,6 +17,7 @@ class AppPreferences {
         const val FCM_TOKEN = "FCM_TOKEN"
 
     }
+
 
     fun setStringValue(context: Context, key: String?, value: String?) {
         val sharedPreferences = context.getSharedPreferences(

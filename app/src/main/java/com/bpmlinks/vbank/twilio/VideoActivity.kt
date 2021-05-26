@@ -29,7 +29,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
@@ -39,11 +38,9 @@ import androidx.work.WorkManager
 import com.bpmlinks.vbank.BuildConfig
 import com.bpmlinks.vbank.R
 import com.bpmlinks.vbank.locationRecivier.GeoLocationReceiver
-import com.bpmlinks.vbank.model.ServiceType
 import com.bpmlinks.vbank.twilio.screencapture.ScreenCapturerManager
 import com.bpmlinks.vbank.ui.thankyou.ThankYouActivity
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import com.koushikdutta.ion.Ion
 import com.twilio.audioswitch.AudioDevice
 import com.twilio.audioswitch.AudioDevice.*
@@ -61,7 +58,6 @@ import com.vbank.vidyovideoview.helper.BundleKeys
 import com.vbank.vidyovideoview.model.DocuSignStatusRequest
 import com.vbank.vidyovideoview.model.LocationLatLan
 import com.vbank.vidyovideoview.model.Output
-import com.vbank.vidyovideoview.model.UserActionItems
 import com.vbank.vidyovideoview.webservices.ApiCall
 import kotlinx.android.synthetic.main.activity_video.*
 import kotlinx.android.synthetic.main.content_video.*
@@ -70,7 +66,6 @@ import retrofit2.Call
 import retrofit2.Response
 
 import tvi.webrtc.VideoSink
-import java.io.IOException
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -80,6 +75,7 @@ public class VideoActivity : AppCompatActivity() {
     private val REQUEST_MEDIA_PROJECTION = 5
     private val TAG = "VideoActivity"
     private lateinit var webView: WebView
+    private lateinit var webView1: WebView
     private val LOCATION_PERMISSION_REQUEST_CODE = 2000
     private lateinit var locationViewModel: LocationViewModel
     lateinit var receverLocation: BroadcastReceiver
@@ -87,6 +83,7 @@ public class VideoActivity : AppCompatActivity() {
     lateinit var layoucontainer: LinearLayout
     var screencaptureStarted = false
     var isGpsEnabled=true
+    var i=0
     /*
      * You must provide a Twilio Access Token to connect to the Video service
      */
@@ -591,10 +588,10 @@ public class VideoActivity : AppCompatActivity() {
          * Request permissions.
          */
 
-      requestPermissionForCameraAndMicrophone()
+        requestPermissionForCameraAndMicrophone()
 //        requestPermissionForLocation()
         Log.d(TAG, "location onCreate: called")
-       isGPSEnabled()
+        isGPSEnabled()
 //        requestPermissionForLocation()
         /*
          * Set the initial state of the UI
@@ -702,7 +699,7 @@ public class VideoActivity : AppCompatActivity() {
 
 
         }
-      //  generateDocusignUrl()
+        //  generateDocusignUrl()
     }
 
 
@@ -713,7 +710,7 @@ public class VideoActivity : AppCompatActivity() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED)) {
 
-                    Log.d("gps on", "gps is onrequestPermissionForLocation ")
+            Log.d("gps on", "gps is onrequestPermissionForLocation ")
             requestLocationUpdates()
         } else {
             Log.d("gps off", "gps is onrequestPermissionForLocation ")
@@ -725,11 +722,11 @@ public class VideoActivity : AppCompatActivity() {
 
 
     companion object{
-                    var customerkeynb:Int=0
+        var customerkeynb:Int=0
 
-}
+    }
 
-     fun requestLocationUpdates() {
+    fun requestLocationUpdates() {
         Log.d(TAG, "http location requestLocationUpdates ")
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
         Log.d(TAG, "http location requestLocationUpdates one ")
@@ -758,7 +755,7 @@ public class VideoActivity : AppCompatActivity() {
                     locationStatus.gpsOn = meetingParams?.gpsOn
                     locationStatus.customerInCall=true
 
-                      customerkeynb= meetingParams?.customerKeyNb!!
+                    customerkeynb= meetingParams?.customerKeyNb!!
                     meetingParams?.gpsOn = gpsOn
                     meetingParams?.longitude = mLongitude
                     meetingParams?.latitude = mLatitude
@@ -811,94 +808,10 @@ public class VideoActivity : AppCompatActivity() {
             Log.d("gps off", "location gps is isGPSEnabled ")
 //            isGpsOn = false
             //Toast.makeText(this, "Turn on the gps", Toast.LENGTH_SHORT).show()
-           // checkGPSEnable()
+            // checkGPSEnable()
         }
 
     }
-
-    @SuppressLint("RestrictedApi")
-    private fun checkGPSEnable() {
-
-        var dialogBuilder = AlertDialog.Builder(this)
-
-        dialogBuilder.setMessage( Html.fromHtml("Allow\"LocationAccess\"to access your location "+"                         " +
-                "while you are using the app?" +"<br />"+
-                "<small>"+"&nbsp;&nbsp;&nbsp;&nbsp This app needs access to your location!"+"</small>"))
-                .setCancelable(false)
-                .setPositiveButton("Allow", DialogInterface.OnClickListener { dialog, id
-                    ->
-                    startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                    Log.d("gps yes", "gps is checkGPSEnable ")
-                    requestLocationUpdates()
-
-
-                })
-                .setNegativeButton("Don't Allow",DialogInterface.OnClickListener{dialog,id
-                        ->
-                    dialogBuilder.setMessage(Html.fromHtml("<font color=#000000>In order to proceed,This app requires access to your location. click</font>\n" +
-                            "    <b>OK</b>\n" +
-                            "    <font color=#000000>to exit or click</font>\n" +
-                            "     <b>CANCEL</b>\n" +
-                            "     <font color=#000000>to continue and access to your location</font>"))
-                            // .setView(myview)
-                            .setCancelable(false)
-            .setPositiveButton("ok", DialogInterface.OnClickListener { dialog, id
-                ->
-                startActivity(Intent(this,ThankYouActivity::class.java))
-
-
-            })
-            .setNegativeButton("Cancel",DialogInterface.OnClickListener{dialog,id
-                -> dialogBuilder.setMessage( Html.fromHtml("Allow\"LocationAccess\"to access your location "+"                         " +
-                    "while you are using the app?" +"<br />"+
-                    "<small>"+"&nbsp;&nbsp;&nbsp;&nbsp This app needs access to your location!"+"</small>"))
-                    .setCancelable(false)
-                    .setPositiveButton("Allow", DialogInterface.OnClickListener { dialog, id
-                        ->
-                        startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                        Log.d("gps yes", "gps is checkGPSEnable ")
-                        requestLocationUpdates()
-
-
-                    })
-                    .setNegativeButton("Don't Allow",DialogInterface.OnClickListener{dialog,id
-                        ->
-                        dialogBuilder.setMessage(Html.fromHtml("<font color=#000000>In order to proceed,This app requires access to your location. click</font>\n" +
-                                "    <b>OK</b>\n" +
-                                "    <font color=#000000>to exit or click</font>\n" +
-                                "     <b>CANCEL</b>\n" +
-                                "     <font color=#000000>to continue and access to your location</font>"))
-                                // .setView(myview)
-                                .setCancelable(false)
-                                .setPositiveButton("ok", DialogInterface.OnClickListener { dialog, id
-                                    ->
-                                    startActivity(Intent(this,ThankYouActivity::class.java))
-
-
-                                })
-                                .setNegativeButton("Cancel",DialogInterface.OnClickListener{dialog,id
-                                    ->startActivity(Intent(this,ThankYouActivity::class.java))
-
-                                })
-                        var alert = dialogBuilder.create()
-                        alert.show()
-                    })
-
-                var alert = dialogBuilder.create()
-                alert.show()
-                })
-                    var alert = dialogBuilder.create()
-                    alert.show()
-                })
-              var alert = dialogBuilder.create()
-              alert.show()
-
-    }
-//fun dontAllow(){
-//    var dialogBuilder = AlertDialog.Builder(this)
-//
-//
-//}
 
 
     private val screenCapturerListener: ScreenCapturer.Listener = object : ScreenCapturer.Listener {
@@ -952,14 +865,97 @@ public class VideoActivity : AppCompatActivity() {
     }
 
     private fun loadWebview(url: String) {
-        var url1=""
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
 
-                Log.d("URL", url)
+                if (meetingParams?.callKeyNb != 0){
+                    Log.d(TAG,"generate if shouldOverrideUrlLoading cal  URl ${url}")
+                    Log.d(TAG,"generate if shouldOverrideUrlLoading cal  callkey ${meetingParams?.callKeyNb}")
+
+                    if (url.toString().contains(AppConstant.DOCUSIGN_BASE_URL)) {
+                        thumbnailVideoView.visibility=View.VISIBLE
+                        updateDocumentSignStatus()
+
+                        var layoutparams: CoordinatorLayout.LayoutParams =CoordinatorLayout.LayoutParams(
+                                CoordinatorLayout.LayoutParams.WRAP_CONTENT,
+                                CoordinatorLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        layoutparams.gravity=Gravity.CENTER
+                        layoucontainer.layoutParams = layoutparams
+                        webView.visibility=View.GONE
+                        if(screencaptureStarted){
+                            thumbnailVideoView.visibility=View.GONE
+                        }else{
+                            thumbnailVideoView.visibility=View.VISIBLE
+                        }
+
+
+                        if(url.toString().contains("ttl_expired"))
+                        {
+                            var url1 = ""
+                            Log.d(TAG,"generate if before cal expired URl ${meetingParams?.callKeyNb}")
+                            generateDocusignUrl(meetingParams?.callKeyNb!!,view)
+
+//                        thumbnailVideoView.visibility=View.VISIBLE
+//                        url1 =ExpiredUrl.expiredUrl
+//                        Log.d(TAG,"generate if  cal expired URl one ${url1}")
+//                        view?.loadUrl(url1)
+
+                        }
+
+
+
+                        /*                var layoutparams: CoordinatorLayout.LayoutParams =CoordinatorLayout.LayoutParams(300,300)
+                                        layoutparams.gravity=Gravity.BOTTOM or Gravity.END
+                                        layoutparams.bottomMargin=600
+                                        layoutparams.rightMargin=20
+                                        webView.visibility = View.GONE
+                                        thumbnailVideoView.visibility=View.VISIBLE
+                                        primaryVideoView.visibility=View.VISIBLE*/
+
+                    } else {
+
+                        view?.loadUrl(url)
+                    }
+                }
+
+
+
+
+
+                //view?.loadUrl(url)
+                return true
+            }
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+
+                reconnectingProgressBar.visibility =View.VISIBLE
+
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                reconnectingProgressBar.visibility =View.GONE
+                removeNotification()
+            }
+        }
+
+        webView.loadUrl(url)
+
+        Log.d("URL", url)
+    }
+
+    private fun loadWebviewForExpiredUrl(url: String) {
+
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                Log.d(TAG,"generate if shouldOverrideUrlLoading expired cal  URl ${url}")
+                Log.d(TAG,"generate if shouldOverrideUrlLoading expired cal  callkey ${meetingParams?.callKeyNb}")
+
 
                 if (url.toString().contains(AppConstant.DOCUSIGN_BASE_URL)) {
-                   thumbnailVideoView.visibility=View.GONE
+                    thumbnailVideoView.visibility=View.GONE
                     updateDocumentSignStatus()
 
                     // novigateThanksPage()
@@ -971,54 +967,29 @@ public class VideoActivity : AppCompatActivity() {
                     layoutparams.gravity=Gravity.CENTER
                     layoucontainer.layoutParams = layoutparams
                     webView.visibility=View.GONE
-
                     if(screencaptureStarted){
                         thumbnailVideoView.visibility=View.GONE
-                    }
-
-
-                    if(url.toString().contains("ttl_expired"))
-                    {
-
-
-                        url1 = generateDocusignUrl().toString()
-                        Log.d(TAG,"generate if  cal  URl ${url1}")
-
+                    }else{
                         thumbnailVideoView.visibility=View.VISIBLE
-                        webView.loadUrl(url1)
-
                     }
-
-
-
-                    /*                var layoutparams: CoordinatorLayout.LayoutParams =CoordinatorLayout.LayoutParams(300,300)
-                                    layoutparams.gravity=Gravity.BOTTOM or Gravity.END
-                                    layoutparams.bottomMargin=600
-                                    layoutparams.rightMargin=20
-                                    webView.visibility = View.GONE
-                                    thumbnailVideoView.visibility=View.VISIBLE
-                                    primaryVideoView.visibility=View.VISIBLE*/
 
                 } else {
 
                     view?.loadUrl(url)
                 }
 
-
-                //view?.loadUrl(url)
                 return true
             }
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
-                 //   thumbnailVideoView.visibility=View.GONE
+
                 reconnectingProgressBar.visibility =View.VISIBLE
 
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-              //  thumbnailVideoView.visibility=View.GONE
                 reconnectingProgressBar.visibility =View.GONE
                 removeNotification()
             }
@@ -1026,7 +997,7 @@ public class VideoActivity : AppCompatActivity() {
 
         webView.loadUrl(url)
 
-        Log.d("URL", url)
+        Log.d("URL", "generate if last final ${url}")
     }
 
     private fun novigateThanksPage() {
@@ -1071,8 +1042,7 @@ public class VideoActivity : AppCompatActivity() {
                         createAudioAndVideoTracks()
                     }
                     else {
-denymessage()
-
+                        denymessage()
                     }
                 }
 
@@ -1080,58 +1050,60 @@ denymessage()
             LOCATION_PERMISSION_REQUEST_CODE -> {
                 if (requestCode == LOCATION_PERMISSION_REQUEST_CODE && grantResults.size > 0 &&
                         grantResults[0] + grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    var locationpermission =true
                     isGPSEnabled()
 
-                    }
-                 else {
+
+
+                }
+                else {
                     Toast.makeText(
                             this,
                             "Location permissions needed. Please allow in App Settings for additional functionality.",
                             Toast.LENGTH_LONG
                     ).show()
-                        dialogBuilder = AlertDialog.Builder(this)
-                        dialogBuilder
-                                //.setTitle("" )
-                                .setMessage(Html.fromHtml("<font color=#000000>In order to proceed,This app requires access to your location. click</font>\n" +
-                                        "    <b>OK</b>\n" +
-                                        "    <font color=#000000>to exit or click</font>\n" +
-                                        "     <b>CANCEL</b>\n" +
-                                        "     <font color=#000000>to continue and access to your location</font>"))
-                                // .setView(myview)
-                                .setCancelable(false)
-                                .setPositiveButton("ok", DialogInterface.OnClickListener { dialog, id
-                                    ->
-                                    this.startActivity(Intent(this,ThankYouActivity::class.java))
+                    dialogBuilder = AlertDialog.Builder(this)
+                    dialogBuilder
+                            //.setTitle("" )
+                            .setMessage(Html.fromHtml("<font color=#000000>In order to proceed,This app requires access to your location. click</font>\n" +
+                                    "    <b>OK</b>\n" +
+                                    "    <font color=#000000>to exit or click</font>\n" +
+                                    "     <b>CANCEL</b>\n" +
+                                    "     <font color=#000000>to continue and access to your location</font>"))
+                            // .setView(myview)
+                            .setCancelable(false)
+                            .setPositiveButton("ok", DialogInterface.OnClickListener { dialog, id
+                                ->
+                                this.startActivity(Intent(this,ThankYouActivity::class.java))
 
-                                })
-                                .setNegativeButton("Cancel",DialogInterface.OnClickListener{dialog,id
-                                    ->
-                                   requestPermissionForLocation()
-//
-//
-                                })
-                        alert= dialogBuilder.create()
+                            })
+                            .setNegativeButton("Cancel",DialogInterface.OnClickListener{dialog,id
+                                ->
+                                requestPermissionForLocation()
 
-                        if( ::alert.isInitialized&&!alert.isShowing) {
-                            alert.show()
-                        }
+                            })
+                    alert= dialogBuilder.create()
 
-
+                    if( ::alert.isInitialized&&!alert.isShowing) {
+                        alert.show()
                     }
+
+
+                }
             }
-          }
+        }
 
     }
 
     override fun onResume() {
         super.onResume()
         isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-      if (!isGpsEnabled){
-          startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-          requestLocationUpdates()
-      }else{
-          requestLocationUpdates()
-      }
+        if (!isGpsEnabled){
+            startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            requestLocationUpdates()
+        }else{
+            requestLocationUpdates()
+        }
 
 
         /*
@@ -1139,16 +1111,16 @@ denymessage()
          */
         localVideoTrack = if (localVideoTrack == null && checkPermissionForCameraAndMicrophone()) {
             if(screencaptureStarted){
-createLocalVideoTrack(this,true,screenCapturer)
+                createLocalVideoTrack(this,true,screenCapturer)
             }else
             {
-            createLocalVideoTrack(
-                    this,
-                    true,
-                    cameraCapturerCompat
-            )
-        }
-        } else {
+                createLocalVideoTrack(
+                        this,
+                        true,
+                        cameraCapturerCompat
+                )
+            }
+            } else {
             localVideoTrack
         }
         localVideoTrack?.addSink(localVideoView)
@@ -1179,13 +1151,14 @@ createLocalVideoTrack(this,true,screenCapturer)
             override fun onReceive(context: Context?, intent: Intent?) {
                 if (intent != null) {
                     var url=   intent.getStringExtra(BundleKeys.docusignurl)
+
+                    Log.d(TAG,"generate if  cal  URl ${meetingParams?.callKeyNb}")
                     if (!url.isNullOrEmpty()) {
 /*                        val layoutParams = layoucontainer.layoutParams
                         layoutParams.height = 500
                         layoutParams.width = 500
                         layoucontainer.layoutParams = layoutParams
                         layoucontainer.gravity=Gravity.TOP*/
-
                         var layoutparams: CoordinatorLayout.LayoutParams =CoordinatorLayout.LayoutParams(
                                 300,
                                 300
@@ -1196,10 +1169,10 @@ createLocalVideoTrack(this,true,screenCapturer)
                         layoucontainer.layoutParams = layoutparams
                         webView.visibility = View.VISIBLE
                         thumbnailVideoView.visibility=View.GONE
-                        Log.d(TAG, "webview if starting")
+                        Log.d(TAG, "webview visible starting")
                         loadWebview(url)
                     } else {
-                  //      thumbnailVideoView.visibility=View.GONE
+                        //      thumbnailVideoView.visibility=View.GONE
                         webView.visibility = View.GONE
                     }
 
@@ -1210,13 +1183,10 @@ createLocalVideoTrack(this,true,screenCapturer)
         var intentfilter = IntentFilter(getString(R.string.docusign_brodcost_recever))
         LocalBroadcastManager.getInstance(this).registerReceiver(recever, intentfilter)
 
-
         receverGPS = GeoLocationReceiver()
         var intentfilterGPS = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
 
         registerReceiver(receverGPS, intentfilterGPS)
-
-
     }
 
 
@@ -1253,6 +1223,10 @@ createLocalVideoTrack(this,true,screenCapturer)
          */
         room?.disconnect()
         disconnectedFromOnDestroy = true
+
+        Log.d(TAG, "generate onDestroy: ${meetingParams?.callKeyNb} ")
+        meetingParams?.callKeyNb =0
+        Log.d(TAG, "generate onDestroy one: ${meetingParams?.callKeyNb} ")
 
         /*
          * Release the local audio and video tracks ensuring any memory allocated to audio
@@ -1352,20 +1326,20 @@ createLocalVideoTrack(this,true,screenCapturer)
 
     private fun stopScreenCapture()
     {
+        Log.d(TAG, "webview isVisible stop Screencapture method staring")
         screencaptureStarted=false
         localVideoTrack?.removeSink(localVideoView)
 
-//        if (webView.visibility == View.VISIBLE && webView.settings.javaScriptEnabled && webView.settings.loadWithOverviewMode && webView.settings.useWideViewPort && webView.settings.domStorageEnabled){
-//
-//
-//            Log.d(TAG, "webview isVisible if starting")
-//            thumbnailVideoView.visibility = View.GONE
-//        }else{
-//            Log.d(TAG, "webview isVisible else starting")
-//            thumbnailVideoView.visibility = View.VISIBLE
-//        }
-//        Log.d(TAG, "webview isVisible visible end")
-       thumbnailVideoView.visibility=View.VISIBLE
+        if (webView.visibility == View.VISIBLE){
+            Log.d(TAG, "webview isVisible if starting")
+            thumbnailVideoView.visibility = View.GONE
+        }else{
+            Log.d(TAG, "webview isVisible else starting")
+            thumbnailVideoView.visibility = View.VISIBLE
+        }
+        Log.d(TAG, "webview isVisible visible end")
+
+//        thumbnailVideoView.visibility=View.VISIBLE
         localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
         localVideoTrack?.release()
 
@@ -1715,10 +1689,8 @@ createLocalVideoTrack(this,true,screenCapturer)
         })
     }
 
-  fun dismiss(): View.OnClickListener {
+    fun dismiss(): View.OnClickListener {
         return View.OnClickListener {
-
-
 
             apiGeoLocationEndcall()
 
@@ -1734,7 +1706,7 @@ createLocalVideoTrack(this,true,screenCapturer)
             volumeControlStream = savedVolumeControlStream
             room?.disconnect()
 //*****
-  //          localVideoTrack?.enable(true)
+            //          localVideoTrack?.enable(true)
 
 
             disconnectedFromOnDestroy = true
@@ -1771,6 +1743,9 @@ createLocalVideoTrack(this,true,screenCapturer)
         WorkManager
                 .getInstance(this@VideoActivity)
                 .enqueue(uploadWorkRequest.build())
+
+        meetingParams?.callKeyNb = 0
+        meetingParams?.customerKeyNb = 0
     }
 
     private fun switchCameraClickListener(): View.OnClickListener {
@@ -1831,7 +1806,11 @@ createLocalVideoTrack(this,true,screenCapturer)
         }
     }
 
+    private fun updateLocationtatus(longitude: String, latitude: String) {
 
+
+
+    }
 
     private fun updateDocumentSignStatus() {
         val docuSignStatusRequest = DocuSignStatusRequest()
@@ -1918,7 +1897,7 @@ createLocalVideoTrack(this,true,screenCapturer)
                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                     var uri= Uri.fromParts("package",this.packageName,null)
                     intent.setData(uri)
-                   this.startActivity(intent)
+                    this.startActivity(intent)
 
 
                 })
@@ -1930,17 +1909,26 @@ createLocalVideoTrack(this,true,screenCapturer)
         }
 
     }
-    private fun generateDocusignUrl():String?{
-        var url1=""
-        var callkeyNB=meetingParams?.callKeyNb
-        ApiCall.retrofitClient.getDocuSignUrl(callkeyNB).enqueue(object :
+    private fun generateDocusignUrl(callKeyNb :Int,view: WebView?){
+
+        Log.d(TAG,"generate if generateDocusignUrl inside ${callKeyNb}  ")
+           ApiCall.retrofitClient.getDocuSignUrl(callKeyNb).enqueue(object :
                 retrofit2.Callback<Output> {
             override fun onResponse(call: Call<Output>, response: Response<Output>) {
-                Log.d(TAG,"generate on response cal  URl  ")
+                Log.d(TAG,"generate if generate DocusignUrl response cal  URl  ")
+
                 if (response.isSuccessful){
-                     var status: Output? = response.body()
-                     url1= status?.data?.statusMsg.toString()
-                    Log.d("TAG", "expired url success method called ${response.code()}​​${url1} ")
+                    Log.d(TAG,"generate if response cal  isSuccessful called ")
+                    var status: Output? = response.body()
+                    var url1= status?.data?.statusMsg.toString()
+                    Log.d("TAG", "generate if expired url success method called ${response.code()}​​${url1}")
+
+//                    thumbnailVideoView.visibility=View.VISIBLE
+                    Log.d(TAG,"generate if  cal expired URl one ${url1}")
+//                    view?.loadUrl(url1)
+                    loadWebviewForExpiredUrl(url1)
+
+
                 }
 
             }
@@ -1951,7 +1939,7 @@ createLocalVideoTrack(this,true,screenCapturer)
 
 
         })
-        return url1
+
     }
 
 }

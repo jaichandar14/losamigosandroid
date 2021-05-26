@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ZAM Loans</string>
+    <string name="sign_out">Signout</string>
     <string name="search_banker">Search banker</string>
     <string name="search_hint_text">Bank locations near 85055</string>
     <string name="bank_name">Bank Name</string>
@@ -72,7 +73,7 @@
 
 
     <string name="lbl_call_scheduled_today">Call scheduled today</string>
-    <string name="btn_exit">Exit</string>
+    <string name="btn_exit">Back to Home</string>
     <string name="btn_join">JOIN</string>
     <string name="lbl_time_slot">4:00 – 5:00 PM</string>
     <string name="lbl_receive_call_from_banker">You will receive call from banker</string>
@@ -94,7 +95,7 @@
     <string name="lbl_no_internet_connection_title">No Internet Connection Available</string>
     <string name="lbl_no_internet_connection_msg">Your device is not connected to internet, Please make sure your connection is working.</string>
 
-    <string name="lbl_thank_you_msg">Thank you for using Zam Loans powered by Los AmigosS</string>
+    <string name="lbl_thank_you_msg">Thank you for using Zam Loans</string>
     <string name="toolbar_faq_title">FAQ</string>
     <string name="search_faq_hint_text">Search FAQ</string>
     <string name="lbl_no_faq_available">No FAQ available</string>
@@ -117,7 +118,7 @@
     <string name="lbl_choose_email">Choose Email…</string>
 
     <string name="splash_title_string">Virtual Vehicle Inspection</string>
-    <string name="sign_out">Logout</string>
+
     <string name="vehicle_inspection">Vehicle Inspection</string>
     <string name="record_permission_string">This video call will be recorded for record-keeping, quality assurance, and training purposes. By clicking ACCEPT, you consent to being recorded.</string>
     <string name="record_accept_btn">ACCEPT</string>

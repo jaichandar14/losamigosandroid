@@ -1,8 +1,10 @@
 package com.bpmlinks.vbank.ui.splash
 
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -120,6 +122,7 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.status_bar_colore)
+
         init()
 
 
@@ -127,25 +130,26 @@ class SplashFragment : Fragment() {
 
     @SuppressLint("UseRequireInsteadOfGet")
     private fun init() {
+
         var loginAlready = requireActivity().applicationContext.getSharedPreferences("MyUser", Context.MODE_PRIVATE)
-        var status = loginAlready.getString("MailId","")
-        Log.d("TAG", "isLogged: ${status}")
-        if (!status.isNullOrEmpty()){
+        var mailId = loginAlready.getString("MailId","")
+        Log.d("TAG", "isLogged: ${mailId}")
+
+        if (!mailId.isNullOrEmpty()){
             val action = SplashFragmentDirections.actionSplashFragmentToLoginFragment()
             findNavController().navigate(action)
+
         }else{
+
             img_next.setOnClickListener {
+
                 val action = SplashFragmentDirections.actionSplashFragmentToLoginFragment()
                 findNavController().navigate(action)
+
             }
         }
-
-
     }
-
-
-    }
-
+}
 
 
 

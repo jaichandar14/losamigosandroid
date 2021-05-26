@@ -2,10 +2,12 @@ package com.bpmlinks.vbank.ui.thankyou
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bpmlinks.vbank.R
 import com.bpmlinks.vbank.helper.BundleKeys
 import com.bpmlinks.vbank.ui.HomeActivity
+import com.vbank.vidyovideoview.connector.MeetingParams
 import kotlinx.android.synthetic.main.activity_thank_you.*
 
 class ThankYouActivity : AppCompatActivity(){

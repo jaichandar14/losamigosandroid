@@ -10,6 +10,19 @@ data class DocuSignStatusRequest(@SerializedName("callKeyNb")
                                  @SerializedName("envolpeId")
                                  var envolpeId: String? = "")
 
+
+data class ExpireStatus(
+        @SerializedName("status")
+        val status: String,
+        @SerializedName("statusMsg")
+        val statusMsg: String,
+        @SerializedName("statusCode")
+        val statusCode: String,
+        @SerializedName("id")
+        val id: String
+
+)
+
 data class Output(@SerializedName("result")
                   val result: Result,
                   @SerializedName("data")
@@ -21,6 +34,7 @@ data class Output(@SerializedName("result")
                   @SerializedName("statusCode")
                   val statusCode: Int = 0)
 
-data class Msg(@SerializedName("statusMsg")
-               val statusMsg: String)
 
+
+data class Msg(@SerializedName("statusMsg")
+                val statusMsg: String)

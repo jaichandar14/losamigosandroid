@@ -4,7 +4,7 @@
     <solid android:color="@color/login_button_colore"/>
     <stroke
         android:width="@dimen/size_1dp"
-        android:color="@color/blue" />
+        android:color="@color/login_input_box" />
     <corners
         android:bottomLeftRadius="@dimen/size_30dp"
         android:bottomRightRadius="@dimen/size_30dp"

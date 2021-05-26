@@ -15,5 +15,5 @@ data class LocationLatLan(@SerializedName("longitude")
                           @SerializedName("customerInCall")
                           var customerInCall: Boolean? = true,
                           @SerializedName("emailId")
-                          var emailId: String? = "")
-
+                          var emailId: String? =""
+)

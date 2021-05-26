@@ -4,7 +4,8 @@ import com.bpmlinks.vbank.model.*
 import okhttp3.ResponseBody
 import retrofit2.http.*
 
-interface ApiStories {
+interface
+ApiStories {
 
     @GET("banker/master-service-type")
     suspend fun getServiceType() : ServiceType

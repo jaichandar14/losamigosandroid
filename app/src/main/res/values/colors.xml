@@ -22,7 +22,7 @@
     <color name="color_grey_11">#757575</color>
     <color name="color_black2">#1d2226</color>
     <color name="color_black">#000000</color>
-    <color name="blue"> #2495FF</color>
+    <color name="blue">#2495FF</color>
     <color name="white_three">#f8f8f8</color>
     <color name="ice_blue">#f6f9ff</color>
     <color name="pale_gray">#eeedef</color>
@@ -30,7 +30,7 @@
     <color name="topaz">#1dc5d4</color>
     <color name="disable_call">#b1b1b1</color>
     <color name="pale_blue">#f5f8fe</color>
-    <color name="login_input_box">#D1D1D1</color>
+    <color name="login_input_box">#2F9DFF</color>
     <color name="login_gray_bg">#F6F9FF</color>
     <color name="color_black01">#1A2E35</color>
     <color name="recycler_border">#939393</color>

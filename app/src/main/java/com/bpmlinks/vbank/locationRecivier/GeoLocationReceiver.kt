@@ -1,5 +1,6 @@
 
 package com.bpmlinks.vbank.locationRecivier
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.DialogInterface
@@ -45,7 +46,7 @@ class GeoLocationReceiver(): BroadcastReceiver() {
 
 
                     var result =VideoActivity.customerkeynb
-                                             //  var result: String = intent.getStringExtra("keyvalue")
+                    //  var result: String = intent.getStringExtra("keyvalue")
                     locationStatus.customerKeyNb = result
                     locationStatus.duringVideo = meetingParams?.duringVideo
                     locationStatus.longitude = meetingParams?.longitude
@@ -96,73 +97,78 @@ class GeoLocationReceiver(): BroadcastReceiver() {
 
                             })
                             .setNegativeButton("Don't Allow",DialogInterface.OnClickListener{dialog,id
-                        ->
+                                ->
 
-                        dialogBuilder
-                                //.setTitle("" )
-                                .setMessage(Html.fromHtml("<font color=#000000>In order to proceed,This app requires access to your location. click</font>\n" +
-                                        "    <b>OK</b>\n" +
-                                        "    <font color=#000000>to exit or click</font>\n" +
-                                        "     <b>CANCEL</b>\n" +
-                                        "     <font color=#000000>to continue and access to your location</font>"))
-                                // .setView(myview)
-                                .setCancelable(false)
-                                .setPositiveButton("ok", DialogInterface.OnClickListener { dialog, id
-                                    ->
-                                 context.startActivity(Intent(context,ThankYouActivity::class.java))
-                                    apiGeoLocation()
-                                })
-                                .setNegativeButton("Cancel",DialogInterface.OnClickListener{dialog,id
-                                       ->     dialogBuilder.setMessage( Html.fromHtml("Allow\"LocationAccess\"to access your location "+"                         " +
-                                        "while you are using the app?" +"<br />"+
-                                        "<small>"+"&nbsp;&nbsp;&nbsp;&nbsp This app needs access to your location!"+"</small>"))
+                                dialogBuilder
+                                        //.setTitle("" )
+                                        .setMessage(Html.fromHtml("<font color=#000000>In order to proceed,This app requires access to your location. click</font>\n" +
+                                                "    <b>OK</b>\n" +
+                                                "    <font color=#000000>to exit or click</font>\n" +
+                                                "     <b>CANCEL</b>\n" +
+                                                "     <font color=#000000>to continue and access to your location</font>"))
+                                        // .setView(myview)
                                         .setCancelable(false)
-
-                                        .setPositiveButton("Allow", DialogInterface.OnClickListener { dialog, id
+                                        .setPositiveButton("ok", DialogInterface.OnClickListener { dialog, id
                                             ->
-                                            Log.d("gps yes", "gps is checkGPSEnable ")
-                                            context.startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                                            context.startActivity(Intent(context,ThankYouActivity::class.java))
+                                           apiGeoLocationEndcall()
+
 
                                         })
-                                        .setNegativeButton("Don't Allow",DialogInterface.OnClickListener{dialog,id
-                                            -> dialogBuilder
-                                                //.setTitle("" )
-                                                .setMessage(Html.fromHtml("<font color=#000000>In order to proceed,This app requires access to your location. click</font>\n" +
-                                                        "    <b>OK</b>\n" +
-                                                        "    <font color=#000000>to exit or click</font>\n" +
-                                                        "     <b>CANCEL</b>\n" +
-                                                        "     <font color=#000000>to continue and access to your location</font>"))
-                                                // .setView(myview)
+                                        .setNegativeButton("Cancel",DialogInterface.OnClickListener{dialog,id
+                                            ->     dialogBuilder.setMessage( Html.fromHtml("Allow\"LocationAccess\"to access your location "+"                         " +
+                                                "while you are using the app?" +"<br />"+
+                                                "<small>"+"&nbsp;&nbsp;&nbsp;&nbsp This app needs access to your location!"+"</small>"))
                                                 .setCancelable(false)
-                                                .setPositiveButton("ok", DialogInterface.OnClickListener { dialog, id
-                                                    ->
-                                                    context.startActivity(Intent(context,ThankYouActivity::class.java))
-                                                    apiGeoLocation()
-                                                })
-                                                .setNegativeButton("Cancel",DialogInterface.OnClickListener{dialog,id
-                                                    ->
-                                                    videoActivity.dismiss()
 
+                                                .setPositiveButton("Allow", DialogInterface.OnClickListener { dialog, id
+                                                    ->
+                                                    Log.d("gps yes", "gps is checkGPSEnable ")
+                                                    context.startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+
+                                                })
+                                                .setNegativeButton("Don't Allow",DialogInterface.OnClickListener{dialog,id
+                                                    -> dialogBuilder
+                                                        //.setTitle("" )
+                                                        .setMessage(Html.fromHtml("<font color=#000000>In order to proceed,This app requires access to your location. click</font>\n" +
+                                                                "    <b>OK</b>\n" +
+                                                                "    <font color=#000000>to exit or click</font>\n" +
+                                                                "     <b>CANCEL</b>\n" +
+                                                                "     <font color=#000000>to continue and access to your location</font>"))
+                                                        // .setView(myview)
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("ok", DialogInterface.OnClickListener { dialog, id
+                                                            ->
+                                                            context.startActivity(Intent(context,ThankYouActivity::class.java))
+                                                            apiGeoLocationEndcall()
+
+                                                        })
+                                                        .setNegativeButton("Cancel",DialogInterface.OnClickListener{dialog,id
+                                                            ->
+                                                            var videoActivity:VideoActivity= VideoActivity()
+                                                            videoActivity.dismiss()
+                                                            context.startActivity(Intent(context,ThankYouActivity::class.java))
+
+                                                        })
+
+                                                    var alert= dialogBuilder.create()
+
+                                                    // alert.setMessage("This app needs access to your location!")
+                                                    alert.show()
                                                 })
 
                                             var alert= dialogBuilder.create()
 
                                             // alert.setMessage("This app needs access to your location!")
                                             alert.show()
-                                                })
-
-                                    var alert= dialogBuilder.create()
-
-                                    // alert.setMessage("This app needs access to your location!")
-                                    alert.show()
-                                })
+                                        })
 
 
-                        var alert= dialogBuilder.create()
+                                var alert= dialogBuilder.create()
 
-                       // alert.setMessage("This app needs access to your location!")
-                        alert.show()
-                    })
+                                // alert.setMessage("This app needs access to your location!")
+                                alert.show()
+                            })
                     alert = dialogBuilder.create()
                 }
                 if( ::alert.isInitialized&&!alert.isShowing) {
@@ -180,41 +186,50 @@ class GeoLocationReceiver(): BroadcastReceiver() {
                 Log.d("TAG", "onReceive: else block ")
             }
         }
+
+
     }
 
-    fun apiGeoLocation(){
+    fun apiGeoLocationEndcall(){
 
+        Log.d(TAG, "http location Geolocation apiGeoLocationEndcall 11111")
+//        var getSharedPreferences = this.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
+//        var mailId = getSharedPreferences?.getString("MailId","")
 
-
-        var locationStatus = LocationLatLan()
-
-        locationStatus.customerKeyNb = meetingParams?.customerKeyNb
+        var result =VideoActivity.customerkeynb
+        //  var result: String = intent.getStringExtra("keyvalue")
+        locationStatus.customerKeyNb = result
         locationStatus.duringVideo = meetingParams?.duringVideo
-        locationStatus.longitude ="0.0"
-        locationStatus.latitude ="0.0"
+        locationStatus.longitude = meetingParams?.longitude
+        locationStatus.latitude = meetingParams?.latitude
         locationStatus.gpsOn = meetingParams?.gpsOn
-        locationStatus.customerInCall =false
+        locationStatus.customerInCall = false
+
+        meetingParams?.gpsOn = gpsOn
+        meetingParams?.longitude = "0.0"
+        meetingParams?.latitude= "0.0"
 
 
         ApiCall.retrofitClient.geoLocation(locationStatus).enqueue(object :
-            retrofit2.Callback<ResponseBody> {
+                retrofit2.Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-
-
+                Log.d(
+                        TAG,
+                        "http location longitude:${meetingParams?.longitude} " + "latitude:${meetingParams?.latitude} Failure method"
+                )
             }
 
             override fun onResponse(
-                call: Call<ResponseBody>,
-                response: Response<ResponseBody>
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
             ) {
 
                 Log.d(
-                    TAG,
-                    " dismiss onresponse ${meetingParams?.customerKeyNb }"+" ${locationStatus.customerInCall}}"
+                        TAG,
+                        "http location longitude:${meetingParams?.longitude} " + "latitude:${meetingParams?.latitude}geo location receiver Success method"+"customrKeyNB: ${result} gpsOn:${meetingParams?.gpsOn}"
                 )
                 if (response.isSuccessful) {
-                    Log.d(TAG, " dismiss http location success")
-                    Log.d("customerincall dismiss","${locationStatus.customerInCall}")
+                    Log.d(TAG, "http location Geolocation Receiver success 11111")
                 }
             }
 

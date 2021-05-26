@@ -47,11 +47,11 @@ data class UserInput(
     @SerializedName("osVersion")
     var osVersion: String? = "",
    @SerializedName("buildNumber")
-var buildNumber: String? = "",
-@SerializedName("modelName")
-var modelName: String? = "",
-@SerializedName("deviceName")
-var deviceName: String? = ""
+    var buildNumber: String? = "",
+    @SerializedName("modelName")
+    var modelName: String? = "",
+    @SerializedName("deviceName")
+    var deviceName: String? = ""
 
 
 

@@ -8,7 +8,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\Jayachandran V\\AndroidStudioProjects\\vbank-android\\losamigos\\losamigos\\losamigos.jks')
+            storeFile file('C:\\Users\\P Vigneshwaran\\AndroidStudioProjects\\vbank-android\\losamigos\\losamigos.jks')
             storePassword 'bpmlinks12'
             keyAlias 'bpmlinks'
             keyPassword 'bpmlinks12'
@@ -21,8 +21,8 @@ android {
         applicationId "com.bpmlinks.vbank"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 11
-        versionName "1.011"
+        versionCode 12
+        versionName "1.012"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "TWILIO_ACCESS_TOKEN", "\"AC45bf2272a1dd5a5bc9f529815d96f485\"")
@@ -63,7 +63,7 @@ android {
         dev {
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
-            buildConfigField "String", "base_url", "\"https://8vhcp36gvc.execute-api.us-east-1.amazonaws.com/dev/vbank/api/\""
+            buildConfigField "String", "base_url", "\"http://360d98bbab4e.ngrok.io/vbank/api/\""
             dimension "default"
             buildConfigField "String", "preference_name", "\"BPMVbankPreferences\""
         }
