@@ -872,7 +872,7 @@ public class VideoActivity : AppCompatActivity() {
                     Log.d(TAG,"generate if shouldOverrideUrlLoading cal  URl ${url}")
                     Log.d(TAG,"generate if shouldOverrideUrlLoading cal  callkey ${meetingParams?.callKeyNb}")
 
-                    if (url.toString().contains(AppConstant.DOCUSIGN_BASE_URL)) {
+                    if ((url.toString().contains(AppConstant.DOCUSIGN_BASE_URL ))||url.toString().contains(AppConstant.DOCUSIGN_BASE_URL1)) {
                         thumbnailVideoView.visibility=View.VISIBLE
                         updateDocumentSignStatus()
 

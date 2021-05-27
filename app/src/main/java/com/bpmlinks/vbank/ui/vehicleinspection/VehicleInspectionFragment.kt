@@ -99,14 +99,14 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
         super.onViewCreated(view, savedInstanceState)
         requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
 //        getViewModel()?.scheduledTime.value = navArgs.sheduledTime
-
+      //  dateTimeApiCall()
         locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationPermission()
         init()
-
+Log.d(TAG,"enter the call")
         recever  = object :BroadcastReceiver(){
             override fun onReceive(context: Context?, intent: Intent?) {
-
+                Log.d(TAG,"enter the call 1")
                 if (intent != null) {
                     meetingParams = if (intent.hasExtra(BundleKeys.MeetingParams)) {
                         intent.getParcelableExtra(BundleKeys.MeetingParams) as MeetingParams
@@ -181,7 +181,7 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
     override fun onResume() {
         super.onResume()
 
-        dateTimeApiCall()
+
 
         Log.d("onresume","call in resume")
 
@@ -653,7 +653,8 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 Log.d("URL", url)
 
-                if (url.toString().contains(AppConstant.DOCUSIGN_BASE_URL)) {
+                if ((url.toString().contains(AppConstant.DOCUSIGN_BASE_URL ))||url.toString().contains(AppConstant.DOCUSIGN_BASE_URL1)) {
+
                     updateDocumentSignStatus()
 
                     webView?.visibility=View.GONE

@@ -6,5 +6,5 @@ object AppConstant {
     const val CallBackURL = "https://your_document_is_uploaded.imfast.io/?event=signing_complete"
     const val MOVE_TO_USER_INPUT_SCREEN = "MOVE_TO_USER_INPUT_SCREEN"
     const val DOCUSIGN_BASE_URL ="dashboard"
-
+    const val DOCUSIGN_BASE_URL1 ="chat"
 }
