@@ -90,7 +90,7 @@ var meetingParams = MeetingParams()
         }
     }
 
-    @RequiresApi(VERSION_CODES.O)
+
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -110,7 +110,7 @@ var meetingParams = MeetingParams()
             }}}
 
 
-    @RequiresApi(VERSION_CODES.O)
+
     private fun apicall() {
 
         val reqString = ("Device name :"+Build.DEVICE
