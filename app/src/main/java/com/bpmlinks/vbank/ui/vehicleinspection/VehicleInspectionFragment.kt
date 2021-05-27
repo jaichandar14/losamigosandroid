@@ -34,6 +34,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.navArgs
@@ -46,6 +47,7 @@ import com.bpmlinks.vbank.fcm.receiver.NotificationReceiver
 import com.bpmlinks.vbank.helper.AppConstants
 import com.bpmlinks.vbank.helper.viewmodel.LocalStorage
 import com.bpmlinks.vbank.locationRecivier.GeoLocationReceiver
+import com.bpmlinks.vbank.model.ApisResponse
 import com.bpmlinks.vbank.twilio.CallActivity
 import com.bpmlinks.vbank.twilio.LocationViewModel
 import com.bpmlinks.vbank.twilio.VideoActivity
@@ -67,10 +69,11 @@ import kotlinx.android.synthetic.main.vehicle_inspection_fragment.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,VehicleInspectionViewModel>() {
-    private lateinit var client: FusedLocationProviderClient
     var TAG = VehicleInspectionFragment::class.java.name
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -78,9 +81,7 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
     private val navArgs by navArgs<VehicleInspectionFragmentArgs>()
     private var meetingParams : MeetingParams? = MeetingParams()
     lateinit var recever :BroadcastReceiver
-    lateinit var receverForWebView :BroadcastReceiver
     var notificationid=0
-
     var isGpsEnabled = false
     var checkGpsEnabled = false
     lateinit var locationManager:LocationManager
@@ -97,7 +98,7 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
-        getViewModel()?.scheduledTime.value = navArgs.sheduledTime
+//        getViewModel()?.scheduledTime.value = navArgs.sheduledTime
 
         locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationPermission()
@@ -179,6 +180,9 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
 
     override fun onResume() {
         super.onResume()
+
+        dateTimeApiCall()
+
         Log.d("onresume","call in resume")
 
         var  intentfilter =IntentFilter(getString(R.string.brodcost_recever))
@@ -278,8 +282,6 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
             val editor = sharedPreferences?.edit()
             editor?.clear()
             editor?.apply()
-//            LocalStorage.email = ""
-//            meetingParams?.emailId=""
             activity?.finish()
 
         }
@@ -441,8 +443,6 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
 
     }
 
-
-
     private fun showProgress() {
         progress_bar1.visibility = View.VISIBLE
     }
@@ -580,7 +580,7 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
                     meetingParams?.latitude = it.latitude
 
                     var getSharedPreferences = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
-                    var mailId = getSharedPreferences?.getString("MailId","")
+                    var mailId = getSharedPreferences?.getString("MailId","").toString()
                     LocalStorage.email =mailId
                     locationStatus.gpsOn = true
                     locationStatus.customerInCall = false
@@ -675,7 +675,6 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
                     view?.loadUrl(url)
                 }
 
-                //view?.loadUrl(url)
                 return true
             }
 
@@ -742,5 +741,55 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
             val manager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.cancel(notificationId)
         }
+    }
+
+    fun dateTimeApiCall(){
+
+        var getSharedPreferencesOne = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
+        var mailIdOne = getSharedPreferencesOne?.getString("MailId","")
+
+        getViewModel().userInput.emailId = mailIdOne
+
+        getViewModel().newCustomer().observe(viewLifecycleOwner, Observer { apiResponse ->
+            when(apiResponse){
+                is ApisResponse.Success ->{
+                    var date = apiResponse.response.data.scheduleDate
+                    var time = apiResponse.response.data.schdeuleTime
+//Apicall Date & Time
+                    var unixSeconds = date?.toLong()
+                        ?.div(1000)
+                    var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
+                    var dateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                    dateFormat.timeZone = TimeZone.getDefault()
+                    var dateFinal = dateFormat.format(convertDate)
+
+//Local Date
+                    var sdf = SimpleDateFormat("dd-MMM-yyyy")
+                    var localDate = sdf.format(Date())
+
+                    if (dateFinal == localDate || dateFinal.isNullOrEmpty()) {
+                        getViewModel()?.scheduleDate.value = "Today"
+                        if (!apiResponse.response.data.schdeuleTime.isNullOrEmpty()) {
+                            edit_time.visibility = View.VISIBLE
+                        }else{
+                            edit_time.visibility=View.GONE
+                        }
+                    } else {
+                        getViewModel()?.scheduleDate.value = dateFinal
+                        edit_time.visibility=View.VISIBLE
+                    }
+
+                    getViewModel().scheduledTime.value = apiResponse.response.data.schdeuleTime
+
+                }
+                ApisResponse.LOADING -> {
+                    showProgress()
+                }
+                ApisResponse.COMPLETED -> {
+                    hideProgress()
+                }
+
+            }
+        })
     }
 }

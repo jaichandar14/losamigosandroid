@@ -128,7 +128,7 @@
                 android:paddingStart="@dimen/size_16dp"
                 android:paddingEnd="@dimen/size_16dp"
                 android:paddingBottom="@dimen/size_8dp"
-                android:text="@{vehicleInspectionVM.scheduledTime}"
+                android:text="@{vehicleInspectionVM.scheduleDate}"
                 android:textColor="@color/color_grey5"
                 android:textSize="@dimen/size_26sp"
                 android:singleLine="true"
@@ -136,6 +136,7 @@
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/edit_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sfpro_text_bold"

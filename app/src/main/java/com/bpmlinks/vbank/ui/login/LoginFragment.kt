@@ -40,7 +40,6 @@ import javax.inject.Inject
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), View.OnClickListener
 
     {
-// changes
 
 var meetingParams = MeetingParams()
     @Inject
@@ -183,22 +182,6 @@ var meetingParams = MeetingParams()
 
                                 commit()
                             }
-
-                            Log.d("TAG", "date is:${apiResponse.response.data.scheduleDate} ")
-
-                            var unixSeconds = apiResponse.response.data.scheduleDate?.toLong()
-                                ?.div(1000)
-                            Log.d("TAG", "date is unixSeconds:${unixSeconds} ")
-                            var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
-                            var dateFormat = SimpleDateFormat("yyyy-MM-dd")
-                            dateFormat.timeZone = TimeZone.getDefault()
-                            var dateFinal = dateFormat.format(convertDate)
-                            Log.d("TAG", "date is dateFetched:${dateFinal} ")
-
-
-                            var sdf = SimpleDateFormat("dd-MMM-yyyy")
-                            var date = sdf.format(Date())
-                            Log.d("TAG", "date is local:${date} ")
 
                             meetingParams.meetingTime =apiResponse.response.data.schdeuleTime
                             apiResponse.response.data.schdeuleTime?.let { moveToNextScreen(it) }
