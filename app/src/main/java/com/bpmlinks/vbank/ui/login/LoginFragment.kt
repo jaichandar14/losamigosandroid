@@ -141,6 +141,12 @@ var meetingParams = MeetingParams()
                 .isValidMobileNumber(et_mobile_number.text.toString())
         ) {
             showToast(getString(R.string.mobile_error))
+        }else if (et_name.text.isNullOrEmpty()&&et_mobile_number.text.isNullOrEmpty()){
+            showToast(getString(R.string.mandatory_error))
+        }else if (et_mobile_number.text.isNullOrEmpty()) {
+            showToast(getString(R.string.mobile_error))
+        }else if (et_name.text.isNullOrEmpty()){
+            showToast(getString(R.string.username_error))
         } else {
             getViewModel()?.userInput?.customerFirstName = et_name.text.toString()
             getViewModel()?.userInput?.emailId = et_email.text.toString()

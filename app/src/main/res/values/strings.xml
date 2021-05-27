@@ -31,6 +31,7 @@
     <string name="mandatory_error">All the fields are Mandatory!</string>
     <string name="email_error">Enter a valid Email</string>
     <string name="mobile_error">Enter a valid Mobile number</string>
+    <string name="username_error">Enter a valid Username</string>
     <string name="try_again">Try Again</string>
 
     <string name="start_video_call">Start Video Call</string>
