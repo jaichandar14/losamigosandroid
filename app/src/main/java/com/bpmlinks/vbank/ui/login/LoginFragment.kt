@@ -27,7 +27,7 @@ import com.bpmlinks.vbank.model.ServiceType
 import com.bpmlinks.vbank.ui.login.adapter.MasterServiceAdapter
 import com.vbank.vidyovideoview.connector.MeetingParams
 import com.vbank.vidyovideoview.model.OutputDate
-import com.vbank.vidyovideoview.model.UserInput
+
 import com.vbank.vidyovideoview.webservices.ApiCall
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.bottom_menu.*

@@ -37,7 +37,12 @@ data class Output(@SerializedName("result")
 
 
 data class Msg(@SerializedName("statusMsg")
-                val statusMsg: String)
+                val statusMsg: String,
+               @SerializedName("scheduleDate")
+               val scheduleDate: String?,
+               @SerializedName("schdeuleTime")
+               val schdeuleTime: String?
+                )
 
 
 data class OutputDate(@SerializedName("result")

@@ -48,6 +48,7 @@ import com.bpmlinks.vbank.helper.AppConstants
 import com.bpmlinks.vbank.helper.viewmodel.LocalStorage
 import com.bpmlinks.vbank.locationRecivier.GeoLocationReceiver
 import com.bpmlinks.vbank.model.ApisResponse
+import com.bpmlinks.vbank.model.ServiceType
 import com.bpmlinks.vbank.twilio.CallActivity
 import com.bpmlinks.vbank.twilio.LocationViewModel
 import com.bpmlinks.vbank.twilio.VideoActivity
@@ -55,6 +56,7 @@ import com.bpmlinks.vbank.ui.HomeActivity
 import com.bpmlinks.vbank.ui.thankyou.ThankYouActivity
 import com.bpmlinks.vbank.ui.videorecordpermission.VdRecordPermissionActivity
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.gson.Gson
 import com.vbank.vidyovideoview.connector.MeetingParams
 import com.vbank.vidyovideoview.helper.AppConstant
 import com.vbank.vidyovideoview.helper.BundleKeys
@@ -66,6 +68,7 @@ import kotlinx.android.synthetic.main.preference_dialog_number_edittext.*
 import kotlinx.android.synthetic.main.vehicle_inspection_fragment.*
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.HttpException
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
@@ -751,74 +754,54 @@ Log.d(TAG,"enter the call")
         var getSharedPreferencesOne = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
         var mailIdOne = getSharedPreferencesOne?.getString("MailId","")
 
-        var userInput = UserInput(mailIdOne)
+
         ApiCall.retrofitClient.geoDateTime(mailIdOne).enqueue(object :retrofit2.Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                Log.d(TAG,"generate on response cal  URl  ")
-                if (response.isSuccessful){
+                Log.d(TAG, "generate on response cal  URl  ")
+                if (response.isSuccessful) {
                     var status: ResponseBody? = response.body()
+                     val adapter = Gson().getAdapter(Output::class.java)
+                    val successResponse = adapter.fromJson(status?.string())
+                    var time = successResponse.data.schdeuleTime
+                    var dateunix = successResponse.data.scheduleDate
+                    var success=successResponse.message
+                    Log.d("onresume", "call in isSuccessful sucessmessage ${success}")
+                    Log.d("onresume", "call in isSuccessful date ${dateunix}")
+                    Log.d("onresume", "call in isSuccessful time ${time}")
+                    var unixSeconds = dateunix?.toLong()
+                            ?.div(1000)
+                    var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
+                    var dateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                    dateFormat.timeZone = TimeZone.getDefault()
+                    var dateFinal = dateFormat.format(convertDate)
+                    Log.d("onresume", "call in isSuccessful datefinal ${dateFinal}")
+//Local Date
+                    var sdf = SimpleDateFormat("dd-MMM-yyyy")
+                    var localDate = sdf.format(Date())
 
+                    if (dateFinal == localDate || dateFinal.isNullOrEmpty()) {
+                        getViewModel()?.scheduleDate.value = "Today"
+                        if (!time.isNullOrEmpty()) {
+                            edit_time.visibility = View.VISIBLE
+                        } else {
+                            edit_time.visibility = View.GONE
+                        }
+                    } else {
+                        getViewModel()?.scheduleDate.value = dateFinal
+                        edit_time.visibility = View.VISIBLE
+                    }
 
-                    Log.d("onresume","call in isSuccessful call*ed ${status}")
+                    getViewModel().scheduledTime.value = time
+
                 }
-
             }
+
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 
             }
-            })
 
+
+        })
     }
 
-//    fun dateTimeApiCall():Boolean{
-//
-//        var getSharedPreferencesOne = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
-//        var mailIdOne = getSharedPreferencesOne?.getString("MailId","")
-//
-//        getViewModel().userInput.emailId = mailIdOne
-//
-//        getViewModel().newCustomer().observe(viewLifecycleOwner, Observer { apiResponse ->
-//            when(apiResponse){
-//                is ApisResponse.Success ->{
-//                    var date = apiResponse.response.data.scheduleDate
-//                    var time = apiResponse.response.data.schdeuleTime
-//
-////Apicall Date & Time
-//                    var unixSeconds = date?.toLong()
-//                        ?.div(1000)
-//                    var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
-//                    var dateFormat = SimpleDateFormat("dd-MMM-yyyy")
-//                    dateFormat.timeZone = TimeZone.getDefault()
-//                    var dateFinal = dateFormat.format(convertDate)
-//
-////Local Date
-//                    var sdf = SimpleDateFormat("dd-MMM-yyyy")
-//                    var localDate = sdf.format(Date())
-//
-//                    if (dateFinal == localDate || dateFinal.isNullOrEmpty()) {
-//                        getViewModel()?.scheduleDate.value = "Today"
-//                        if (!apiResponse.response.data.schdeuleTime.isNullOrEmpty()) {
-//                            edit_time.visibility = View.VISIBLE
-//                        }else{
-//                            edit_time.visibility=View.GONE
-//                        }
-//                    } else {
-//                        getViewModel()?.scheduleDate.value = dateFinal
-//                        edit_time.visibility=View.VISIBLE
-//                    }
-//
-//                    getViewModel().scheduledTime.value = apiResponse.response.data.schdeuleTime
-//
-//                }
-//                ApisResponse.LOADING -> {
-//                    showProgress()
-//                }
-//                ApisResponse.COMPLETED -> {
-//                    hideProgress()
-//                }
-//
-//            }
-//        })
-//        return true
-//    }
 }
