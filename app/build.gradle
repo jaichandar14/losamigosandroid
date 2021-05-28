@@ -63,12 +63,12 @@ android {
         dev {
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
-            buildConfigField "String", "base_url", "\"http://88e87c881950.ngrok.io/vbank/api/\""
+            buildConfigField "String", "base_url", "\"https://8vhcp36gvc.execute-api.us-east-1.amazonaws.com/dev/vbank/api/ \""
             dimension "default"
             buildConfigField "String", "preference_name", "\"BPMVbankPreferences\""
         }
         //https://8vhcp36gvc.execute-api.us-east-1.amazonaws.com/dev/vbank/api/     http://1b450a1e54ca.ngrok.io/vbank/api/
-        //https://www.uat.losamigoss.com/vvi/api/
+        //https://www.uat.losamigoss.com/vvi/api/                          https://login.losamigoss.com/vvi/api/
         qa {
             applicationIdSuffix ".qa"
             versionNameSuffix "-qa"
