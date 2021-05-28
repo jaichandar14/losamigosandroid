@@ -753,11 +753,9 @@ Log.d(TAG,"enter the call")
 
         var getSharedPreferencesOne = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
         var mailIdOne = getSharedPreferencesOne?.getString("MailId","")
-
-
         ApiCall.retrofitClient.geoDateTime(mailIdOne).enqueue(object :retrofit2.Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                Log.d(TAG, "generate on response cal  URl  ")
+
                 if (response.isSuccessful) {
                     var status: ResponseBody? = response.body()
                      val adapter = Gson().getAdapter(Output::class.java)
@@ -765,16 +763,13 @@ Log.d(TAG,"enter the call")
                     var time = successResponse.data.schdeuleTime
                     var dateunix = successResponse.data.scheduleDate
                     var success=successResponse.message
-                    Log.d("onresume", "call in isSuccessful sucessmessage ${success}")
-                    Log.d("onresume", "call in isSuccessful date ${dateunix}")
-                    Log.d("onresume", "call in isSuccessful time ${time}")
+
                     var unixSeconds = dateunix?.toLong()
                             ?.div(1000)
                     var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
                     var dateFormat = SimpleDateFormat("dd-MMM-yyyy")
                     dateFormat.timeZone = TimeZone.getDefault()
                     var dateFinal = dateFormat.format(convertDate)
-                    Log.d("onresume", "call in isSuccessful datefinal ${dateFinal}")
 //Local Date
                     var sdf = SimpleDateFormat("dd-MMM-yyyy")
                     var localDate = sdf.format(Date())
@@ -790,9 +785,7 @@ Log.d(TAG,"enter the call")
                         getViewModel()?.scheduleDate.value = dateFinal
                         edit_time.visibility = View.VISIBLE
                     }
-
                     getViewModel().scheduledTime.value = time
-
                 }
             }
 
