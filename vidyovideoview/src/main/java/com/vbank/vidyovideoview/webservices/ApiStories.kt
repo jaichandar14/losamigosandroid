@@ -37,4 +37,6 @@ interface ApiStories {
     @GET("docusign/generate-new-docu-sign-url")
     fun getDocuSignUrl(@Query("callKeyNb") callKeyNb : Int?) : Call<Output>
 
+    @GET("customer/get-scheduled-date-time")
+    fun geoDateTime(@Query("customerEmail") customerEmail : String?) :Call<ResponseBody>
 }

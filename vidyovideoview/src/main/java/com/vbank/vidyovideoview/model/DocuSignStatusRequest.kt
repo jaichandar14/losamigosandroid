@@ -38,3 +38,23 @@ data class Output(@SerializedName("result")
 
 data class Msg(@SerializedName("statusMsg")
                 val statusMsg: String)
+
+
+data class OutputDate(@SerializedName("result")
+                  val result: Result,
+                  @SerializedName("data")
+                  val data: Date,
+                  @SerializedName("success")
+                  val success: Boolean = false,
+                  @SerializedName("message")
+                  val message: String = "",
+                  @SerializedName("statusCode")
+                  val statusCode: Int = 0)
+
+
+data class Date(
+                @SerializedName("scheduleDate")
+                val scheduleDate: String?,
+                @SerializedName("schdeuleTime")
+                val schdeuleTime: String?
+)

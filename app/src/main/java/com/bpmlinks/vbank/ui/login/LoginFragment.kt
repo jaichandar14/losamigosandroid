@@ -26,9 +26,14 @@ import com.bpmlinks.vbank.model.ApisResponse
 import com.bpmlinks.vbank.model.ServiceType
 import com.bpmlinks.vbank.ui.login.adapter.MasterServiceAdapter
 import com.vbank.vidyovideoview.connector.MeetingParams
+import com.vbank.vidyovideoview.model.OutputDate
+import com.vbank.vidyovideoview.model.UserInput
+import com.vbank.vidyovideoview.webservices.ApiCall
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.bottom_menu.*
 import kotlinx.android.synthetic.main.login_bottom.*
+import retrofit2.Call
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.ZoneId
@@ -74,6 +79,7 @@ var meetingParams = MeetingParams()
         var mailId = loginAlready.getString("MailId","")
         Log.d("TAG", "isLogged: ${mailId}")
         if (!mailId.isNullOrEmpty()){
+
             moveToNextScreen(meetingParams?.meetingTime!!)
         }else {
 
@@ -173,8 +179,8 @@ var meetingParams = MeetingParams()
                     when (apiResponse) {
                         is ApisResponse.Success -> {
                             var sharedPref =
-                                    activity?.getPreferences(Context.MODE_PRIVATE)
-                                            ?: return@Observer
+                                activity?.getPreferences(Context.MODE_PRIVATE)
+                                    ?: return@Observer
                             with(sharedPref.edit()) {
                                 apiResponse.response.data.id?.toInt()?.let { id ->
                                     putInt(AppConstants.CUSTOMER_KEY_NB, id)
@@ -188,7 +194,7 @@ var meetingParams = MeetingParams()
 
                                 commit()
                             }
-
+                            Log.d("TAG", "apicall1: ${apiResponse.response.data.schdeuleTime}")
                             meetingParams.meetingTime =apiResponse.response.data.schdeuleTime
                             apiResponse.response.data.schdeuleTime?.let { moveToNextScreen(it) }
                         }

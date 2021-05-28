@@ -58,9 +58,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.vbank.vidyovideoview.connector.MeetingParams
 import com.vbank.vidyovideoview.helper.AppConstant
 import com.vbank.vidyovideoview.helper.BundleKeys
-import com.vbank.vidyovideoview.model.DocuSignStatusRequest
-import com.vbank.vidyovideoview.model.LocationLatLan
-import com.vbank.vidyovideoview.model.Output
+import com.vbank.vidyovideoview.model.*
 import com.vbank.vidyovideoview.webservices.ApiCall
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.content_video.*
@@ -71,6 +69,7 @@ import retrofit2.Call
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,VehicleInspectionViewModel>() {
@@ -116,6 +115,7 @@ Log.d(TAG,"enter the call")
 
                     if(!meetingParams?.token.isNullOrEmpty())
                     {
+                        Log.d("onresume","call in trigger")
                         iv_join_disable.visibility=View.GONE
                         btn_join_disable.visibility=View.GONE
 
@@ -181,46 +181,48 @@ Log.d(TAG,"enter the call")
     override fun onResume() {
         super.onResume()
 
+        dateTimeApiCall()
+           Log.d("onresume","call in resume")
 
+           var  intentfilter =IntentFilter(getString(R.string.brodcost_recever))
+           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,intentfilter) }
 
-        Log.d("onresume","call in resume")
+           var  callintentfilter =IntentFilter(getString(R.string.callend_brodcost_recever))
+           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,callintentfilter) }
 
-        var  intentfilter =IntentFilter(getString(R.string.brodcost_recever))
-        context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,intentfilter) }
+           var intentfilter1 = IntentFilter(getString(R.string.docusign_brodcost_recever))
+           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever, intentfilter1) }
 
-        var  callintentfilter =IntentFilter(getString(R.string.callend_brodcost_recever))
-        context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,callintentfilter) }
+           if (checkGpsEnabled){
+               isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-        var intentfilter1 = IntentFilter(getString(R.string.docusign_brodcost_recever))
-        context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever, intentfilter1) }
-
-        if (checkGpsEnabled){
-            isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-
-        }
-        if (isGpsEnabled) {
-            if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED)) {
+           }
+           if (isGpsEnabled) {
+               if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                           == PackageManager.PERMISSION_GRANTED)) {
 
 //                requestLocationUpdates1()
-                Log.d("msg", "onresume if loop")
-            }
+                   Log.d("msg", "onresume if loop")
+               }
 
-        }else{
+           }else{
 
-            if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED)) {
+               if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                           == PackageManager.PERMISSION_GRANTED)) {
 
-                if (alertMessageLocation()) {
-                    Log.d(TAG, "http location inside alart block requestLocationUpdates one ")
-                    requestLocationUpdates()
-                }
-                Log.d("msg", "onresume if loop")
-            }
+                   if (alertMessageLocation()) {
+                       Log.d(TAG, "http location inside alart block requestLocationUpdates one ")
+                       requestLocationUpdates()
+                   }
+                   Log.d("msg", "onresume if loop")
+               }
 
 
 
-        }
+           }
+
+
+
 
     }
 
@@ -749,48 +751,74 @@ Log.d(TAG,"enter the call")
         var getSharedPreferencesOne = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
         var mailIdOne = getSharedPreferencesOne?.getString("MailId","")
 
-        getViewModel().userInput.emailId = mailIdOne
+        var userInput = UserInput(mailIdOne)
+        ApiCall.retrofitClient.geoDateTime(mailIdOne).enqueue(object :retrofit2.Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                Log.d(TAG,"generate on response cal  URl  ")
+                if (response.isSuccessful){
+                    var status: ResponseBody? = response.body()
 
-        getViewModel().newCustomer().observe(viewLifecycleOwner, Observer { apiResponse ->
-            when(apiResponse){
-                is ApisResponse.Success ->{
-                    var date = apiResponse.response.data.scheduleDate
-                    var time = apiResponse.response.data.schdeuleTime
-//Apicall Date & Time
-                    var unixSeconds = date?.toLong()
-                        ?.div(1000)
-                    var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
-                    var dateFormat = SimpleDateFormat("dd-MMM-yyyy")
-                    dateFormat.timeZone = TimeZone.getDefault()
-                    var dateFinal = dateFormat.format(convertDate)
 
-//Local Date
-                    var sdf = SimpleDateFormat("dd-MMM-yyyy")
-                    var localDate = sdf.format(Date())
-
-                    if (dateFinal == localDate || dateFinal.isNullOrEmpty()) {
-                        getViewModel()?.scheduleDate.value = "Today"
-                        if (!apiResponse.response.data.schdeuleTime.isNullOrEmpty()) {
-                            edit_time.visibility = View.VISIBLE
-                        }else{
-                            edit_time.visibility=View.GONE
-                        }
-                    } else {
-                        getViewModel()?.scheduleDate.value = dateFinal
-                        edit_time.visibility=View.VISIBLE
-                    }
-
-                    getViewModel().scheduledTime.value = apiResponse.response.data.schdeuleTime
-
-                }
-                ApisResponse.LOADING -> {
-                    showProgress()
-                }
-                ApisResponse.COMPLETED -> {
-                    hideProgress()
+                    Log.d("onresume","call in isSuccessful call*ed ${status}")
                 }
 
             }
-        })
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+
+            }
+            })
+
     }
+
+//    fun dateTimeApiCall():Boolean{
+//
+//        var getSharedPreferencesOne = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
+//        var mailIdOne = getSharedPreferencesOne?.getString("MailId","")
+//
+//        getViewModel().userInput.emailId = mailIdOne
+//
+//        getViewModel().newCustomer().observe(viewLifecycleOwner, Observer { apiResponse ->
+//            when(apiResponse){
+//                is ApisResponse.Success ->{
+//                    var date = apiResponse.response.data.scheduleDate
+//                    var time = apiResponse.response.data.schdeuleTime
+//
+////Apicall Date & Time
+//                    var unixSeconds = date?.toLong()
+//                        ?.div(1000)
+//                    var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
+//                    var dateFormat = SimpleDateFormat("dd-MMM-yyyy")
+//                    dateFormat.timeZone = TimeZone.getDefault()
+//                    var dateFinal = dateFormat.format(convertDate)
+//
+////Local Date
+//                    var sdf = SimpleDateFormat("dd-MMM-yyyy")
+//                    var localDate = sdf.format(Date())
+//
+//                    if (dateFinal == localDate || dateFinal.isNullOrEmpty()) {
+//                        getViewModel()?.scheduleDate.value = "Today"
+//                        if (!apiResponse.response.data.schdeuleTime.isNullOrEmpty()) {
+//                            edit_time.visibility = View.VISIBLE
+//                        }else{
+//                            edit_time.visibility=View.GONE
+//                        }
+//                    } else {
+//                        getViewModel()?.scheduleDate.value = dateFinal
+//                        edit_time.visibility=View.VISIBLE
+//                    }
+//
+//                    getViewModel().scheduledTime.value = apiResponse.response.data.schdeuleTime
+//
+//                }
+//                ApisResponse.LOADING -> {
+//                    showProgress()
+//                }
+//                ApisResponse.COMPLETED -> {
+//                    hideProgress()
+//                }
+//
+//            }
+//        })
+//        return true
+//    }
 }

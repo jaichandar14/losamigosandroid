@@ -63,7 +63,7 @@ android {
         dev {
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
-            buildConfigField "String", "base_url", "\"https://8vhcp36gvc.execute-api.us-east-1.amazonaws.com/dev/vbank/api/\""
+            buildConfigField "String", "base_url", "\"http://88e87c881950.ngrok.io/vbank/api/\""
             dimension "default"
             buildConfigField "String", "preference_name", "\"BPMVbankPreferences\""
         }

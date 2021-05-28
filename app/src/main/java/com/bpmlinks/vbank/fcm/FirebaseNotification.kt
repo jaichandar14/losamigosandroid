@@ -39,7 +39,7 @@ class FirebaseNotification : FirebaseMessagingService() {
     private val TAG ="FirebaseNotification"
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        Log.d(TAG, "onNewToken: generated")
+        Log.d(TAG, "onNewToken: generated ${token}")
         AppPreferences.getInstance()
             .setStringValue(applicationContext, AppPreferences.FCM_TOKEN, token)
     }
