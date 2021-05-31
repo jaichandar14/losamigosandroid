@@ -135,14 +135,15 @@ Log.d(TAG,"enter the call")
 
                     if (intent.hasExtra(BundleKeys.callDecline))
                     {
+                        Log.d("onresume","call in BundleKeys.callDecline if loop")
                         var callend= intent.getStringExtra(BundleKeys.callDecline)
                         if(callend.equals("yes",true))
                         {
-                            iv_join_disable.visibility=View.GONE
-                            btn_join_disable.visibility=View.GONE
+                            iv_join_disable.visibility=View.VISIBLE
+                            btn_join_disable.visibility=View.VISIBLE
+
                             iv_join.visibility=View.GONE
                             btn_join.visibility=View.GONE
-                            btn_exit.visibility=View.VISIBLE
                         }
 
                     }
@@ -173,8 +174,7 @@ Log.d(TAG,"enter the call")
             }
 
         }
-        var  callintentfilter =IntentFilter(getString(R.string.callend_brodcost_recever))
-        context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,callintentfilter) }
+
 
     }
 
@@ -190,8 +190,8 @@ Log.d(TAG,"enter the call")
            var  intentfilter =IntentFilter(getString(R.string.brodcost_recever))
            context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,intentfilter) }
 
-//           var  callintentfilter =IntentFilter(getString(R.string.callend_brodcost_recever))
-//           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,callintentfilter) }
+           var  callintentfilter =IntentFilter(getString(R.string.callend_brodcost_recever))
+           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,callintentfilter) }
 
            var intentfilter1 = IntentFilter(getString(R.string.docusign_brodcost_recever))
            context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever, intentfilter1) }

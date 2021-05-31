@@ -6,9 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.bpmlinks.vbank.R
 import com.bpmlinks.vbank.fcm.FirebaseNotification
 import com.bpmlinks.vbank.helper.AppConstants
 
@@ -24,6 +26,11 @@ class NotificationReceiver : BroadcastReceiver() {
         val customerKey = intent.getIntExtra(AppConstants.NOTIFICATION_CUSTOMER_KEY, 0)
 //        var callKey = intent.getIntExtra(AppConstants.NOTIFICATION_CALL_KEY, 0)
         var callKey = FirebaseNotification.callKeyNbForDocOffline
+
+        var brodcostintent=Intent(context.getString(R.string.callend_brodcost_recever))
+        brodcostintent.putExtra(BundleKeys.callDecline,"yes")
+        LocalBroadcastManager.getInstance(context).sendBroadcast(brodcostintent)
+
 
         val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
