@@ -101,7 +101,6 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
         super.onViewCreated(view, savedInstanceState)
         requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
 //        getViewModel()?.scheduledTime.value = navArgs.sheduledTime
-      //  dateTimeApiCall()
         locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationPermission()
         init()
@@ -174,7 +173,8 @@ Log.d(TAG,"enter the call")
             }
 
         }
-
+        var  callintentfilter =IntentFilter(getString(R.string.callend_brodcost_recever))
+        context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,callintentfilter) }
 
     }
 
@@ -183,15 +183,15 @@ Log.d(TAG,"enter the call")
 
     override fun onResume() {
         super.onResume()
-
+        Log.d("TAG", "callend onresume received callkeyNb: ${meetingParams?.callKeyNb}  ")
         dateTimeApiCall()
            Log.d("onresume","call in resume")
 
            var  intentfilter =IntentFilter(getString(R.string.brodcost_recever))
            context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,intentfilter) }
 
-           var  callintentfilter =IntentFilter(getString(R.string.callend_brodcost_recever))
-           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,callintentfilter) }
+//           var  callintentfilter =IntentFilter(getString(R.string.callend_brodcost_recever))
+//           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,callintentfilter) }
 
            var intentfilter1 = IntentFilter(getString(R.string.docusign_brodcost_recever))
            context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever, intentfilter1) }
@@ -361,7 +361,6 @@ Log.d(TAG,"enter the call")
                 PendingIntent.getBroadcast(context, 0, buttonIntent, 0)
 
         val channelId = getString(R.string.app_name)
-
 
 
         val builder: NotificationCompat.Builder? =

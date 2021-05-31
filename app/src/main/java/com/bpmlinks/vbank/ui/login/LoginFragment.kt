@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -26,8 +25,6 @@ import com.bpmlinks.vbank.model.ApisResponse
 import com.bpmlinks.vbank.model.ServiceType
 import com.bpmlinks.vbank.ui.login.adapter.MasterServiceAdapter
 import com.vbank.vidyovideoview.connector.MeetingParams
-import com.vbank.vidyovideoview.model.OutputDate
-
 import com.vbank.vidyovideoview.webservices.ApiCall
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.bottom_menu.*

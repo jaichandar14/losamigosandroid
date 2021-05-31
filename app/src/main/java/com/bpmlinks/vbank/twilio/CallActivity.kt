@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -98,6 +99,7 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun declineCall() {
+        Log.d("TAG", "callend call activity dismiss method received callkeyNb: ${meetingParams?.callKeyNb}  ")
         val uploadWorkRequest = OneTimeWorkRequestBuilder<DeclineCallWorker>()
         val data = Data.Builder()
         data.putInt(BundleKeys.CallKeyNb, meetingParams?.callKeyNb ?: 0)

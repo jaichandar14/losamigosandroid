@@ -87,6 +87,7 @@ class FirebaseNotification : FirebaseMessagingService() {
             try {
                 meetingParams.callKeyNb = remoteMessage.data["callKeyNb"]?.toInt()
                 Log.d(TAG, "offline notifications: ${meetingParams.callKeyNb }")
+                Log.d("TAG", "callend firebase received callkeyNb: ${meetingParams.callKeyNb}  ")
                 callKeyNbForDocOffline = remoteMessage.data["callKeyNb"]?.toInt()!!
 
 
@@ -152,12 +153,12 @@ class FirebaseNotification : FirebaseMessagingService() {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val buttonIntent = Intent(baseContext, NotificationReceiver::class.java)
+        var buttonIntent = Intent(baseContext, NotificationReceiver::class.java)
         buttonIntent.putExtra(AppConstants.NOTIFICATION_ID, notificationId)
         buttonIntent.putExtra(AppConstants.NOTIFICATION_CUSTOMER_KEY, meetingParams.customerKeyNb)
         buttonIntent.putExtra(AppConstants.NOTIFICATION_CALL_KEY, meetingParams.callKeyNb)
 
-        val dismissIntent =
+        var dismissIntent =
             PendingIntent.getBroadcast(baseContext, 0, buttonIntent, 0)
 
         val channelId = getString(R.string.app_name)

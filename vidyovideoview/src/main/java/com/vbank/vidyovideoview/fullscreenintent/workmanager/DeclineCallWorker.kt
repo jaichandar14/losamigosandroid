@@ -18,7 +18,7 @@ class DeclineCallWorker(private val appContext: Context, workerParams: WorkerPar
 
     override fun doWork(): Result {
         val  customerKeyNb=  inputData.getInt(BundleKeys.CustomerKeyNb,0)
-        val  callKeyNb=  inputData.getInt(BundleKeys.CallKeyNb,0)
+        var  callKeyNb=  inputData.getInt(BundleKeys.CallKeyNb,0)
         val  callEndReason=  inputData.getString(BundleKeys.CallEndReason)
         declineOrDisconnectCall(customerKeyNb,callKeyNb,callEndReason)
         return Result.success()
