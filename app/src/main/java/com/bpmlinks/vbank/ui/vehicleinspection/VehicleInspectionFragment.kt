@@ -18,18 +18,15 @@ import android.provider.Settings
 import android.text.Html
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -47,36 +44,31 @@ import com.bpmlinks.vbank.fcm.FirebaseNotification
 import com.bpmlinks.vbank.fcm.receiver.NotificationReceiver
 import com.bpmlinks.vbank.helper.AppConstants
 import com.bpmlinks.vbank.helper.viewmodel.LocalStorage
-import com.bpmlinks.vbank.locationRecivier.GeoLocationReceiver
-import com.bpmlinks.vbank.model.ApisResponse
-import com.bpmlinks.vbank.model.ServiceType
 import com.bpmlinks.vbank.twilio.CallActivity
 import com.bpmlinks.vbank.twilio.LocationViewModel
 import com.bpmlinks.vbank.twilio.VideoActivity
 import com.bpmlinks.vbank.ui.HomeActivity
 import com.bpmlinks.vbank.ui.thankyou.ThankYouActivity
 import com.bpmlinks.vbank.ui.videorecordpermission.VdRecordPermissionActivity
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.gson.Gson
 import com.vbank.vidyovideoview.connector.MeetingParams
 import com.vbank.vidyovideoview.helper.AppConstant
 import com.vbank.vidyovideoview.helper.BundleKeys
-import com.vbank.vidyovideoview.model.*
+import com.vbank.vidyovideoview.model.DocuSignStatusRequest
+import com.vbank.vidyovideoview.model.LocationLatLan
+import com.vbank.vidyovideoview.model.Output
 import com.vbank.vidyovideoview.webservices.ApiCall
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.content_video.*
-import kotlinx.android.synthetic.main.preference_dialog_number_edittext.*
 import kotlinx.android.synthetic.main.vehicle_inspection_fragment.*
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.HttpException
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Date
 import javax.inject.Inject
 
-class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,VehicleInspectionViewModel>() {
+
+class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding, VehicleInspectionViewModel>() {
     var TAG = VehicleInspectionFragment::class.java.name
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -95,12 +87,15 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
 
     private lateinit var locationViewModel: LocationViewModel
 
-    override fun getViewModel()= ViewModelProvider(this,factory).get(VehicleInspectionViewModel::class.java)
+    override fun getViewModel()= ViewModelProvider(this, factory).get(VehicleInspectionViewModel::class.java)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.white)
+        requireActivity().window.statusBarColor = ContextCompat.getColor(
+            requireContext(),
+            R.color.white
+        )
 //        getViewModel()?.scheduledTime.value = navArgs.sheduledTime
         locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationPermission()
@@ -108,10 +103,10 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
 
 
 
-Log.d(TAG,"enter the call")
+Log.d(TAG, "enter the call")
         recever  = object :BroadcastReceiver(){
             override fun onReceive(context: Context?, intent: Intent?) {
-                Log.d(TAG,"enter the call 1")
+                Log.d(TAG, "enter the call 1")
                 if (intent != null) {
                     meetingParams = if (intent.hasExtra(BundleKeys.MeetingParams)) {
                         intent.getParcelableExtra(BundleKeys.MeetingParams) as MeetingParams
@@ -121,7 +116,7 @@ Log.d(TAG,"enter the call")
 
                     if(!meetingParams?.token.isNullOrEmpty())
                     {
-                        Log.d("onresume","call in trigger")
+                        Log.d("onresume", "call in trigger")
                         iv_join_disable.visibility=View.GONE
                         btn_join_disable.visibility=View.GONE
 
@@ -139,9 +134,9 @@ Log.d(TAG,"enter the call")
 
                     if (intent.hasExtra(BundleKeys.callDecline))
                     {
-                        Log.d("onresume","call in BundleKeys.callDecline if loop")
+                        Log.d("onresume", "call in BundleKeys.callDecline if loop")
                         var callend= intent.getStringExtra(BundleKeys.callDecline)
-                        if(callend.equals("yes",true))
+                        if(callend.equals("yes", true))
                         {
                             iv_join_disable.visibility=View.VISIBLE
                             btn_join_disable.visibility=View.VISIBLE
@@ -154,7 +149,7 @@ Log.d(TAG,"enter the call")
 
                     if(intent.hasExtra(AppConstants.NOTIFICATION_ID))
                     {
-                        notificationid= intent.getIntExtra(AppConstants.NOTIFICATION_ID,0)
+                        notificationid= intent.getIntExtra(AppConstants.NOTIFICATION_ID, 0)
                     }
 
 
@@ -192,28 +187,40 @@ Log.d(TAG,"enter the call")
         Log.d("TAG", "callend onresume received callkeyNb: ${meetingParams?.callKeyNb}  ")
         var swipeRefreshLayout:SwipeRefreshLayout?=requireActivity().findViewById(R.id.swipt_refresh)
         swipeRefreshLayout?.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            swipeRefreshLayout.isRefreshing=false
+            swipeRefreshLayout.isRefreshing = false
             dateTimeApiCall()
-            Toast.makeText(context, "Date and time is Updated " , Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Date and time is Updated ", Toast.LENGTH_SHORT).show()
         })
         dateTimeApiCall()
-           Log.d("onresume","call in resume")
+           Log.d("onresume", "call in resume")
 
            var  intentfilter =IntentFilter(getString(R.string.brodcost_recever))
-           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,intentfilter) }
+           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(
+               recever,
+               intentfilter
+           ) }
 
            var  callintentfilter =IntentFilter(getString(R.string.callend_brodcost_recever))
-           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever,callintentfilter) }
+           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(
+               recever,
+               callintentfilter
+           ) }
 
            var intentfilter1 = IntentFilter(getString(R.string.docusign_brodcost_recever))
-           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(recever, intentfilter1) }
+           context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(
+               recever,
+               intentfilter1
+           ) }
 
            if (checkGpsEnabled){
                isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
            }
            if (isGpsEnabled) {
-               if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+               if ((ContextCompat.checkSelfPermission(
+                       requireActivity(),
+                       Manifest.permission.ACCESS_FINE_LOCATION
+                   )
                            == PackageManager.PERMISSION_GRANTED)) {
 
 //                requestLocationUpdates1()
@@ -222,7 +229,10 @@ Log.d(TAG,"enter the call")
 
            }else{
 
-               if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+               if ((ContextCompat.checkSelfPermission(
+                       requireActivity(),
+                       Manifest.permission.ACCESS_FINE_LOCATION
+                   )
                            == PackageManager.PERMISSION_GRANTED)) {
 
                    if (alertMessageLocation()) {
@@ -271,7 +281,7 @@ Log.d(TAG,"enter the call")
         btn_join.setOnClickListener {
 
             var intent=Intent(context, VdRecordPermissionActivity::class.java)
-            intent.putExtra(BundleKeys.MeetingParams,meetingParams)
+            intent.putExtra(BundleKeys.MeetingParams, meetingParams)
             intent.putExtra(AppConstants.NOTIFICATION_ID, notificationid)
             startActivity(intent)
             activity?.finish()
@@ -289,13 +299,13 @@ Log.d(TAG,"enter the call")
         btn_exit.setOnClickListener {
             val intent = Intent(context, HomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            intent.putExtra(com.bpmlinks.vbank.helper.BundleKeys.MOVE_TO_USER_INPUT_SCREEN,true)
+            intent.putExtra(com.bpmlinks.vbank.helper.BundleKeys.MOVE_TO_USER_INPUT_SCREEN, true)
             startActivity(intent)
             activity?.finish()
         }
 
         logout.setOnClickListener{
-            startActivity(Intent(context,HomeActivity::class.java))
+            startActivity(Intent(context, HomeActivity::class.java))
             val sharedPreferences = activity?.getSharedPreferences("MyUser", Context.MODE_PRIVATE)
             val editor = sharedPreferences?.edit()
             editor?.clear()
@@ -304,7 +314,7 @@ Log.d(TAG,"enter the call")
 
         }
         lougout_icon.setOnClickListener{
-            startActivity(Intent(context,HomeActivity::class.java))
+            startActivity(Intent(context, HomeActivity::class.java))
             val sharedPreferences = activity?.getSharedPreferences("MyUser", Context.MODE_PRIVATE)
             val editor = sharedPreferences?.edit()
             editor?.clear()
@@ -328,9 +338,7 @@ Log.d(TAG,"enter the call")
     override fun internetConnected() {
 
     }
-fun refrehapp(){
 
-}
     fun notification()
     {
         val notificationId = 1
@@ -347,10 +355,10 @@ fun refrehapp(){
 
         intent.putExtra(BundleKeys.MeetingParams, meetingParams)
         val pendingIntent = PendingIntent.getActivity(
-                context,
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val fullScreenIntent = Intent(context, CallActivity::class.java)
@@ -359,10 +367,10 @@ fun refrehapp(){
         fullScreenIntent.putExtra(AppConstants.NOTIFICATION_ID, notificationId)
         fullScreenIntent.putExtra(BundleKeys.MeetingParams, meetingParams)
         val fullScreenPendingIntent = PendingIntent.getActivity(
-                context,
-                0,
-                fullScreenIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+            context,
+            0,
+            fullScreenIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val buttonIntent = Intent(context, NotificationReceiver::class.java)
@@ -383,8 +391,8 @@ fun refrehapp(){
 
         val notificationLayout = RemoteViews(context?.packageName, R.layout.custome_notification)
 
-        notificationLayout.setOnClickPendingIntent(R.id.action_btn,pendingIntent)
-        notificationLayout.setTextViewText(R.id.custome_notification_title,"title")
+        notificationLayout.setOnClickPendingIntent(R.id.action_btn, pendingIntent)
+        notificationLayout.setTextViewText(R.id.custome_notification_title, "title")
 
         if(!meetingParams.docusignurl.isNullOrEmpty()) {
 
@@ -395,9 +403,9 @@ fun refrehapp(){
                     ?.setAutoCancel(false)
                     ?.setOngoing(true)
                     ?.addAction(
-                            0,
-                            getString(R.string.btn_accept_action),
-                            pendingIntent
+                        0,
+                        getString(R.string.btn_accept_action),
+                        pendingIntent
                     )
 
 
@@ -411,14 +419,14 @@ fun refrehapp(){
                     ?.setAutoCancel(false)
                     ?.setOngoing(true)
                     ?.addAction(
-                            R.drawable.ic_call_end_24dp,
-                            getString(R.string.btn_reject_incoming_call),
-                            dismissIntent
+                        R.drawable.ic_call_end_24dp,
+                        getString(R.string.btn_reject_incoming_call),
+                        dismissIntent
                     )
                     ?.addAction(
-                            R.drawable.ic_call_24dp,
-                            getString(R.string.btn_accept_incoming_call),
-                            pendingIntent
+                        R.drawable.ic_call_24dp,
+                        getString(R.string.btn_accept_incoming_call),
+                        pendingIntent
                     )
         }
 
@@ -428,9 +436,9 @@ fun refrehapp(){
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                    channelId,
-                    getString(R.string.app_name),
-                    NotificationManager.IMPORTANCE_HIGH
+                channelId,
+                getString(R.string.app_name),
+                NotificationManager.IMPORTANCE_HIGH
             )
 
 
@@ -447,14 +455,14 @@ fun refrehapp(){
         if (meetingParams.docusignurl.isNullOrEmpty())
         {
             var brodcostintent=Intent(getString(R.string.brodcost_recever))
-            brodcostintent.putExtra(BundleKeys.MeetingParams,meetingParams)
+            brodcostintent.putExtra(BundleKeys.MeetingParams, meetingParams)
             brodcostintent.putExtra(AppConstants.NOTIFICATION_ID, notificationId)
             activity?.let { LocalBroadcastManager.getInstance(it).sendBroadcast(brodcostintent) }
         }
         else
         {
             var brodcostintent=Intent(getString(R.string.docusign_brodcost_recever))
-            brodcostintent.putExtra(BundleKeys.docusignurl,meetingParams.docusignurl)
+            brodcostintent.putExtra(BundleKeys.docusignurl, meetingParams.docusignurl)
             brodcostintent.putExtra(AppConstants.NOTIFICATION_ID, notificationId)
             activity?.let { LocalBroadcastManager.getInstance(it).sendBroadcast(brodcostintent) }
         }
@@ -472,29 +480,41 @@ fun refrehapp(){
 
 
     fun locationPermission(){
-        if ((ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+        if ((ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
                         == PackageManager.PERMISSION_GRANTED )) {
 
             Log.d(TAG, "http location granted block requestLocationUpdates ")
             requestLocationUpdates()
-            Log.d("msg","if loop")
+            Log.d("msg", "if loop")
         }else{
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )){
                 denymessage()
-                Log.d("msg","if rationale loop")
+                Log.d("msg", "if rationale loop")
             }else{
-                val permissionRequest = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                val permissionRequest = arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
                 requestPermissions(permissionRequest, LOCATION_PERMISSION_REQUEST_CODE)
-                Log.d("msg","else black")
+                Log.d("msg", "else black")
             }
 
         }
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE){
             var locationPermissionGranted = true
 
@@ -504,11 +524,11 @@ fun refrehapp(){
             }
 
             if (locationPermissionGranted) {
-                Log.d("msg","if black")
+                Log.d("msg", "if black")
                 //alertMessageLocation()
 
             } else {
-                Log.d("msg","else black.............................")
+                Log.d("msg", "else black.............................")
 
 
                 denymessage()
@@ -523,9 +543,13 @@ fun refrehapp(){
 
         if (!isGpsEnabled) {
             dialogBuilder = AlertDialog.Builder(requireActivity())
-            dialogBuilder.setMessage( Html.fromHtml("Allow\"LocationAccess\"to access your location "+"                         " +
-                    "while you are using the app?" +"<br />"+
-                    "<small>"+"&nbsp;&nbsp;&nbsp;&nbsp This app needs access to your location!"+"</small>"))
+            dialogBuilder.setMessage(
+                Html.fromHtml(
+                    "Allow\"LocationAccess\"to access your location " + "                         " +
+                            "while you are using the app?" + "<br />" +
+                            "<small>" + "&nbsp;&nbsp;&nbsp;&nbsp This app needs access to your location!" + "</small>"
+                )
+            )
                     .setCancelable(false)
                     .setPositiveButton("Allow", DialogInterface.OnClickListener { dialog, id ->
                         alert.dismiss()
@@ -534,10 +558,12 @@ fun refrehapp(){
                         requireActivity().startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
 
                     })
-                    .setNegativeButton("Don't Allow",DialogInterface.OnClickListener{dialog,id ->
-                        alert.dismiss()
-                        gpsPermisson()
-                    })
+                    .setNegativeButton(
+                        "Don't Allow",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            alert.dismiss()
+                            gpsPermisson()
+                        })
 
             alert= dialogBuilder.create()
             alert.show()
@@ -551,11 +577,15 @@ fun refrehapp(){
         val btnYes = alertLayout.findViewById<AppCompatButton>(R.id.btnYes)
         val btnNo = alertLayout.findViewById<AppCompatButton>(R.id.btnNo)
         val title = alertLayout.findViewById<AppCompatTextView>(R.id.reject_title)
-        title.setText(Html.fromHtml("In order to proceed,This app requires access to your Location. click\n" +
-                "    <b>OK</b>\n" +
-                "    to exit or click\n" +
-                "    <b>CANCEL</b>\n" +
-                "     to continue"))
+        title.setText(
+            Html.fromHtml(
+                "In order to proceed,This app requires access to your Location. click\n" +
+                        "    <b>OK</b>\n" +
+                        "    to exit or click\n" +
+                        "    <b>CANCEL</b>\n" +
+                        "     to continue"
+            )
+        )
         builder.setView(alertLayout)
         val alertDialog: android.app.AlertDialog? = builder.create()
         alertDialog?.setCancelable(false)
@@ -564,7 +594,10 @@ fun refrehapp(){
         val width = displayMetrics.widthPixels
         alertDialog?.show()
         alertDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        alertDialog?.window?.setLayout((width * 0.75).toInt(), FrameLayout.LayoutParams.WRAP_CONTENT)
+        alertDialog?.window?.setLayout(
+            (width * 0.75).toInt(),
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
         btnYes.setOnClickListener {
             alertDialog?.dismiss()
             startActivity(Intent(requireActivity(), ThankYouActivity::class.java))
@@ -585,58 +618,72 @@ fun refrehapp(){
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
         Log.d(TAG, "http location requestLocationUpdates one ")
         locationViewModel.getLocationLiveDate().observe(
-                requireActivity(),
-                androidx.lifecycle.Observer {
-                    it.latitude
-                    it.longitutde
-                    Log.d(TAG, "http location longitude:${it.longitutde} " + "latitude:${it.latitude}")
+            requireActivity(),
+            androidx.lifecycle.Observer {
+                it.latitude
+                it.longitutde
+                Log.d(
+                    TAG,
+                    "http location longitude:${it.longitutde} " + "latitude:${it.latitude}"
+                )
 
-                    var mLongitude = it.longitutde
-                    var mLatitude = it.latitude
+                var mLongitude = it.longitutde
+                var mLatitude = it.latitude
 
-                    var locationStatus = LocationLatLan()
-                    meetingParams?.longitude = it.longitutde
-                    meetingParams?.latitude = it.latitude
+                var locationStatus = LocationLatLan()
+                meetingParams?.longitude = it.longitutde
+                meetingParams?.latitude = it.latitude
 
-                    var getSharedPreferences = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
-                    var mailId = getSharedPreferences?.getString("MailId","").toString()
-                    LocalStorage.email =mailId
-                    locationStatus.gpsOn = true
-                    locationStatus.customerInCall = false
-                    locationStatus.emailId = LocalStorage.email
-                    locationStatus.longitude = meetingParams?.longitude
-                    locationStatus.latitude = meetingParams?.latitude
-                    Log.d(TAG, "http location requestLocationUpdates: ${locationStatus.emailId}....${locationStatus.longitude}..${locationStatus.latitude}")
+                var getSharedPreferences =
+                    requireActivity().applicationContext.getSharedPreferences(
+                        "MyUser",
+                        Context.MODE_PRIVATE
+                    )
+                var mailId = getSharedPreferences?.getString("MailId", "").toString()
+                LocalStorage.email = mailId
+                locationStatus.gpsOn = true
+                locationStatus.customerInCall = false
+                locationStatus.emailId = LocalStorage.email
+                locationStatus.longitude = meetingParams?.longitude
+                locationStatus.latitude = meetingParams?.latitude
+                Log.d(
+                    TAG,
+                    "http location requestLocationUpdates: ${locationStatus.emailId}....${locationStatus.longitude}..${locationStatus.latitude}"
+                )
 
 
-                    ApiCall.retrofitClient.geoLocation(locationStatus).enqueue(object :
-                            retrofit2.Callback<ResponseBody> {
-                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                            Toast.makeText(requireActivity(), t.localizedMessage, Toast.LENGTH_SHORT)
-                                    .show()
-                            Log.d(
-                                    TAG,
-                                    "http location longitude:${it.longitutde} " + "latitude:${it.latitude} Failure method"
-                            )
+                ApiCall.retrofitClient.geoLocation(locationStatus).enqueue(object :
+                    retrofit2.Callback<ResponseBody> {
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Toast.makeText(
+                            requireActivity(),
+                            t.localizedMessage,
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        Log.d(
+                            TAG,
+                            "http location longitude:${it.longitutde} " + "latitude:${it.latitude} Failure method"
+                        )
+                    }
+
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+
+                        Log.d(
+                            TAG,
+                            "http location longitude:${locationStatus.longitude} " + "latitude:${locationStatus.latitude}Success method" + " customerker:${meetingParams?.customerKeyNb}"
+                        )
+                        if (response.isSuccessful) {
+                            Log.d(TAG, "http location success ${locationStatus.customerInCall}")
                         }
-
-                        override fun onResponse(
-                                call: Call<ResponseBody>,
-                                response: Response<ResponseBody>
-                        ) {
-
-                            Log.d(
-                                    TAG,
-                                    "http location longitude:${locationStatus.longitude} " + "latitude:${locationStatus.latitude}Success method" + " customerker:${meetingParams?.customerKeyNb}"
-                            )
-                            if (response.isSuccessful) {
-                                Log.d(TAG, "http location success ${locationStatus.customerInCall}")
-                            }
-                        }
-
-                    })
+                    }
 
                 })
+
+            })
         Log.d(TAG, "location requestLocationUpdates end ")
     }
 
@@ -649,9 +696,9 @@ fun refrehapp(){
                 .setCancelable(false)
                 .setPositiveButton("Go to \n Settings", DialogInterface.OnClickListener { dialog, id
                     ->
-                    var intent =Intent()
+                    var intent = Intent()
                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    var uri=Uri.fromParts("package",activity?.packageName,null)
+                    var uri = Uri.fromParts("package", activity?.packageName, null)
                     intent.setData(uri)
                     context?.startActivity(intent)
 
@@ -672,7 +719,9 @@ fun refrehapp(){
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 Log.d("URL", url)
 
-                if ((url.toString().contains(AppConstant.DOCUSIGN_BASE_URL ))||url.toString().contains(AppConstant.DOCUSIGN_BASE_URL1)) {
+                if ((url.toString().contains(AppConstant.DOCUSIGN_BASE_URL))||url.toString().contains(
+                        AppConstant.DOCUSIGN_BASE_URL1
+                    )) {
 
                     updateDocumentSignStatus()
 
@@ -685,7 +734,7 @@ fun refrehapp(){
 
 
                         url1 = generateDocusignUrl().toString()
-                        Log.d(TAG,"generate if  cal  URl ${url1}")
+                        Log.d(TAG, "generate if  cal  URl ${url1}")
                         webView?.loadUrl(url1)
 
                     }
@@ -719,14 +768,14 @@ fun refrehapp(){
         Log.d(TAG, "offline updateDocumentSignStatus: ${docuSignStatusRequest.callKeyNb}")
         docuSignStatusRequest.action="COMPLETED"
         ApiCall.retrofitClient.updateDocuSignStatus(docuSignStatusRequest).enqueue(object :
-                retrofit2.Callback<ResponseBody> {
+            retrofit2.Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 
             }
 
             override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
             ) {
             }
         })
@@ -736,16 +785,20 @@ fun refrehapp(){
         var url1=""
         var callkeyNB=meetingParams?.callKeyNb
         ApiCall.retrofitClient.getDocuSignUrl(callkeyNB).enqueue(object :
-                retrofit2.Callback<Output> {
+            retrofit2.Callback<Output> {
             override fun onResponse(call: Call<Output>, response: Response<Output>) {
-                Log.d(TAG,"generate on response cal  URl  ")
-                if (response.isSuccessful){
+                Log.d(TAG, "generate on response cal  URl  ")
+                if (response.isSuccessful) {
                     var status: Output? = response.body()
-                    url1= status?.data?.statusMsg.toString()
-                    Log.d("TAG", "expired url success method called ${response.code()}​​${url1}​​​​​​​​ ")
+                    url1 = status?.data?.statusMsg.toString()
+                    Log.d(
+                        "TAG",
+                        "expired url success method called ${response.code()}​​${url1}​​​​​​​​ "
+                    )
                 }
 
             }
+
             override fun onFailure(call: Call<Output>, t: Throwable) {
 
             }
@@ -757,7 +810,10 @@ fun refrehapp(){
 
     private fun removeNotification() {
         if (requireActivity().intent.hasExtra(AppConstant.NOTIFICATION_ID)) {
-            val notificationId = requireActivity().intent.getIntExtra(AppConstant.NOTIFICATION_ID, 0)
+            val notificationId = requireActivity().intent.getIntExtra(
+                AppConstant.NOTIFICATION_ID,
+                0
+            )
             val manager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.cancel(notificationId)
         }
@@ -765,21 +821,25 @@ fun refrehapp(){
 
     fun dateTimeApiCall(){
 
-        var getSharedPreferencesOne = requireActivity().applicationContext.getSharedPreferences("MyUser",Context.MODE_PRIVATE)
-        var mailIdOne = getSharedPreferencesOne?.getString("MailId","")
-        ApiCall.retrofitClient.geoDateTime(mailIdOne).enqueue(object :retrofit2.Callback<ResponseBody> {
+        var getSharedPreferencesOne = requireActivity().applicationContext.getSharedPreferences(
+            "MyUser",
+            Context.MODE_PRIVATE
+        )
+        var mailIdOne = getSharedPreferencesOne?.getString("MailId", "")
+        ApiCall.retrofitClient.geoDateTime(mailIdOne).enqueue(object :
+            retrofit2.Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
                 if (response.isSuccessful) {
                     var status: ResponseBody? = response.body()
-                     val adapter = Gson().getAdapter(Output::class.java)
+                    val adapter = Gson().getAdapter(Output::class.java)
                     val successResponse = adapter.fromJson(status?.string())
                     var time = successResponse.data.schdeuleTime
                     var dateunix = successResponse.data.scheduleDate
-                    var success=successResponse.message
+                    var success = successResponse.message
 
                     var unixSeconds = dateunix?.toLong()
-                            ?.div(1000)
+                        ?.div(1000)
                     var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
                     var dateFormat = SimpleDateFormat("dd-MMM-yyyy")
                     dateFormat.timeZone = TimeZone.getDefault()
@@ -801,7 +861,10 @@ fun refrehapp(){
                     }
                     getViewModel().scheduledTime.value = time
                 }
+                hideProgress()
             }
+
+
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 
