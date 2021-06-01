@@ -30,8 +30,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.lifecycle.Observer
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.navArgs
@@ -182,7 +181,7 @@ Log.d(TAG, "enter the call")
 
     override fun onResume() {
         super.onResume()
-      //  refrehapp()
+//      
 
         Log.d("TAG", "callend onresume received callkeyNb: ${meetingParams?.callKeyNb}  ")
         var swipeRefreshLayout:SwipeRefreshLayout?=requireActivity().findViewById(R.id.swipt_refresh)
@@ -269,8 +268,13 @@ Log.d(TAG, "enter the call")
     @SuppressLint("UseRequireInsteadOfGet")
     private fun init()
     {
-        refrehapp()
-        Log.d("onCreate","calll in create call")
+        if (edit_time.text.isNullOrEmpty()&& date.text.isNullOrEmpty()){
+            showProgress()
+        }else{
+            hideProgress()
+        }
+
+        Log.d("onCreate", "calll in create call")
         webView = view?.findViewById(R.id.webView_inspection)
         webView?.settings?.javaScriptEnabled = true
         webView?.settings?.loadWithOverviewMode = true
@@ -831,6 +835,7 @@ Log.d(TAG, "enter the call")
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
                 if (response.isSuccessful) {
+
                     var status: ResponseBody? = response.body()
                     val adapter = Gson().getAdapter(Output::class.java)
                     val successResponse = adapter.fromJson(status?.string())

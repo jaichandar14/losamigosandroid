@@ -9,6 +9,10 @@
             name="vehicleInspectionVM"
             type="com.bpmlinks.vbank.ui.vehicleinspection.VehicleInspectionViewModel" />
     </data>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipt_refresh">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -95,10 +99,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/inspection_title" />
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/swipt_refresh">
+
         <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -131,6 +132,7 @@
                 android:textSize="@dimen/medium_text" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sfpro_text_bold"
@@ -185,7 +187,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_join"
             android:layout_width="match_parent"
@@ -318,4 +320,5 @@
             ></WebView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
