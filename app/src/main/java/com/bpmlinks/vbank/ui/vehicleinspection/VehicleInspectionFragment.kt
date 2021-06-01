@@ -38,6 +38,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bpmlinks.vbank.BR
 import com.bpmlinks.vbank.R
 import com.bpmlinks.vbank.base.BaseFragment
@@ -104,6 +105,9 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
         locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationPermission()
         init()
+
+
+
 Log.d(TAG,"enter the call")
         recever  = object :BroadcastReceiver(){
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -183,7 +187,15 @@ Log.d(TAG,"enter the call")
 
     override fun onResume() {
         super.onResume()
+      //  refrehapp()
+
         Log.d("TAG", "callend onresume received callkeyNb: ${meetingParams?.callKeyNb}  ")
+        var swipeRefreshLayout:SwipeRefreshLayout?=requireActivity().findViewById(R.id.swipt_refresh)
+        swipeRefreshLayout?.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            swipeRefreshLayout.isRefreshing=false
+            dateTimeApiCall()
+            Toast.makeText(context, "Date and time is Updated " , Toast.LENGTH_SHORT).show()
+        })
         dateTimeApiCall()
            Log.d("onresume","call in resume")
 
@@ -247,6 +259,7 @@ Log.d(TAG,"enter the call")
     @SuppressLint("UseRequireInsteadOfGet")
     private fun init()
     {
+        refrehapp()
         Log.d("onCreate","calll in create call")
         webView = view?.findViewById(R.id.webView_inspection)
         webView?.settings?.javaScriptEnabled = true
@@ -315,7 +328,9 @@ Log.d(TAG,"enter the call")
     override fun internetConnected() {
 
     }
+fun refrehapp(){
 
+}
     fun notification()
     {
         val notificationId = 1
