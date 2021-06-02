@@ -88,7 +88,6 @@ class VehicleInspectionFragment : BaseFragment<VehicleInspectionFragmentBinding,
 
     override fun getViewModel()= ViewModelProvider(this, factory).get(VehicleInspectionViewModel::class.java)
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().window.statusBarColor = ContextCompat.getColor(
@@ -841,30 +840,14 @@ Log.d(TAG, "enter the call")
                     val successResponse = adapter.fromJson(status?.string())
                     var time = successResponse.data.schdeuleTime
                     var dateunix = successResponse.data.scheduleDate
-                    var success = successResponse.message
 
-                    var unixSeconds = dateunix?.toLong()
-                        ?.div(1000)
-                    var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
-                    var dateFormat = SimpleDateFormat("dd-MMM-yyyy")
-                    dateFormat.timeZone = TimeZone.getDefault()
-                    var dateFinal = dateFormat.format(convertDate)
-//Local Date
-                    var sdf = SimpleDateFormat("dd-MMM-yyyy")
-                    var localDate = sdf.format(Date())
 
-                    if (dateFinal == localDate || dateFinal.isNullOrEmpty()) {
-                        getViewModel()?.scheduleDate.value = "Today"
-                        if (!time.isNullOrEmpty()) {
-                            edit_time.visibility = View.VISIBLE
-                        } else {
-                            edit_time.visibility = View.GONE
+                    if (dateunix != null) {
+                        if (time != null) {
+                            dateTimeUpdate(dateunix, time)
                         }
-                    } else {
-                        getViewModel()?.scheduleDate.value = dateFinal
-                        edit_time.visibility = View.VISIBLE
                     }
-                    getViewModel().scheduledTime.value = time
+
                 }
                 hideProgress()
             }
@@ -877,6 +860,33 @@ Log.d(TAG, "enter the call")
 
 
         })
+    }
+
+    fun dateTimeUpdate(dateunix : String, time : String){
+
+        var unixSeconds = dateunix?.toLong()
+                ?.div(1000)
+        var convertDate = unixSeconds?.times(1000L)?.let { Date(it) }
+        var dateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        dateFormat.timeZone = TimeZone.getDefault()
+        var dateFinal = dateFormat.format(convertDate)
+//Local Date
+        var sdf = SimpleDateFormat("dd-MMM-yyyy")
+        var localDate = sdf.format(Date())
+
+        if (dateFinal == localDate || dateFinal.isNullOrEmpty()) {
+            getViewModel()?.scheduleDate.value = "Today"
+            if (!time.isNullOrEmpty()) {
+                edit_time.visibility = View.VISIBLE
+            } else {
+                edit_time.visibility = View.GONE
+            }
+        } else {
+            getViewModel()?.scheduleDate.value = dateFinal
+            edit_time.visibility = View.VISIBLE
+        }
+        getViewModel().scheduledTime.value = time
+
     }
 
 }
