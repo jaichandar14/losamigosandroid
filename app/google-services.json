@@ -1,50 +1,57 @@
 {
   "project_info": {
-    "project_number": "159434066455",
-    "firebase_url": "https://vbank-cdb48.firebaseio.com",
-    "project_id": "vbank-cdb48",
-    "storage_bucket": "vbank-cdb48.appspot.com"
+    "project_number": "734809768089",
+    "project_id": "losamigos-15768",
+    "storage_bucket": "losamigos-15768.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:159434066455:android:131947c16771fcf307aa52",
+        "mobilesdk_app_id": "1:734809768089:android:8d563d82f6284154caf808",
         "android_client_info": {
-          "package_name": "com.bpmlinks.vbank.dev"
+          "package_name": "com.losamigoss.zamloans"
         }
       },
       "oauth_client": [
         {
-          "client_id": "159434066455-9kj3gveod6a0f72ga9tntiodc8vrtjje.apps.googleusercontent.com",
+          "client_id": "734809768089-05s39g65rd31vef11ak448u72kjh50fp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.bpmlinks.vbank.dev",
-            "certificate_hash": "c47280a025dd97cfa581c65c8aa215daa42f63be"
+            "package_name": "com.losamigoss.zamloans",
+            "certificate_hash": "cd817315dd22b7fb3f6a50626dae439c1b74e109"
           }
         },
         {
-          "client_id": "159434066455-ar0bejsjb7ptl5l3q84bhmh1ikdmae2c.apps.googleusercontent.com",
+          "client_id": "734809768089-5bqo7daejfrq551m09jpi66rrb4lv002.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.bpmlinks.vbank.dev",
-            "certificate_hash": "4f69b73f453fa404e693792e366cd176cedf7324"
+            "package_name": "com.losamigoss.zamloans",
+            "certificate_hash": "04a96262eeb198d205fa7a8f512c6cf34b5389a0"
           }
         },
         {
-          "client_id": "159434066455-2ps69gnahr12o3topfcomg2bn7inshgr.apps.googleusercontent.com",
+          "client_id": "734809768089-vg1p3r1i82e5tvv9jk6fl7fhr39agr3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.losamigoss.zamloans",
+            "certificate_hash": "40dcf08b62e0e56a47bfc5e5251d823b96ca8121"
+          }
+        },
+        {
+          "client_id": "734809768089-dceiemovreuhfts5q7acv4vkmlutaio7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCLZAjbcfs4WpAoU5DbMuKxeC62eGuzK-s"
+          "current_key": "AIzaSyDZZ5vNlaDcV_4GEjWktW3iIfvJ6qhvqR8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "159434066455-2ps69gnahr12o3topfcomg2bn7inshgr.apps.googleusercontent.com",
+              "client_id": "734809768089-dceiemovreuhfts5q7acv4vkmlutaio7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

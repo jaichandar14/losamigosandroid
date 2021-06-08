@@ -28,11 +28,6 @@
         android:theme="@style/Theme.Light.Status.Bar"
         android:usesCleartextTraffic="true">
 
-
-
-
-
-
         <activity android:name=".ui.weview.WebViewActivity"></activity>
         <activity
             android:name=".ui.HomeActivity"
@@ -83,7 +78,7 @@
             android:name=".twilio.screencapture.ScreenCapturerService"
             android:enabled="true"
             android:foregroundServiceType="mediaProjection"
-            tools:targetApi="q"></service>
+            tools:targetApi="q"/>
 
     </application>
 
